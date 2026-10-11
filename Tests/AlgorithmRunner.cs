@@ -133,13 +133,13 @@ namespace QuantConnect.Tests
                 if (returnLogs)
                 {
                     var storeLog = (string logMessage) => logs.Add(logMessage);
-                    newLogHandlers.Add(new FunctionalLogHandler(storeLog, storeLog, storeLog));
+                    newLogHandlers.Add(new FunctionalLogHandler(storeLog, storeLog, storeLog, storeLog));
                 }
 
                 using (Log.LogHandler = new CompositeLogHandler(newLogHandlers.ToArray()))
                 using (var algorithmHandlers = Initializer.GetAlgorithmHandlers())
                 using (var systemHandlers = Initializer.GetSystemHandlers())
-                using (var workerThread  = new TestWorkerThread())
+                using (var workerThread = new TestWorkerThread())
                 {
                     Log.DebuggingEnabled = !reducedDiskSize;
 
@@ -264,6 +264,7 @@ namespace QuantConnect.Tests
         }
         public class NullDataMonitor : IDataMonitor
         {
+            public DataMonitorReport Report => null;
             public void Dispose()
             { }
             public void Exit()

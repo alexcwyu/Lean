@@ -13,9 +13,11 @@
  * limitations under the License.
  *
 */
+using System;
 using System.Collections.Generic;
 using QuantConnect.Orders;
 using QuantConnect.Algorithm;
+using QuantConnect.Lean.Engine.TransactionHandlers;
 
 namespace QuantConnect.Lean.Engine.Results.Analysis.Analyses
 {
@@ -24,6 +26,11 @@ namespace QuantConnect.Lean.Engine.Results.Analysis.Analyses
     /// </summary>
     public class OrderFillsDuringExtendedMarketHoursAnalysis : BaseResultsAnalysis
     {
+        /// <summary>
+        /// This analysis reads the algorithm's securities, which are not safe to access while it runs.
+        /// </summary>
+        public override bool RunsInRun { get; } = false;
+
         /// <summary>
         /// Gets the description of the extended market hours fill issue.
         /// </summary>
@@ -53,7 +60,8 @@ namespace QuantConnect.Lean.Engine.Results.Analysis.Analyses
 
             foreach (var orderEvent in orderEvents)
             {
-                if (orderEvent.Status != OrderStatus.Filled || !algorithm.Securities.TryGetValue(orderEvent.Symbol, out var security))
+                if (orderEvent.Status != OrderStatus.Filled || !algorithm.Securities.TryGetValue(orderEvent.Symbol, out var security)
+                    || orderEvent.Message?.Contains(BrokerageTransactionHandler.LiquidateFromDelistingTag, StringComparison.InvariantCultureIgnoreCase) == true)
                 {
                     continue;
                 }
@@ -74,7 +82,7 @@ namespace QuantConnect.Lean.Engine.Results.Analysis.Analyses
             }
 
             var potentialSolutions = result.Count > 0 ? Solutions(language) : [];
-            return SingleResponse(orderEvents.Count > 0 ? orderEvents[0] : null, orderEvents.Count > 1 ? orderEvents.Count : null, potentialSolutions);
+            return SingleResponse(result.Count > 0 ? result[0] : null, result.Count > 1 ? result.Count : null, potentialSolutions);
         }
 
         /// <summary>
