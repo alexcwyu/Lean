@@ -15,6 +15,9 @@
 */
 
 using System;
+using System.Diagnostics;
+using System.IO;
+using System.Runtime.InteropServices;
 using Python.Runtime;
 using NUnit.Framework;
 
@@ -23,6 +26,23 @@ namespace QuantConnect.Tests.Python
     [TestFixture, Category("TravisExclude")]
     public class PythonPackagesTests
     {
+        [OneTimeSetUp]
+        public void SetPythonWorkerExecutable()
+        {
+            using var _ = Py.GIL();
+            using var module = PyModule.FromString(Guid.NewGuid().ToString(), @"
+import multiprocessing
+import shutil
+import sys
+
+# Python.NET embeds CPython in dotnet; multiprocessing requires a Python CLI.
+python_executable = shutil.which('python')
+if python_executable is None:
+    raise RuntimeError('Put the managed Python environment on PATH before running package tests')
+sys.executable = python_executable
+multiprocessing.set_executable(python_executable)
+");
+        }
         [Test]
         public void Tinygrad()
         {
@@ -435,7 +455,7 @@ def RunTest():
         [Test]
         public void Lingam()
         {
-            AssertCode(@"
+            AssertCodeWithOptionalEnvironment("numpy1-gpflow",@"
 import numpy as np
 import pandas as pd
 import graphviz
@@ -571,8 +591,8 @@ def RunTest():
 def RunTest():
     from pgmpy.base import DAG
     G = DAG()
-    G.add_node(node='a')
-    G.add_nodes_from(nodes=['a', 'b'])");
+    G.add_node('a')
+    G.add_nodes_from(['a', 'b'])");
         }
 
         [Test]
@@ -650,7 +670,6 @@ def RunTest():
     params = {
         ""solver"": ""lbfgs"",
         ""max_iter"": 1000,
-        ""multi_class"": ""auto"",
         ""random_state"": 8888,
     }
 
@@ -679,10 +698,12 @@ def RunTest():
                                                         train_size=0.75, test_size=0.25)
 
     pipeline_optimizer = TPOTClassifier(generations=2, population_size=2, cv=5,
-                                        random_state=42, verbosity=2)
+                                        random_state=42, verbose=2, processes=False)
     pipeline_optimizer.fit(X_train, y_train)
-    print(pipeline_optimizer.score(X_test, y_test))
-    pipeline_optimizer.export('tpot_exported_pipeline.py')");
+    print(pipeline_optimizer.fitted_pipeline_.score(X_test, y_test))
+    import pickle
+    with open('tpot_exported_pipeline.pkl', 'wb') as pipeline_file:
+        pickle.dump(pipeline_optimizer.fitted_pipeline_, pipeline_file)");
         }
 
         [Test, Explicit("Needs to be run by itself to avoid hanging")]
@@ -854,7 +875,7 @@ def RunTest():
         {
             AssertCode(
                 @"
-from langchain.prompts import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 
 def RunTest():
     prompt = PromptTemplate.from_template(""What is a good name for a company that makes {product}?"")
@@ -922,14 +943,15 @@ import numpy as np
 def RunTest():
     path = np . random . uniform ( size =(20 ,3) )
     signature = iisignature . sig ( path ,4)
-    s = iisignature . prepare (3 ,4)
+    # The signature-then-log method avoids the x86 JIT on ARM.
+    s = iisignature . prepare (3 ,4, ""S"")
     logsignature = iisignature . logsig ( path , s )");
         }
 
         [Test]
         public void PyStan()
         {
-            AssertCode(
+            AssertCodeWithOptionalEnvironment("pystan",
                 @"
 import stan
 
@@ -1053,8 +1075,8 @@ def RunTest():
     df = pd.DataFrame(np.random.randn(1000, 4), index=index, columns=list('ABCD')).cumsum()
 
     df.head()
-    pd.options.plotting.backend = 'holoviews'
-    df.plot()");
+    with pd.option_context('plotting.backend', 'holoviews'):
+        df.plot()");
         }
 
         [Test]
@@ -1127,7 +1149,7 @@ def RunTest():
         [Test]
         public void FuzzyCMeansTest()
         {
-            AssertCode(
+            AssertCodeWithOptionalEnvironment("numpy1-gpflow",
                 @"
 import numpy as np
 from fcmeans import FCM
@@ -1393,7 +1415,7 @@ from google import genai
 from google.genai import types
 
 def RunTest():
-    assert(genai.__version__ == '1.56.0')"
+    assert(genai.__version__ == '2.29.0')"
             );
         }
 
@@ -1491,7 +1513,7 @@ def RunTest():
         [Test]
         public void AlphalensTest()
         {
-            AssertCode(
+            AssertCodeWithOptionalEnvironment("pandas2-tfdf",
                 @"
 import alphalens
 import pandas
@@ -1814,7 +1836,7 @@ def RunTest():
         [Test]
         public void CopulaTest()
         {
-            AssertCode(
+            AssertCodeWithOptionalEnvironment("pandas2-tfdf",
                 @"
 from copulas.univariate.gaussian import GaussianUnivariate
 import pandas as pd
@@ -2004,7 +2026,9 @@ def RunTest():
         [Test]
         public void Ortools()
         {
-            AssertCode(
+            // TensorFlow and OR-Tools bundle incompatible native Protobuf runtimes
+            // on macOS. Execute the same solver workflow in its own Python process.
+            AssertCodeInSeparateProcess(
                 @"
 from ortools.linear_solver import pywraplp
 
@@ -2178,7 +2202,7 @@ def RunTest():
             AssertCode(
                 @"
 import numpy as np
-from doubleml.datasets import make_plr_CCDDHNR2018
+from doubleml.plm.datasets import make_plr_CCDDHNR2018
 
 def RunTest():
     np.random.seed(1234)
@@ -2370,7 +2394,7 @@ def RunTest():
         [Test]
         public void Pyomo()
         {
-            AssertCode(
+            AssertCodeWithPyomoRegistryIsolation(
                 @"
 from pyomo.environ import *
 
@@ -2403,7 +2427,7 @@ def RunTest():
         [Test]
         public void Gpflow()
         {
-            AssertCode(
+            AssertCodeWithOptionalEnvironment("numpy1-gpflow",
                 @"
 import gpflow
 import numpy as np
@@ -2722,7 +2746,7 @@ def RunTest():
         [Test]
         public void CopulaeTest()
         {
-            AssertCode(
+            AssertCodeWithOptionalEnvironment("pandas2-tfdf",
                 @"
 from copulae import NormalCopula
 import numpy as np
@@ -2951,40 +2975,40 @@ def RunTest():
         /// </summary>
         /// <param name="module">The module we are testing</param>
         /// <param name="version">The module version</param>
-        [TestCase("pulp", "3.3.0", "VERSION")]
-        [TestCase("pymc", "5.25.1", "__version__")]
+        [TestCase("pulp", "3.3.2", "VERSION")]
+        [TestCase("pymc", "5.28.5", "__version__")]
         [TestCase("pypfopt", "pypfopt", "__name__")]
-        [TestCase("wrapt", "1.17.3", "__version__")]
-        [TestCase("tslearn", "0.7.0", "__version__")]
-        [TestCase("tweepy", "4.16.0", "__version__")]
+        [TestCase("wrapt", "2.5.0", "__version__")]
+        [TestCase("tslearn", "0.9.0", "__version__")]
+        [TestCase("tweepy", "4.17.0", "__version__")]
         [TestCase("pywt", "1.8.0", "__version__")]
-        [TestCase("umap", "0.5.9.post2", "__version__")]
-        [TestCase("dtw", "1.5.3", "__version__")]
+        [TestCase("umap", "0.5.12", "__version__")]
+        [TestCase("dtw", "1.9.0", "__version__")]
         [TestCase("mplfinance", "0.12.10b0", "__version__")]
         [TestCase("cufflinks", "0.17.3", "__version__")]
-        [TestCase("ipywidgets", "8.1.8", "__version__")]
-        [TestCase("astropy", "7.2.0", "__version__")]
-        [TestCase("gluonts", "0.16.2", "__version__")]
+        [TestCase("ipywidgets", "8.1.9", "__version__")]
+        [TestCase("astropy", "8.0.1", "__version__")]
+        [TestCase("gluonts", "0.17.0", "__version__")]
         [TestCase("featuretools", "1.31.0", "__version__")]
-        [TestCase("pennylane", "0.43.1", "version()")]
+        [TestCase("pennylane", "0.45.1", "version()")]
         [TestCase("pyfolio", "0.9.9", "__version__")]
-        [TestCase("altair", "6.0.0", "__version__")]
+        [TestCase("altair", "6.3.0", "__version__")]
         [TestCase("modin", "0.37.1", "__version__")]
         [TestCase("persim", "0.3.8", "__version__")]
         [TestCase("pydmd", "pydmd", "__name__")]
-        [TestCase("pandas_ta", "0.3.14b0", "__version__")]
-        [TestCase("tensortrade", "1.0.3", "__version__")]
-        [TestCase("quantstats", "0.0.77", "__version__")]
-        [TestCase("panel", "1.7.5", "__version__")]
+        [TestCase("pandas_ta", "0.4.71b0", "version")]
+        [TestCase("tensortrade", "1.0.4", "__version__")]
+        [TestCase("quantstats", "0.0.86", "__version__")]
+        [TestCase("panel", "1.9.4", "__version__")]
         [TestCase("pyheat", "pyheat", "__name__")]
         [TestCase("tensorflow_decision_forests", "1.12.0", "__version__")]
         [TestCase("pomegranate", "1.1.2", "__version__")]
-        [TestCase("cv2", "4.11.0", "__version__")]
-        [TestCase("ot", "0.9.6.post1", "__version__")]
-        [TestCase("datasets", "3.6.0", "__version__")]
-        [TestCase("ipympl", "0.9.8", "__version__")]
+        [TestCase("cv2", "5.0.0", "__version__")]
+        [TestCase("ot", "0.9.7.post1", "__version__")]
+        [TestCase("datasets", "5.1.0", "__version__")]
+        [TestCase("ipympl", "0.10.0", "__version__")]
         [TestCase("PyQt6", "PyQt6", "__name__")]
-        [TestCase("pytorch_forecasting", "1.5.0", "__version__")]
+        [TestCase("pytorch_forecasting", "1.8.0", "__version__")]
         [TestCase("sismic", "1.6.11", "__version__")]
         [TestCase("chronos", "chronos", "__name__")]
         public void ModuleVersionTest(string module, string value, string attribute)
@@ -2994,13 +3018,131 @@ def RunTest():
 
         private void RunModuleVersionTest(string module, string value, string attribute)
         {
-            AssertCode(
-                $@"
+            var code = $@"
 import {module}
 
 def RunTest():
-    assert({module}.{attribute} == '{value}')"
-            );
+    assert({module}.{attribute} == '{value}')";
+            var optionalEnvironment = module switch
+            {
+                "gluonts" or "pyfolio" or "modin" or "tensorflow_decision_forests" => "pandas2-tfdf",
+                "tensortrade" => "numpy1-gpflow",
+                "pandas_ta" => "pandas-ta",
+                _ => null
+            };
+            if (optionalEnvironment == null)
+            {
+                AssertCode(code);
+            }
+            else
+            {
+                AssertCodeWithOptionalEnvironment(optionalEnvironment, code);
+            }
+        }
+
+        private static void AssertCodeWithOptionalEnvironment(string environment, string code)
+        {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
+                || RuntimeInformation.ProcessArchitecture != Architecture.Arm64)
+            {
+                AssertCode(code);
+                return;
+            }
+
+            // These real packages require mutually incompatible scientific/Python versions.
+            // Keep the original workflow and execute it in its independently locked environment.
+            var directory = new DirectoryInfo(AppContext.BaseDirectory);
+            while (directory != null
+                && !File.Exists(Path.Combine(directory.FullName, "python-environments", environment, "pyproject.toml")))
+            {
+                directory = directory.Parent;
+            }
+            Assert.That(directory, Is.Not.Null, $"Could not locate the {environment} optional project");
+            var pythonExecutable = Path.Combine(directory.FullName, "python-environments", environment, ".venv", "bin", "python");
+            Assert.That(File.Exists(pythonExecutable), Is.True,
+                $"Run uv sync --locked --project python-environments/{environment} before the package fixture");
+            AssertCodeInSeparateProcess(code, pythonExecutable);
+        }
+
+        private static void AssertCodeInSeparateProcess(string code, string pythonExecutable = null)
+        {
+            var isOptionalEnvironment = pythonExecutable != null;
+            if (!isOptionalEnvironment)
+            {
+                using var _ = Py.GIL();
+                using var sys = Py.Import("sys");
+                using var executable = sys.GetAttr("executable");
+                pythonExecutable = executable.As<string>();
+            }
+
+            var startInfo = new ProcessStartInfo(pythonExecutable)
+            {
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+            if (isOptionalEnvironment)
+            {
+                // A Python3.12/3.13 child must never import the embedded Python3.11 packages.
+                foreach (var variable in new[] { "PYTHONPATH", "PYTHONHOME", "PYTHONNET_PYDLL", "VIRTUAL_ENV" })
+                {
+                    startInfo.Environment.Remove(variable);
+                }
+                startInfo.Environment["PATH"] = Path.GetDirectoryName(pythonExecutable)
+                    + Path.PathSeparator + startInfo.Environment["PATH"];
+            }
+            TestContext.WriteLine("Python workflow interpreter: " + pythonExecutable);
+            startInfo.ArgumentList.Add("-c");
+            startInfo.ArgumentList.Add(code + "\nRunTest()\n");
+
+            using var process = Process.Start(startInfo);
+            Assert.That(process, Is.Not.Null, "The managed Python process could not start");
+            var stdout = process.StandardOutput.ReadToEndAsync();
+            var stderr = process.StandardError.ReadToEndAsync();
+            var completed = process.WaitForExit(120_000);
+            if (!completed)
+            {
+                process.Kill(entireProcessTree: true);
+                process.WaitForExit();
+            }
+
+            var output = stdout.GetAwaiter().GetResult();
+            var error = stderr.GetAwaiter().GetResult();
+            TestContext.WriteLine("Python stdout:\n" + output);
+            TestContext.WriteLine("Python stderr:\n" + error);
+            Assert.That(completed, Is.True, "The Python workflow exceeded its 120-second timeout");
+            Assert.That(process.ExitCode, Is.Zero, $"Python exited with {process.ExitCode}\n{output}\n{error}");
+        }
+
+        private static void AssertCodeWithPyomoRegistryIsolation(string code)
+        {
+            using var _ = Py.GIL();
+            using var registry = PyModule.FromString(Guid.NewGuid().ToString(), @"
+import sys
+
+original_modules = set(sys.modules)
+
+def cleanup():
+    dependencies = sys.modules.get('pyomo.common.dependencies')
+    if dependencies is None:
+        return
+    deferred_types = (dependencies.DeferredImportModule, dependencies.ModuleUnavailable)
+    for name, module in list(sys.modules.items()):
+        if (name not in original_modules
+            and name.startswith('pyomo.common.dependencies.')
+            and isinstance(module, deferred_types)):
+            del sys.modules[name]
+");
+            try
+            {
+                AssertCode(code);
+            }
+            finally
+            {
+                // site.main() inspects every registry entry during later venv activation.
+                // Remove only this workflow's Pyomo-owned deferred aliases, retaining real modules.
+                using var response = registry.InvokeMethod("cleanup");
+            }
         }
 
         private static void AssertCode(string code)

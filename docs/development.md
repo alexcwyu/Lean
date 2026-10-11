@@ -1,296 +1,103 @@
-# LEAN — Development Guide
+# lean: development workflow and layout
 
-## Prerequisites
+Use branch `feature/ayu_develop`. The actual upstream default branch and all fetched branch/tag identities are recorded in the maintenance sync evidence. Merge existing work; do not reset divergent branches or replace conflicting tags.
 
-| Tool | Minimum Version | Notes |
-|---|---|---|
-| .NET SDK | 8.0 | `dotnet --version` to confirm |
-| Python | 3.8+ | Required for Python algorithm support |
-| Docker | 20.x+ | Required for LEAN CLI workflows |
-| Git | 2.x | For submodule management |
+## Source synchronization
 
-Install the .NET SDK: <https://dotnet.microsoft.com/download>
-
-## Project Structure
-
-```
-lean/
-├── QuantConnect.Lean.sln           # Solution file — build everything from here
-├── Launcher/
-│   ├── config.json                 # Primary runtime configuration
-│   └── Program.cs                  # Entry point — wires handlers and calls Engine.Run()
-├── Engine/
-│   ├── Engine.cs                   # Core engine — orchestrates all handlers
-│   ├── AlgorithmManager.cs         # Main time-sliced event loop
-│   ├── DataFeeds/                  # IDataFeed implementations
-│   ├── TransactionHandlers/        # Backtest and live order handlers
-│   ├── Results/                    # Result writers (JSON, chart data)
-│   ├── RealTime/                   # Scheduled event handlers
-│   ├── Setup/                      # Algorithm initializers
-│   └── HistoricalData/             # History provider implementations
-├── Algorithm/
-│   ├── QCAlgorithm.cs              # Base algorithm class
-│   ├── QCAlgorithm.Trading.cs      # Order placement API
-│   ├── QCAlgorithm.Indicators.cs   # Indicator factory methods
-│   ├── QCAlgorithm.History.cs      # Historical data access
-│   └── QCAlgorithm.Universe.cs     # Universe management
-├── Algorithm.Framework/            # Optional 5-layer composable framework
-├── Algorithm.CSharp/               # C# example algorithms
-├── Algorithm.Python/               # Python example algorithms
-├── Common/
-│   ├── Orders/                     # Order types, tickets, events, fills
-│   ├── Securities/                 # Security models, holdings, portfolio
-│   ├── Data/                       # Data types (TradeBar, Tick, Slice, …)
-│   ├── Brokerages/                 # Brokerage models (fees, margin, fills)
-│   └── Indicators/                 # (see also top-level Indicators/)
-├── Brokerages/                     # Live brokerage adapter implementations
-├── Indicators/                     # 100+ technical indicator implementations
-├── Optimizer/                      # Grid-search and Optuna optimization
-├── Research/                       # Jupyter notebook research environment
-├── Report/                         # Backtest report generator
-├── ToolBox/                        # Data download and conversion tools
-├── Tests/                          # Unit and regression tests
-└── Data/                           # Sample market data (not in repo — download separately)
+```sh
+git fetch origin
+git fetch upstream
+git switch feature/ayu_develop
+git merge origin/feature/ayu_develop
+# Merge the actual default branch documented in the sync result.
 ```
 
-## Building
+This maintenance used namespaced remote tags before comparing tag identities. Missing upstream tags/branches were pushed to the fork; divergent branches were merged when conflict-free, and conflicting identities were retained for explicit reconciliation. The feature branch contains the default branch plus the maintenance changes. Source snapshot and architecture are documented in [ayu-develop.md](ayu-develop.md).
 
-```bash
-# Clone (or update submodule in this workspace)
-cd ext-systems/lean
+## Repository layout
 
-# Build entire solution (Release)
-dotnet build QuantConnect.Lean.sln -c Release
+- `docs/ayu-develop.md` and `docs/ayu-develop.html`: engineering guide with architecture, workflow, class and sequence diagrams and implementation links.
+- `docs/development.md`: toolchain, layout and contributor workflow.
+- `docs/validation.md`: exact executed commands, outcomes and limitations.
 
-# Build a specific project
-dotnet build Engine/QuantConnect.Lean.Engine.csproj -c Release
+## Python environment
 
-# Run unit tests
-dotnet test Tests/QuantConnect.Tests.csproj
+Use current uv 0.13.0 and a uv-managed interpreter. `.python-version` selects the validated runtime; `uv.lock` records exact resolved dependencies. Python 3.15 was attempted; where native dependency or embedding compatibility requires an earlier interpreter, the evidence explains the chosen fallback.
 
-# Run regression tests (requires Data/)
-dotnet test Tests/QuantConnect.Tests.csproj --filter "Category=RegressionAlgorithm"
+```sh
+UV_PYTHON_PREFERENCE=only-managed uv sync --locked
+uv run python --version
 ```
 
-## Running a Backtest
+Libraries and services retain their existing importable source packages and build metadata. Research scripts and .NET-hosted algorithms use `package = false` where installing a synthetic Python library would change their launch/import contracts. Independent framework examples keep independent environments; external Git submodules are not forced into one mutually incompatible Python dependency graph.
 
-1. Edit `Launcher/config.json` to point to your algorithm.
-2. Place market data in the `Data/` directory (or use `ToolBox` to download).
-3. Run the launcher:
+LEAN embeds CPython through QuantConnect.pythonnet. Its current native runtime is validated with managed Python3.11 rather than3.15. Run .NET tests with `PYTHONNET_PYDLL` pointing to that managed interpreter's shared library and `PYTHONPATH` pointing to this repository's `.venv/lib/python3.11/site-packages`. This preserves the engine's Python API while making the dependency environment reproducible.
 
-```bash
-cd Launcher
-dotnet run --project QuantConnect.Lean.Launcher.csproj -c Release
+## Verification and documentation
+
+Use the commands and results in [validation.md](validation.md). Markdown is the editable source of the guide; HTML embeds rendered SVG diagrams for offline browsing. Keep actual source links valid after moving modules. Preserve existing cases/assertions while correcting incompatible APIs, genuine resource leaks or invalid fixtures. No additional test cases were requested or added.
+
+## Historical reference
+
+The [previous development guide](archive/development-before-maintenance.md) is retained for source history; use current validation commands for this branch.
+
+## Build and run the .NET engine
+
+The actual application is the C#/.NET solution, with CPython embedded for Python algorithms. The uv project manages the embedded interpreter's packages; it is not a replacement engine or a separately importable Python distribution. The branch selects managed CPython 3.11 because the current `QuantConnect.pythonnet` embedding binary fails on 3.15. The latest compatible scientific core and optional package cohorts are declared in [pyproject.toml](../pyproject.toml) and recorded in [uv.lock](../uv.lock).
+
+```sh
+uv sync --locked --group third-party
+uv run dotnet build QuantConnect.Lean.sln --configuration Release
 ```
 
-## Configuration Reference (`Launcher/config.json`)
+For embedded tests, set `PYTHONNET_PYDLL` to the uv-managed interpreter's `libpython3.11.dylib` on macOS, and `PYTHONPATH` to `.venv/lib/python3.11/site-packages`. Run the existing NUnit suite through the genuine .NET test project, not a synthetic pytest wrapper:
 
-Source: [`Launcher/config.json`](../Launcher/config.json)
-
-### Core Settings
-
-| Key | Default | Description |
-|---|---|---|
-| `environment` | `"backtesting"` | Active environment: `"backtesting"`, `"live-paper"`, `"live-interactive"` |
-| `algorithm-type-name` | `"BasicTemplateAlgorithm"` | Fully-qualified class name of the algorithm to run |
-| `algorithm-language` | `"CSharp"` | `"CSharp"` or `"Python"` |
-| `algorithm-location` | `"QuantConnect.Algorithm.CSharp.dll"` | Path to the compiled DLL or `.py` file |
-| `data-folder` | `"../../../Data/"` | Root directory for market data files |
-| `debugging` | `false` | Enable debug attach point at startup |
-| `debugging-method` | `"LocalCmdline"` | `"LocalCmdline"`, `"VisualStudio"`, `"Debugpy"`, `"PyCharm"` |
-
-### Handler Overrides
-
-| Key | Default Class | Interface |
-|---|---|---|
-| `log-handler` | `CompositeLogHandler` | `ILogHandler` |
-| `messaging-handler` | `Messaging` | `IMessagingHandler` |
-| `job-queue-handler` | `JobQueue` | `IJobQueueHandler` |
-| `api-handler` | `Api` | `IApi` |
-| `data-provider` | `DefaultDataProvider` | `IDataProvider` |
-| `data-aggregator` | `AggregationManager` | `IDataAggregator` |
-| `object-store` | `LocalObjectStore` | `IObjectStore` |
-
-### Data & Symbol Limits
-
-| Key | Default | Description |
-|---|---|---|
-| `symbol-minute-limit` | `10000` | Max symbols at minute resolution |
-| `symbol-second-limit` | `10000` | Max symbols at second resolution |
-| `symbol-tick-limit` | `10000` | Max symbols at tick resolution |
-| `maximum-data-points-per-chart-series` | `1000000` | Chart rendering limit |
-| `maximum-chart-series` | `30` | Max chart series per backtest |
-
-### Live Brokerage Settings (Interactive Brokers example)
-
-```json
-"ib-account": "",
-"ib-user-name": "",
-"ib-password": "",
-"ib-host": "127.0.0.1",
-"ib-port": "4002",
-"ib-trading-mode": "paper"
+```sh
+uv run --no-sync dotnet test Tests/QuantConnect.Tests.csproj \
+  --configuration Release --no-build \
+  --logger 'trx;LogFileName=existing-suite.trx' \
+  --results-directory TestResults/ayu
 ```
 
-Other brokerages (Alpaca, Oanda, Tradier, Binance, Coinbase) have analogous key groups in `config.json`.
+The [Python package fixture](../Tests/Python/PythonPackagesTests.cs) restores a real Python executable for subprocess workers. On macOS, its Torch, XGBoost and scikit-learn native dependencies require one compatible OpenMP loader: the verified run sets `DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib`. The existing OR-Tools solver workflow runs in an owned managed-Python subprocess, preserving its original solver assertions while isolating conflicting native protobuf and HiGHS libraries from TensorFlow/CVXPY in the embedded host. The helper captures both streams, asserts the genuine exit status and terminates its owned process tree on timeout; the scientific libraries retain their current compatible versions. Package import success alone is not a functional workflow check. The Python3.11-compatible PyStan wheel embeds an Intel-only Stan compiler; the independently locked current Python3.14 PyStan/httpstan cohort provides a genuine universal ARM compiler. Several other optional libraries require mutually incompatible NumPy/Pandas cohorts. See [validation](validation.md) for exact results and prerequisites.
 
-### Environment Layering
+## Research notebook prerequisites
 
-`config.json` supports named environment blocks that overlay the top-level keys. Example:
+The supplied [research notebook templates](../Research) execute real Python and .NET kernels. The five existing research checks passed after installing both kernel families in a task-owned Jupyter directory. Install `ipykernel` from the locked group, install the official `Microsoft.dotnet-interactive` tool, and register their kernels without replacing unrelated user kernels. Make the tool directory available on `PATH`. For a tool targeting .NET 8 with the installed .NET 10 host, set `DOTNET_ROLL_FORWARD=Major` and the correct `DOTNET_ROOT`.
 
-```json
-"environment": "live-paper",
-"environments": {
-  "live-paper": {
-    "live-mode": true,
-    "setup-handler": "QuantConnect.Lean.Engine.Setup.BrokerageSetupHandler",
-    "data-feed-handler": "QuantConnect.Lean.Engine.DataFeeds.LiveTradingDataFeed",
-    "transaction-handler": "QuantConnect.Lean.Engine.TransactionHandlers.BrokerageTransactionHandler"
-  }
-}
+The verified local Jupyter search path includes both directories below because the two kernel installers use different prefix conventions:
+
+```sh
+export JUPYTER_PATH="$HOME/.local/share/lean-jupyter:$HOME/.local/share/lean-jupyter/share/jupyter"
+export PATH="$HOME/.local/share/lean-dotnet-tools:$HOME/.local/share/dotnet:$PATH"
+uv run --no-sync dotnet test Tests/QuantConnect.Tests.csproj \
+  --configuration Release --no-build \
+  --filter 'TestCategory=ResearchRegressionTests'
 ```
 
-## Writing an Algorithm
+## Compatibility fixes and preserved contracts
 
-### C# Algorithm Skeleton
+Existing Pandas conversion and history cases use current `.map`, `.loc` and `.iloc` APIs while retaining their numeric, index and value assertions. The engine's original rollover order hash remains the expected value: its human-readable timestamp uses an explicit US date format to avoid ICU's new narrow no-break space changing order tags. The existing compression fixture records the observed macOS/Windows ZIP encoding length rather than applying a Linux-specific byte count to another platform.
 
-```csharp
-using QuantConnect;
-using QuantConnect.Algorithm;
-using QuantConnect.Data;
+The [vBase exporter](../Common/Algorithm/Framework/Portfolio/SignalExports/VBaseSignalExport.cs) keeps standardized SHA3-256 collection IDs. It uses the .NET provider when supported and the managed Bouncy Castle 2.7.0 provider otherwise, because macOS does not expose SHA-3 through .NET's native provider. The hash algorithm and exported collection format are unchanged. [Microsoft's platform support table](https://learn.microsoft.com/en-us/dotnet/standard/security/cross-platform-cryptography) and the [official Bouncy Castle release](https://www.bouncycastle.org/download/bouncy-castle-c/) document these prerequisites.
 
-public class MyAlgorithm : QCAlgorithm
-{
-    public override void Initialize()
-    {
-        SetStartDate(2022, 1, 1);
-        SetEndDate(2023, 12, 31);
-        SetCash(100_000);
+The [previous development guide](archive/development-before-maintenance.md) is retained with a historical banner. The current [engineering guide](ayu-develop.md) contains offline class, sequence and workflow diagrams linked to the owned engine sources.
 
-        AddEquity("AAPL", Resolution.Daily);
-        AddEquity("MSFT", Resolution.Daily);
-    }
+The existing live universe-transition fixture now uses its existing manual-clock infrastructure during a fixed open-market session and waits for the actual selection event. Its original before/after subscription assertions are retained, with an explicit completed-transition assertion; the supplied case passed in 271 ms. This avoids testing the host weekend or a queued old slice instead of the intended subscription transition.
 
-    public override void OnData(Slice slice)
-    {
-        if (!Portfolio.Invested)
-        {
-            SetHoldings("AAPL", 0.5m);
-            SetHoldings("MSFT", 0.5m);
-        }
-    }
+## Isolated optional scientific workflows
 
-    public override void OnOrderEvent(OrderEvent orderEvent)
-    {
-        Log($"Order {orderEvent.OrderId}: {orderEvent.Status} @ {orderEvent.FillPrice}");
-    }
-}
+The existing macOS ARM package fixture preserves the current main scientific core and executes incompatible optional workflows in four separately locked uv projects. The original Python source and assertions run in genuine owned child interpreters; the helper checks the real exit status, captures stdout/stderr and kills its process tree after a 120-second bound. It removes inherited Python3.11 import/library overrides and puts the selected child interpreter on PATH. Missing environments fail the existing cases with an installation instruction.
+
+```sh
+uv sync --locked --project python-environments/pandas2-tfdf
+uv sync --locked --project python-environments/numpy1-gpflow
+uv sync --locked --project python-environments/pandas-ta
+uv sync --locked --project python-environments/pystan
+export NLTK_DATA="$PWD/.venv/nltk_data"
+uv run --no-sync python -m nltk.downloader -d "$NLTK_DATA" punkt punkt_tab vader_lexicon
 ```
 
-### Python Algorithm Skeleton
+[The pandas2/TFDF project](../python-environments/pandas2-tfdf/pyproject.toml) uses managed Python3.12, pandas2.3, TensorFlow2.19 and the latest compatible optional packages. YDF0.15 is the newest inspected wheel whose generated protobuf messages match TensorFlow2.19's required protobuf5 runtime; YDF0.16 generates protobuf6.31.1 messages. [The NumPy1/GPflow project](../python-environments/numpy1-gpflow/pyproject.toml) uses managed Python3.12, NumPy1.26 and SciPy1.13 because current FuzzyCMeans/Lingam require those ranges. Stochastic0.6 is its latest Python3.12-compatible release;0.7 declares Python<3.11. GPflow's macOS ARM TensorFlow2.16 dependency uses compatible TensorFlow Probability0.24 and tf-keras2.16. [The PandasTA project](../python-environments/pandas-ta/pyproject.toml) uses managed Python3.13 because current PandasTA requires Python>=3.12 and its Numba0.61.2 dependency has no newer supported interpreter wheel. [The current Stan project](../python-environments/pystan/pyproject.toml) uses managed Python3.14, PyStan3.14/httpstan4.17 and its bundled universal stanc2.39 compiler. Python3.15 cannot install that httpstan release because its published wheels cover only cp312/cp313/cp314. The original8-schools model, four sampling chains and1000samples run unchanged. Each project retains exact hashes and dependency versions in its own uv.lock. These compatibility boundaries are independent of the engine's Python3.11 embedding ABI.
 
-```python
-from AlgorithmImports import *
-
-class MyAlgorithm(QCAlgorithm):
-    def initialize(self):
-        self.set_start_date(2022, 1, 1)
-        self.set_end_date(2023, 12, 31)
-        self.set_cash(100_000)
-        self.aapl = self.add_equity("AAPL", Resolution.DAILY).symbol
-
-    def on_data(self, slice: Slice):
-        if not self.portfolio.invested:
-            self.set_holdings(self.aapl, 1.0)
-
-    def on_order_event(self, order_event: OrderEvent):
-        self.log(f"Order {order_event.order_id}: {order_event.status}")
-```
-
-## Troubleshooting
-
-### 1. `Could not find algorithm type`
-
-**Symptom**: Engine throws `AlgorithmTypeNotFoundException` at startup.
-
-**Cause**: The `algorithm-type-name` in `config.json` does not match the compiled class name, or `algorithm-location` points to a missing or stale DLL.
-
-**Fix**: Rebuild the solution (`dotnet build`) and confirm the DLL path. Use the fully-qualified type name including namespace if ambiguous.
-
----
-
-### 2. `Data not found` / Empty Slice
-
-**Symptom**: `OnData` receives empty slices; no trades execute.
-
-**Cause**: The `data-folder` path does not contain data files for the requested ticker, resolution, and date range.
-
-**Fix**: Download data using `ToolBox` or the QuantConnect cloud data downloader. Check the expected file path format: `Data/equity/usa/minute/spy/20200101_trade.zip`.
-
----
-
-### 3. `Margin model rejected order` / Orders not filling
-
-**Symptom**: Orders appear with `OrderStatus.Invalid` and a margin error message.
-
-**Cause**: The algorithm requests more buying power than the portfolio has (including margin). Default equity margin is 2× for day trades, 1× for overnight.
-
-**Fix**: Reduce position size. Check `Portfolio.MarginRemaining` before placing orders. Override the brokerage model's margin model if needed.
-
----
-
-### 4. Python algorithm fails to load (`PythonEngine` errors)
-
-**Symptom**: `pythonnet` or `Python.Runtime` exceptions at startup when using a Python algorithm.
-
-**Cause**: Python is not installed, the virtual environment is not activated, or `python-venv` in `config.json` is misconfigured.
-
-**Fix**: Install Python 3.8+, create a venv, install `lean` and `quantconnect` packages, and set `"python-venv": "/path/to/venv"` in `config.json`. On Linux, ensure `libpython3.x.so` is on `LD_LIBRARY_PATH`.
-
----
-
-### 5. `OutOfMemoryException` during large backtests
-
-**Symptom**: Engine crashes during backtesting many symbols over a long date range.
-
-**Cause**: Tick or second resolution data for many symbols generates large in-memory queues.
-
-**Fix**:
-- Reduce resolution to `Minute` or `Daily` where possible.
-- Lower `symbol-minute-limit` / `symbol-tick-limit` in `config.json`.
-- Enable `"maximum-data-points-per-chart-series"` cap.
-- Run via Docker with `--memory` limit to surface the issue early.
-
----
-
-### 6. Live trading orders not appearing in brokerage
-
-**Symptom**: Algorithm places orders but they are not visible in the brokerage dashboard.
-
-**Cause**: Brokerage API credentials missing or incorrect; wrong environment selected (paper vs. live).
-
-**Fix**: Verify credentials in `config.json`. Ensure `ib-trading-mode` (or equivalent) is set to `"live"` (not `"paper"`) and that TWS / Gateway is running and connected. Check LEAN logs for brokerage error messages.
-
----
-
-### 7. Scheduled events not firing
-
-**Symptom**: `Schedule.On(...)` callbacks never execute.
-
-**Cause**: The scheduled time falls outside market hours, or `force-exchange-always-open` is `false` (default) and the market is closed.
-
-**Fix**: Use `DateRules.EveryDay` + `TimeRules.At(9, 30)` relative to market open, or set `"force-exchange-always-open": true` in `config.json` for testing.
-
-## Security Considerations
-
-- **API credentials** in `config.json` (`api-access-token`, brokerage passwords) are stored in plaintext. Use environment variable substitution or a secrets manager in production.
-- **Live trading** should always be tested in paper mode first. Set `"ib-trading-mode": "paper"` or the brokerage equivalent.
-- The `job-user-id` / `api-access-token` fields grant access to the QuantConnect cloud API — rotate these tokens regularly.
-- When running LEAN in Docker, bind-mount `config.json` from a secrets vault rather than baking credentials into the image.
-- Restrict file system access: the `data-folder` should be read-only for the LEAN process in production.
-
-## See Also
-
-- [architecture.md](architecture.md) — Handler interfaces and plugin points
-- [workflow.md](workflow.md) — Algorithm execution pipeline
-- [state-management.md](state-management.md) — Order and portfolio state
+The original Hvplot workflow scopes its pandas backend option, and the original Pyomo workflow removes only newly introduced actual Pyomo deferred-import registry aliases before later virtual-environment activation. No substitute MPI module is created. The paper-order fixture waits for both genuine request terminal statuses after its four order events. The data-feed fixture acknowledges after actual aggregation and waits for hourly equity bars only during real exchange-open periods; all original expected bar counts remain.

@@ -319,6 +319,12 @@ namespace QuantConnect.Tests.Engine.BrokerageTransactionHandlerTests
                     Assert.Fail($"Did not receive all order events, received {allOrderEvents.Count} order events: {string.Join(", ", allOrderEvents)}");
                 }
 
+                // Filled events are emitted before HandleOrderRequest records the final response.
+                Assert.IsTrue(SpinWait.SpinUntil(() =>
+                    orderRequest.Status == OrderRequestStatus.Processed
+                    && orderRequest2.Status == OrderRequestStatus.Processed, 10000),
+                    $"Order requests did not finish processing: {orderRequest.Status}, {orderRequest2.Status}");
+
                 Assert.IsTrue(orderRequest.Response.IsProcessed);
                 Assert.IsTrue(orderRequest.Response.IsSuccess);
                 Assert.AreEqual(OrderRequestStatus.Processed, orderRequest.Status);

@@ -3405,6 +3405,18 @@ namespace QuantConnect.Tests.Engine.DataFeeds
             var lastTime = DateTime.MinValue;
             using var emittedData = new ManualResetEvent(false);
 
+            IEnumerable<BaseData> AcknowledgeAfterAggregation(IEnumerable<BaseData> points)
+            {
+                foreach (var point in points)
+                {
+                    yield return point;
+                }
+
+                // FuncDataQueueHandler updates the consolidators between iterator advances.
+                // Acknowledge only after every point has reached the real aggregation path.
+                emittedData.Set();
+            }
+
             var algorithm = new QCAlgorithm();
             using var dataQueueStarted = new ManualResetEvent(false);
             _dataQueueHandler = new FuncDataQueueHandler(fdqh =>
@@ -3486,8 +3498,7 @@ namespace QuantConnect.Tests.Engine.DataFeeds
                         $"{algorithmTime} - FuncDataQueueHandler emitted Trade tick: {dataPoint}");
                 }
 
-                emittedData.Set();
-                return dataPoints;
+                return AcknowledgeAfterAggregation(dataPoints);
             }, timeProvider, algorithm.Settings);
 
             _feed = new TestableLiveTradingDataFeed(algorithm.Settings, _dataQueueHandler);
@@ -3727,14 +3738,22 @@ namespace QuantConnect.Tests.Engine.DataFeeds
                     if (resolution != Resolution.Tick)
                     {
                         var amount = currentTime.Ticks % resolution.ToTimeSpan().Ticks;
-                        if (amount == 0)
+                        var dataPeriodEnd = currentTime.ConvertFromUtc(exchangeTimeZone);
+                        var canProduceBar = symbol.SecurityType != SecurityType.Equity
+                            || resolution != Resolution.Hour
+                            || security.Exchange.IsOpenDuringBar(dataPeriodEnd - advanceTimeSpan,
+                                dataPeriodEnd, isExtendedMarketHours: false);
+                        if (amount == 0 && canProduceBar)
                         {
-                            // let's avoid race conditions and give time for the funDataQueueHandler thread to distribute the data among the consolidators
-                            if (!_synchronizer.NewDataEvent.Wait(500))
+                            // An hourly equity bar is produced only during an open exchange period.
+                            // Wait for actual aggregation after the producer has acknowledged its updates.
+                            if (!_synchronizer.NewDataEvent.Wait(TimeSpan.FromSeconds(10)))
                             {
                                 if (!shouldThrowException || algorithm.Status != AlgorithmStatus.RuntimeError)
                                 {
-                                    Assert.Fail("Timeout waiting for data generation");
+                                    Assert.Fail($"Timeout waiting for aggregated data at {currentTime:o}; "
+                                        + $"producer time {lastTime:o}, enqueued {actualPricePointsEnqueued}, "
+                                        + $"trade bars {actualTradeBarsReceived}, quote bars {actualQuoteBarsReceived}");
                                 }
                             }
                         }

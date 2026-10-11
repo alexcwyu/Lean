@@ -1,0 +1,21 @@
+[project]
+name = "lean-optional-numpy1-gpflow"
+version = "0.1.0"
+description = "Isolated compatible environment for original LEAN third-party workflows"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fuzzy-c-means>=2.3.0",
+    "gpflow>=2.11.1",
+    "lingam>=1.13.0",
+    "tensortrade>=1.0.4",
+    # Stochastic0.7 supports Python<3.11;0.6 is the newest release allowing3.12.
+    "stochastic>=0.6.0,<0.7",
+    "tensorflow-probability>=0.24.0,<0.25",
+    "tf-keras>=2.16,<2.17",
+]
+
+[tool.uv]
+package = false
+environments = ["sys_platform == 'darwin' and platform_machine == 'arm64'"]
+# GPflow on macOS ARM selects TensorFlow-macos2.16.2. TFP0.24 and tf-keras2.16
+# are the newest probability/Keras2 releases compatible with that genuine runtime.

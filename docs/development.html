@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>lean: development workflow and layout</title><style>
+:root{color-scheme:light dark;--bg:#f6f8fa;--paper:#fff;--fg:#182332;--muted:#526274;--line:#d9e0e7;--accent:#1769aa}
+@media(prefers-color-scheme:dark){:root{--bg:#111820;--paper:#192330;--fg:#e6edf3;--muted:#a0b3c5;--line:#344354;--accent:#71b7ee}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.7 system-ui,-apple-system,sans-serif}
+header{border-bottom:1px solid var(--line);padding:16px max(24px,calc((100vw - 1120px)/2));background:var(--paper);font-size:14px}
+main{max-width:1120px;margin:32px auto;padding:40px 48px;background:var(--paper);border:1px solid var(--line);border-radius:12px}
+h1,h2,h3,h4{line-height:1.3;scroll-margin-top:24px}h1{font-size:2.1rem}h2{margin-top:2.5em;border-bottom:1px solid var(--line);padding-bottom:.35em}h3{margin-top:1.8em}
+a{color:var(--accent);text-underline-offset:3px}code{font:14px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--bg);border-radius:4px;padding:2px 5px}pre{overflow:auto;border:1px solid var(--line);background:var(--bg);padding:16px;border-radius:7px}pre code{padding:0;background:none}
+table{border-collapse:collapse;width:100%;display:block;overflow-x:auto;font-size:14px}th,td{border:1px solid var(--line);padding:9px 12px;text-align:left}th{background:var(--bg)}blockquote{border-left:4px solid var(--accent);margin:16px 0;padding:4px 20px;color:var(--muted)}
+.diagram{overflow-x:auto;margin:24px 0;padding:20px;border:1px solid var(--line);border-radius:8px;background:#fff;color:#182332}.mermaid{border:0;background:none;text-align:center}.mermaid svg{height:auto;max-width:100%}details{font-size:13px;color:#526274}.headerlink{margin-left:.4em;font-size:.7em;text-decoration:none;color:var(--muted)}
+main{min-width:0;overflow-wrap:anywhere}table,pre{max-width:100%}.diagram svg{display:block}
+th,td{min-width:120px;overflow-wrap:normal}
+@media(max-width:740px){main{margin:0;padding:24px 18px;border:0;border-radius:0}h1{font-size:1.7rem}.diagram{padding:8px}}
+@media print{header,details,.headerlink{display:none}body,main{background:#fff;color:#000;border:0;margin:0;padding:0}a{color:#000}.diagram,pre{break-inside:avoid}}
+</style></head><body><header>Engineering documentation · <a href="development.md">Markdown source</a></header><main><h1 id="lean-development-workflow-and-layout">lean: development workflow and layout<a class="headerlink" href="#lean-development-workflow-and-layout" title="Permanent link">&para;</a></h1>
+<p>Use branch <code>feature/ayu_develop</code>. The actual upstream default branch and all fetched branch/tag identities are recorded in the maintenance sync evidence. Merge existing work; do not reset divergent branches or replace conflicting tags.</p>
+<h2 id="source-synchronization">Source synchronization<a class="headerlink" href="#source-synchronization" title="Permanent link">&para;</a></h2>
+<pre><code class="language-sh">git fetch origin
+git fetch upstream
+git switch feature/ayu_develop
+git merge origin/feature/ayu_develop
+# Merge the actual default branch documented in the sync result.
+</code></pre>
+<p>This maintenance used namespaced remote tags before comparing tag identities. Missing upstream tags/branches were pushed to the fork; divergent branches were merged when conflict-free, and conflicting identities were retained for explicit reconciliation. The feature branch contains the default branch plus the maintenance changes. Source snapshot and architecture are documented in <a href="ayu-develop.md">ayu-develop.md</a>.</p>
+<h2 id="repository-layout">Repository layout<a class="headerlink" href="#repository-layout" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>docs/ayu-develop.md</code> and <code>docs/ayu-develop.html</code>: engineering guide with architecture, workflow, class and sequence diagrams and implementation links.</li>
+<li><code>docs/development.md</code>: toolchain, layout and contributor workflow.</li>
+<li><code>docs/validation.md</code>: exact executed commands, outcomes and limitations.</li>
+</ul>
+<h2 id="python-environment">Python environment<a class="headerlink" href="#python-environment" title="Permanent link">&para;</a></h2>
+<p>Use current uv 0.13.0 and a uv-managed interpreter. <code>.python-version</code> selects the validated runtime; <code>uv.lock</code> records exact resolved dependencies. Python 3.15 was attempted; where native dependency or embedding compatibility requires an earlier interpreter, the evidence explains the chosen fallback.</p>
+<pre><code class="language-sh">UV_PYTHON_PREFERENCE=only-managed uv sync --locked
+uv run python --version
+</code></pre>
+<p>Libraries and services retain their existing importable source packages and build metadata. Research scripts and .NET-hosted algorithms use <code>package = false</code> where installing a synthetic Python library would change their launch/import contracts. Independent framework examples keep independent environments; external Git submodules are not forced into one mutually incompatible Python dependency graph.</p>
+<p>LEAN embeds CPython through QuantConnect.pythonnet. Its current native runtime is validated with managed Python3.11 rather than3.15. Run .NET tests with <code>PYTHONNET_PYDLL</code> pointing to that managed interpreter's shared library and <code>PYTHONPATH</code> pointing to this repository's <code>.venv/lib/python3.11/site-packages</code>. This preserves the engine's Python API while making the dependency environment reproducible.</p>
+<h2 id="verification-and-documentation">Verification and documentation<a class="headerlink" href="#verification-and-documentation" title="Permanent link">&para;</a></h2>
+<p>Use the commands and results in <a href="validation.md">validation.md</a>. Markdown is the editable source of the guide; HTML embeds rendered SVG diagrams for offline browsing. Keep actual source links valid after moving modules. Preserve existing cases/assertions while correcting incompatible APIs, genuine resource leaks or invalid fixtures. No additional test cases were requested or added.</p>
+<h2 id="historical-reference">Historical reference<a class="headerlink" href="#historical-reference" title="Permanent link">&para;</a></h2>
+<p>The <a href="archive/development-before-maintenance.md">previous development guide</a> is retained for source history; use current validation commands for this branch.</p>
+<h2 id="build-and-run-the-net-engine">Build and run the .NET engine<a class="headerlink" href="#build-and-run-the-net-engine" title="Permanent link">&para;</a></h2>
+<p>The actual application is the C#/.NET solution, with CPython embedded for Python algorithms. The uv project manages the embedded interpreter's packages; it is not a replacement engine or a separately importable Python distribution. The branch selects managed CPython 3.11 because the current <code>QuantConnect.pythonnet</code> embedding binary fails on 3.15. The latest compatible scientific core and optional package cohorts are declared in <a href="../pyproject.toml">pyproject.toml</a> and recorded in <a href="../uv.lock">uv.lock</a>.</p>
+<pre><code class="language-sh">uv sync --locked --group third-party
+uv run dotnet build QuantConnect.Lean.sln --configuration Release
+</code></pre>
+<p>For embedded tests, set <code>PYTHONNET_PYDLL</code> to the uv-managed interpreter's <code>libpython3.11.dylib</code> on macOS, and <code>PYTHONPATH</code> to <code>.venv/lib/python3.11/site-packages</code>. Run the existing NUnit suite through the genuine .NET test project, not a synthetic pytest wrapper:</p>
+<pre><code class="language-sh">uv run --no-sync dotnet test Tests/QuantConnect.Tests.csproj \
+  --configuration Release --no-build \
+  --logger 'trx;LogFileName=existing-suite.trx' \
+  --results-directory TestResults/ayu
+</code></pre>
+<p>The <a href="../Tests/Python/PythonPackagesTests.cs">Python package fixture</a> restores a real Python executable for subprocess workers. On macOS, its Torch, XGBoost and scikit-learn native dependencies require one compatible OpenMP loader: the verified run sets <code>DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib</code>. The existing OR-Tools solver workflow runs in an owned managed-Python subprocess, preserving its original solver assertions while isolating conflicting native protobuf and HiGHS libraries from TensorFlow/CVXPY in the embedded host. The helper captures both streams, asserts the genuine exit status and terminates its owned process tree on timeout; the scientific libraries retain their current compatible versions. Package import success alone is not a functional workflow check. The Python3.11-compatible PyStan wheel embeds an Intel-only Stan compiler; the independently locked current Python3.14 PyStan/httpstan cohort provides a genuine universal ARM compiler. Several other optional libraries require mutually incompatible NumPy/Pandas cohorts. See <a href="validation.md">validation</a> for exact results and prerequisites.</p>
+<h2 id="research-notebook-prerequisites">Research notebook prerequisites<a class="headerlink" href="#research-notebook-prerequisites" title="Permanent link">&para;</a></h2>
+<p>The supplied <a href="../Research">research notebook templates</a> execute real Python and .NET kernels. The five existing research checks passed after installing both kernel families in a task-owned Jupyter directory. Install <code>ipykernel</code> from the locked group, install the official <code>Microsoft.dotnet-interactive</code> tool, and register their kernels without replacing unrelated user kernels. Make the tool directory available on <code>PATH</code>. For a tool targeting .NET 8 with the installed .NET 10 host, set <code>DOTNET_ROLL_FORWARD=Major</code> and the correct <code>DOTNET_ROOT</code>.</p>
+<p>The verified local Jupyter search path includes both directories below because the two kernel installers use different prefix conventions:</p>
+<pre><code class="language-sh">export JUPYTER_PATH=&quot;$HOME/.local/share/lean-jupyter:$HOME/.local/share/lean-jupyter/share/jupyter&quot;
+export PATH=&quot;$HOME/.local/share/lean-dotnet-tools:$HOME/.local/share/dotnet:$PATH&quot;
+uv run --no-sync dotnet test Tests/QuantConnect.Tests.csproj \
+  --configuration Release --no-build \
+  --filter 'TestCategory=ResearchRegressionTests'
+</code></pre>
+<h2 id="compatibility-fixes-and-preserved-contracts">Compatibility fixes and preserved contracts<a class="headerlink" href="#compatibility-fixes-and-preserved-contracts" title="Permanent link">&para;</a></h2>
+<p>Existing Pandas conversion and history cases use current <code>.map</code>, <code>.loc</code> and <code>.iloc</code> APIs while retaining their numeric, index and value assertions. The engine's original rollover order hash remains the expected value: its human-readable timestamp uses an explicit US date format to avoid ICU's new narrow no-break space changing order tags. The existing compression fixture records the observed macOS/Windows ZIP encoding length rather than applying a Linux-specific byte count to another platform.</p>
+<p>The <a href="../Common/Algorithm/Framework/Portfolio/SignalExports/VBaseSignalExport.cs">vBase exporter</a> keeps standardized SHA3-256 collection IDs. It uses the .NET provider when supported and the managed Bouncy Castle 2.7.0 provider otherwise, because macOS does not expose SHA-3 through .NET's native provider. The hash algorithm and exported collection format are unchanged. <a href="https://learn.microsoft.com/en-us/dotnet/standard/security/cross-platform-cryptography">Microsoft's platform support table</a> and the <a href="https://www.bouncycastle.org/download/bouncy-castle-c/">official Bouncy Castle release</a> document these prerequisites.</p>
+<p>The <a href="archive/development-before-maintenance.md">previous development guide</a> is retained with a historical banner. The current <a href="ayu-develop.md">engineering guide</a> contains offline class, sequence and workflow diagrams linked to the owned engine sources.</p>
+<p>The existing live universe-transition fixture now uses its existing manual-clock infrastructure during a fixed open-market session and waits for the actual selection event. Its original before/after subscription assertions are retained, with an explicit completed-transition assertion; the supplied case passed in 271 ms. This avoids testing the host weekend or a queued old slice instead of the intended subscription transition.</p>
+<h2 id="isolated-optional-scientific-workflows">Isolated optional scientific workflows<a class="headerlink" href="#isolated-optional-scientific-workflows" title="Permanent link">&para;</a></h2>
+<p>The existing macOS ARM package fixture preserves the current main scientific core and executes incompatible optional workflows in four separately locked uv projects. The original Python source and assertions run in genuine owned child interpreters; the helper checks the real exit status, captures stdout/stderr and kills its process tree after a 120-second bound. It removes inherited Python3.11 import/library overrides and puts the selected child interpreter on PATH. Missing environments fail the existing cases with an installation instruction.</p>
+<pre><code class="language-sh">uv sync --locked --project python-environments/pandas2-tfdf
+uv sync --locked --project python-environments/numpy1-gpflow
+uv sync --locked --project python-environments/pandas-ta
+uv sync --locked --project python-environments/pystan
+export NLTK_DATA=&quot;$PWD/.venv/nltk_data&quot;
+uv run --no-sync python -m nltk.downloader -d &quot;$NLTK_DATA&quot; punkt punkt_tab vader_lexicon
+</code></pre>
+<p><a href="../python-environments/pandas2-tfdf/pyproject.toml">The pandas2/TFDF project</a> uses managed Python3.12, pandas2.3, TensorFlow2.19 and the latest compatible optional packages. YDF0.15 is the newest inspected wheel whose generated protobuf messages match TensorFlow2.19's required protobuf5 runtime; YDF0.16 generates protobuf6.31.1 messages. <a href="../python-environments/numpy1-gpflow/pyproject.toml">The NumPy1/GPflow project</a> uses managed Python3.12, NumPy1.26 and SciPy1.13 because current FuzzyCMeans/Lingam require those ranges. Stochastic0.6 is its latest Python3.12-compatible release;0.7 declares Python&lt;3.11. GPflow's macOS ARM TensorFlow2.16 dependency uses compatible TensorFlow Probability0.24 and tf-keras2.16. <a href="../python-environments/pandas-ta/pyproject.toml">The PandasTA project</a> uses managed Python3.13 because current PandasTA requires Python&gt;=3.12 and its Numba0.61.2 dependency has no newer supported interpreter wheel. <a href="../python-environments/pystan/pyproject.toml">The current Stan project</a> uses managed Python3.14, PyStan3.14/httpstan4.17 and its bundled universal stanc2.39 compiler. Python3.15 cannot install that httpstan release because its published wheels cover only cp312/cp313/cp314. The original8-schools model, four sampling chains and1000samples run unchanged. Each project retains exact hashes and dependency versions in its own uv.lock. These compatibility boundaries are independent of the engine's Python3.11 embedding ABI.</p>
+<p>The original Hvplot workflow scopes its pandas backend option, and the original Pyomo workflow removes only newly introduced actual Pyomo deferred-import registry aliases before later virtual-environment activation. No substitute MPI module is created. The paper-order fixture waits for both genuine request terminal statuses after its four order events. The data-feed fixture acknowledges after actual aggregation and waits for hourly equity bars only during real exchange-open periods; all original expected bar counts remain.</p></main>
+</body></html>

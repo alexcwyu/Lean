@@ -1,0 +1,21 @@
+[project]
+name = "lean-optional-pandas2-tfdf"
+version = "0.1.0"
+description = "Isolated compatible environment for original LEAN third-party workflows"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "alphalens-reloaded>=0.4.6",
+    "copulae>=0.8.0",
+    "copulas>=0.14.1",
+    "gluonts>=0.17.0",
+    "pyfolio-reloaded>=0.9.9",
+    "modin>=0.37.1",
+    "tensorflow-decision-forests>=1.12.0",
+    # TF2.19 requires Protobuf<6. YDF0.16's wheel generates Protobuf6.31.1
+    # messages; YDF0.15 is the newest inspected wheel generated with Protobuf5.
+    "ydf>=0.15.0,<0.16",
+]
+
+[tool.uv]
+package = false
+environments = ["sys_platform == 'darwin' and platform_machine == 'arm64'"]

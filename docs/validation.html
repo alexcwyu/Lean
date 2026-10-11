@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>lean: maintenance validation</title><style>
+:root{color-scheme:light dark;--bg:#f6f8fa;--paper:#fff;--fg:#182332;--muted:#526274;--line:#d9e0e7;--accent:#1769aa}
+@media(prefers-color-scheme:dark){:root{--bg:#111820;--paper:#192330;--fg:#e6edf3;--muted:#a0b3c5;--line:#344354;--accent:#71b7ee}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.7 system-ui,-apple-system,sans-serif}
+header{border-bottom:1px solid var(--line);padding:16px max(24px,calc((100vw - 1120px)/2));background:var(--paper);font-size:14px}
+main{max-width:1120px;margin:32px auto;padding:40px 48px;background:var(--paper);border:1px solid var(--line);border-radius:12px}
+h1,h2,h3,h4{line-height:1.3;scroll-margin-top:24px}h1{font-size:2.1rem}h2{margin-top:2.5em;border-bottom:1px solid var(--line);padding-bottom:.35em}h3{margin-top:1.8em}
+a{color:var(--accent);text-underline-offset:3px}code{font:14px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--bg);border-radius:4px;padding:2px 5px}pre{overflow:auto;border:1px solid var(--line);background:var(--bg);padding:16px;border-radius:7px}pre code{padding:0;background:none}
+table{border-collapse:collapse;width:100%;display:block;overflow-x:auto;font-size:14px}th,td{border:1px solid var(--line);padding:9px 12px;text-align:left}th{background:var(--bg)}blockquote{border-left:4px solid var(--accent);margin:16px 0;padding:4px 20px;color:var(--muted)}
+.diagram{overflow-x:auto;margin:24px 0;padding:20px;border:1px solid var(--line);border-radius:8px;background:#fff;color:#182332}.mermaid{border:0;background:none;text-align:center}.mermaid svg{height:auto;max-width:100%}details{font-size:13px;color:#526274}.headerlink{margin-left:.4em;font-size:.7em;text-decoration:none;color:var(--muted)}
+main{min-width:0;overflow-wrap:anywhere}table,pre{max-width:100%}.diagram svg{display:block}
+th,td{min-width:120px;overflow-wrap:normal}
+@media(max-width:740px){main{margin:0;padding:24px 18px;border:0;border-radius:0}h1{font-size:1.7rem}.diagram{padding:8px}}
+@media print{header,details,.headerlink{display:none}body,main{background:#fff;color:#000;border:0;margin:0;padding:0}a{color:#000}.diagram,pre{break-inside:avoid}}
+</style></head><body><header>Engineering documentation · <a href="validation.md">Markdown source</a></header><main><h1 id="lean-maintenance-validation">lean: maintenance validation<a class="headerlink" href="#lean-maintenance-validation" title="Permanent link">&para;</a></h1>
+<p>Status: work in progress until the final recorded checks and source commit are reviewed. Failed exploratory commands remain here as evidence; later successful commands do not make an unexecuted full suite pass.</p>
+<h2 id="executed-checks">Executed checks<a class="headerlink" href="#executed-checks" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th style="text-align: right;">Exit</th>
+<th style="text-align: right;">Duration</th>
+<th>Command</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>build</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">113.2s</td>
+<td><code>dotnet build QuantConnect.Lean.sln --configuration Release --nologo</code></td>
+<td><a href="../../docs/maintenance-2026-10-12/lean-build.log">lean-build.log</a></td>
+</tr>
+<tr>
+<td>embedded311-indicator-tests</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">12.3s</td>
+<td><code>dotnet test Tests/QuantConnect.Tests.csproj --configuration Release --no-build --filter FullyQualifiedName~IndicatorTests --logger trx;LogFileName=indicator311.trx --results-directory TestResults/ayu</code></td>
+<td><a href="../../docs/maintenance-2026-10-12/lean-embedded311-indicator-tests.log">lean-embedded311-indicator-tests.log</a></td>
+</tr>
+<tr>
+<td>python311-tests</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">728.5s</td>
+<td><code>dotnet test Tests/QuantConnect.Tests.csproj --configuration Release --no-build --logger trx;LogFileName=python311.trx --results-directory TestResults/ayu</code></td>
+<td><a href="../../docs/maintenance-2026-10-12/lean-python311-tests.log">lean-python311-tests.log</a></td>
+</tr>
+<tr>
+<td>python315-test-attempt</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">11.5s</td>
+<td><code>dotnet test Tests/QuantConnect.Tests.csproj --configuration Release --no-build --filter FullyQualifiedName~IndicatorTests --logger trx;LogFileName=python315.trx --results-directory TestResults/ayu</code></td>
+<td><a href="../../docs/maintenance-2026-10-12/lean-python315-test-attempt.log">lean-python315-test-attempt.log</a></td>
+</tr>
+<tr>
+<td>test</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5.7s</td>
+<td><code>dotnet test Tests/QuantConnect.Tests.csproj --configuration Release --no-build --logger trx;LogFileName=ayu-existing-tests.trx --results-directory TestResults/ayu</code></td>
+<td><a href="../../docs/maintenance-2026-10-12/lean-test.log">lean-test.log</a></td>
+</tr>
+<tr>
+<td>uv311-latest-sync</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4.7s</td>
+<td><code>uv sync --upgrade --python 3.11</code></td>
+<td><a href="../../docs/maintenance-2026-10-12/lean-uv311-latest-sync.log">lean-uv311-latest-sync.log</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="scope-and-limitations">Scope and limitations<a class="headerlink" href="#scope-and-limitations" title="Permanent link">&para;</a></h2>
+<p>Build, package import, syntax compilation, unit tests and external integration tests are distinct checks. Live venue tests require their documented services/data/credentials. An interpreter fallback records a concrete installation/build attempt rather than assuming wheel absence means the interpreter is impossible. No tests are reported as passed merely because compilation or collection succeeded.</p>
+<p>The final workspace report links source commits, complete outcomes and remaining requirements. <a href="ayu-develop.md">Architecture and workflows</a> · <a href="development.md">Development layout</a></p>
+<h2 id="final-owned-python-package-and-asynchronous-fixture-validation">Final owned Python package and asynchronous fixture validation<a class="headerlink" href="#final-owned-python-package-and-asynchronous-fixture-validation" title="Permanent link">&para;</a></h2>
+<p>The final Release Tests build passed with zero errors in 37.34 seconds. All 170 selected existing cases passed in 157.06 seconds with zero failures or skips, including all 138 non-explicit package cases, 30 data-feed cases, paper-order and virtual-environment activation. The current main environment's 491 distributions and four real optional cohorts are consistent; ten scientific versions are unchanged. The previous complete 40,442-case baseline had 40,322 passed, 20 failed and 100 existing skips. It precedes these last repairs; a fresh complete-suite result is recorded separately by the parent.</p>
+<p>Exact commands, API details, interpreter fallbacks and limitations are in <a href="python-packages.md">Python package workflows</a> and <a href="development.md">development</a>. No additional test cases or weakened assertions were introduced.</p></main>
+</body></html>

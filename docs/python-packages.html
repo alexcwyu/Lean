@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LEAN existing Python package workflows</title><style>
+:root{color-scheme:light dark;--bg:#f6f8fa;--paper:#fff;--fg:#182332;--muted:#526274;--line:#d9e0e7;--accent:#1769aa}
+@media(prefers-color-scheme:dark){:root{--bg:#111820;--paper:#192330;--fg:#e6edf3;--muted:#a0b3c5;--line:#344354;--accent:#71b7ee}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.7 system-ui,-apple-system,sans-serif}
+header{border-bottom:1px solid var(--line);padding:16px max(24px,calc((100vw - 1120px)/2));background:var(--paper);font-size:14px}
+main{max-width:1120px;margin:32px auto;padding:40px 48px;background:var(--paper);border:1px solid var(--line);border-radius:12px}
+h1,h2,h3,h4{line-height:1.3;scroll-margin-top:24px}h1{font-size:2.1rem}h2{margin-top:2.5em;border-bottom:1px solid var(--line);padding-bottom:.35em}h3{margin-top:1.8em}
+a{color:var(--accent);text-underline-offset:3px}code{font:14px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--bg);border-radius:4px;padding:2px 5px}pre{overflow:auto;border:1px solid var(--line);background:var(--bg);padding:16px;border-radius:7px}pre code{padding:0;background:none}
+table{border-collapse:collapse;width:100%;display:block;overflow-x:auto;font-size:14px}th,td{border:1px solid var(--line);padding:9px 12px;text-align:left}th{background:var(--bg)}blockquote{border-left:4px solid var(--accent);margin:16px 0;padding:4px 20px;color:var(--muted)}
+.diagram{overflow-x:auto;margin:24px 0;padding:20px;border:1px solid var(--line);border-radius:8px;background:#fff;color:#182332}.mermaid{border:0;background:none;text-align:center}.mermaid svg{height:auto;max-width:100%}details{font-size:13px;color:#526274}.headerlink{margin-left:.4em;font-size:.7em;text-decoration:none;color:var(--muted)}
+main{min-width:0;overflow-wrap:anywhere}table,pre{max-width:100%}.diagram svg{display:block}
+th,td{min-width:120px;overflow-wrap:normal}
+@media(max-width:740px){main{margin:0;padding:24px 18px;border:0;border-radius:0}h1{font-size:1.7rem}.diagram{padding:8px}}
+@media print{header,details,.headerlink{display:none}body,main{background:#fff;color:#000;border:0;margin:0;padding:0}a{color:#000}.diagram,pre{break-inside:avoid}}
+</style></head><body><header>Engineering documentation · <a href="python-packages.md">Markdown source</a></header><main><h1 id="lean-existing-python-package-workflows">LEAN existing Python package workflows<a class="headerlink" href="#lean-existing-python-package-workflows" title="Permanent link">&para;</a></h1>
+<p>All <strong>138 existing non-explicit package cases pass</strong> in the final combined run: <strong>170 passed, 0 failed, 0 skipped</strong>, 157.06 seconds, exit 0. The other 32 cases are 30 original data-feed cases, the paper-order case and real virtual-environment activation. This verifies genuine numerical, solver and training workflows plus exact version assertions. The complete 40,442-case engine suite is a separate parent-run check; its earlier 40,322 passed / 20 failed / 100 existing skips baseline remains visible.</p>
+<p>No cases were added or removed, no assertions were weakened, and no skip or explicit flags changed. The original 168 package test attributes and 30 explicit cases remain. Explicit cases were not selected, so this report does not claim they passed. Seven original isolated Python workflows have identical source hashes to HEAD, including Alphalens, Copulae, Copulas, FuzzyCMeans, GPflow, Lingam and PyStan.</p>
+<h2 id="reproducible-environments-and-actual-repairs">Reproducible environments and actual repairs<a class="headerlink" href="#reproducible-environments-and-actual-repairs" title="Permanent link">&para;</a></h2>
+<p>The main environment is managed Python 3.11.17 with 491 consistent installed distributions, 493 locked packages and 131 direct third-party requirements. Its ten scientific versions remain unchanged: NumPy 2.4.6, pandas 3.0.6, SciPy 1.17.1, Matplotlib 3.11.2, scikit-learn 1.9.1, statsmodels 0.15.0, PyArrow 26.0.0, Seaborn 0.13.2, Plotly 7.1.0 and TA-lib 0.8.1. Current Darts 0.47.0 installs directly, avoiding u8darts 0.41's older implementation pin, and its original loading and scoring workflow passes.</p>
+<p>The existing fixture uses four independently locked optional projects on macOS ARM. Missing environments fail the original cases with installation commands. Child processes use actual managed interpreters, remove inherited Python 3.11 import and library overrides, capture stdout/stderr, check exit 0 and kill owned process trees after 120 seconds. Six existing version cases retain real imports and exact version assertions; PandasTA's current public attribute is <code>version</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Environment</th>
+<th>Interpreter</th>
+<th>Real workflow and compatible dependencies</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pandas2-tfdf</td>
+<td>3.12.15</td>
+<td>Original Alphalens, Copulae and Copulas workflows; GluonTS 0.17, Pyfolio 0.9.9, Modin 0.37.1 and TFDF 1.12 imports and versions. pandas 2.3.3, NumPy 2.1.3, TensorFlow 2.19.0 and YDF 0.15.0. The inspected YDF 0.16 wheel generates protobuf 6.31.1 messages and fails TensorFlow 2.19's required protobuf 5 runtime; YDF 0.15 generates 5.29.2. No protobuf validation bypass.</td>
+</tr>
+<tr>
+<td>numpy1-gpflow</td>
+<td>3.12.15</td>
+<td>Original FuzzyCMeans cluster fit/predict, GPflow optimizer/prediction and LiNGAM causal fit; TensorTrade 1.0.4 import/version. NumPy 1.26.4, SciPy 1.13.1, TensorFlow-macos 2.16.2, compatible TFP 0.24 and tf-keras 2.16. Stochastic 0.6 is the newest release declaring Python 3.12 compatibility; 0.7 declares Python &lt;3.11.</td>
+</tr>
+<tr>
+<td>pandas-ta</td>
+<td>3.13.16</td>
+<td>Genuine PandasTA 0.4.71b0 import/version with Numba 0.61.2, whose interpreter wheels extend through Python 3.13.</td>
+</tr>
+<tr>
+<td>pystan</td>
+<td>3.14.8</td>
+<td>Latest PyStan 3.14/httpstan 4.17 provides universal ARM/Intel stanc 2.39. The original eight-schools model, four chains, 1,000 samples per chain, eta extraction and DataFrame conversion pass unchanged. The Python 3.15 attempt fails because published httpstan ABIs are cp312/cp313/cp314. The earlier Python 3.11 Intel compiler failure remains historical; a Docker fallback was pulled but was unnecessary.</td>
+</tr>
+</tbody>
+</table>
+<p>All four optional environments pass <code>uv pip check</code>: 95, 116, 8 and 25 distributions. The original OR-Tools GLOP workflow remains unchanged in an owned main-Python child because its native Protobuf/HiGHS libraries conflict with TensorFlow/CVXPY in the embedded host. Real Java 25 for H2O, Ipopt for Pyomo, NLTK corpora and current research kernel packages remain installed. Earlier API repairs for Pgmpy's positional DAG operations, DoubleML's dataset namespace, TPOT, LangChain and version fixtures are preserved.</p>
+<p>The Hvplot case scopes its backend with <code>pd.option_context</code>. Pyomo cleanup removes only newly introduced actual Pyomo deferred-import registry aliases, preserving real modules and the solver; no substitute MPI module is created. <code>NLTK_DATA</code> points to the actual <code>.venv/nltk_data</code> cache containing punkt, punkt_tab and vader_lexicon.</p>
+<p>The paper-order case waits for both real request terminal statuses after all four actual order events, retaining all response, event and status assertions. The data-feed producer acknowledges only after actual aggregation. Its hourly equity delivery wait applies to real exchange-open periods. Original expected SPY 30 minute bars and seven hour bars, plus all other original counts, pass. The invalid closed-market wait at 01:00 New York was diagnosed before correction; expected counts were retained.</p>
+<h2 id="source-and-evidence">Source and evidence<a class="headerlink" href="#source-and-evidence" title="Permanent link">&para;</a></h2>
+<p>See the <a href="../Tests/Python/PythonPackagesTests.cs">fixture</a>, <a href="../python-environments/README.md">optional projects</a>, source preservation (workspace maintenance evidence: <code>lean-optional-source-preservation.json</code>), final case outcomes (workspace maintenance evidence: <code>lean-third-party-final-outcomes.json</code>), unchanged scientific versions (workspace maintenance evidence: <code>lean-final-core-preservation.json</code>), consistency (workspace maintenance evidence: <code>lean-optional-package-consistency.json</code>), YDF artifact inspection (workspace maintenance evidence: <code>lean-ydf-protobuf-codegen-compatibility.json</code>) and genuine ARM Stan workflow/compiler (workspace maintenance evidence: <code>lean-optional-pystan-original-workflows.json</code>).</p>
+<p>The earlier 124 passed / 14 failed report (workspace maintenance evidence: <code>lean-python-third-party-report-before-cohorts.md</code>) remains historical evidence. Its fourteen failed cases were repaired through current Darts and real compatible isolated environments, including current native Stan. Initial constraint history and the 80 passed / 13 failed / 93 reported aborted native coexistence run are retained.</p>
+<h2 id="exact-commands">Exact commands<a class="headerlink" href="#exact-commands" title="Permanent link">&para;</a></h2>
+<h3 id="final-optional-workflow-tests-build">final-optional-workflow-tests-build<a class="headerlink" href="#final-optional-workflow-tests-build" title="Permanent link">&para;</a></h3>
+<p>Exit0, 37.34seconds. Commandrecord (workspace maintenance evidence: <code>lean-final-optional-workflow-tests-build.json</code>).</p>
+<pre><code class="language-sh">env PATH=/Users/alex/workspaces/trading/lean/.venv/bin:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin DOTNET_ROOT=/Users/alex/.local/share/dotnet dotnet build Tests/QuantConnect.Tests.csproj --configuration Release --no-restore --verbosity minimal
+</code></pre>
+<h3 id="final-all-optional-workflow-focused-tests">final-all-optional-workflow-focused-tests<a class="headerlink" href="#final-all-optional-workflow-focused-tests" title="Permanent link">&para;</a></h3>
+<p>Exit0, 157.06seconds. Commandrecord (workspace maintenance evidence: <code>lean-final-all-optional-workflow-focused-tests.json</code>).</p>
+<pre><code class="language-sh">env PATH=/Users/alex/workspaces/trading/lean/.venv/bin:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib PYTHONPATH=/Users/alex/workspaces/trading/lean/.venv/lib/python3.11/site-packages NLTK_DATA=/Users/alex/workspaces/trading/lean/.venv/nltk_data MPLBACKEND=Agg PYTHONNET_RUNTIME=coreclr DOTNET_ROOT=/Users/alex/.local/share/dotnet DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib OPENBLAS_NUM_THREADS=2 OMP_NUM_THREADS=2 dotnet test Tests/QuantConnect.Tests.csproj --configuration Release --no-build --filter 'FullyQualifiedName~QuantConnect.Tests.Python.PythonPackagesTests|FullyQualifiedName~HandlesAllTypes|FullyQualifiedName~ProcessesOrdersInLivePaperTrading|FullyQualifiedName~PythonVirtualEnvironmentTests.VirtualEnvironment' --logger 'trx;LogFileName=final-all-optional-workflow-focused.trx' --results-directory TestResults/ayu
+</code></pre>
+<h3 id="final-main-package-consistency">final-main-package-consistency<a class="headerlink" href="#final-main-package-consistency" title="Permanent link">&para;</a></h3>
+<p>Exit0, 0.32seconds. Commandrecord (workspace maintenance evidence: <code>lean-final-main-package-consistency.json</code>).</p>
+<pre><code class="language-sh">uv pip check --python .venv/bin/python
+</code></pre>
+<h3 id="optional-pandas2-tfdf-compatible-lock">optional-pandas2-tfdf-compatible-lock<a class="headerlink" href="#optional-pandas2-tfdf-compatible-lock" title="Permanent link">&para;</a></h3>
+<p>Exit0, 0.76seconds. Commandrecord (workspace maintenance evidence: <code>lean-optional-pandas2-tfdf-compatible-lock.json</code>).</p>
+<pre><code class="language-sh">uv lock --upgrade
+</code></pre>
+<h3 id="optional-pandas2-tfdf-compatible-sync">optional-pandas2-tfdf-compatible-sync<a class="headerlink" href="#optional-pandas2-tfdf-compatible-sync" title="Permanent link">&para;</a></h3>
+<p>Exit0, 0.48seconds. Commandrecord (workspace maintenance evidence: <code>lean-optional-pandas2-tfdf-compatible-sync.json</code>).</p>
+<pre><code class="language-sh">uv sync --locked
+</code></pre>
+<h3 id="optional-numpy1-gpflow-compatible-lock">optional-numpy1-gpflow-compatible-lock<a class="headerlink" href="#optional-numpy1-gpflow-compatible-lock" title="Permanent link">&para;</a></h3>
+<p>Exit0, 0.25seconds. Commandrecord (workspace maintenance evidence: <code>lean-optional-numpy1-gpflow-compatible-lock.json</code>).</p>
+<pre><code class="language-sh">uv lock --upgrade
+</code></pre>
+<h3 id="optional-numpy1-gpflow-compatible-sync">optional-numpy1-gpflow-compatible-sync<a class="headerlink" href="#optional-numpy1-gpflow-compatible-sync" title="Permanent link">&para;</a></h3>
+<p>Exit0, 0.21seconds. Commandrecord (workspace maintenance evidence: <code>lean-optional-numpy1-gpflow-compatible-sync.json</code>).</p>
+<pre><code class="language-sh">uv sync --locked
+</code></pre>
+<h3 id="optional-numpy1-gpflow-compatible-consistency">optional-numpy1-gpflow-compatible-consistency<a class="headerlink" href="#optional-numpy1-gpflow-compatible-consistency" title="Permanent link">&para;</a></h3>
+<p>Exit0, 0.08seconds. Commandrecord (workspace maintenance evidence: <code>lean-optional-numpy1-gpflow-compatible-consistency.json</code>).</p>
+<pre><code class="language-sh">uv pip check --python python-environments/numpy1-gpflow/.venv/bin/python
+</code></pre>
+<h3 id="optional-pandas-ta-lock">optional-pandas-ta-lock<a class="headerlink" href="#optional-pandas-ta-lock" title="Permanent link">&para;</a></h3>
+<p>Exit0, 0.2seconds. Commandrecord (workspace maintenance evidence: <code>lean-optional-pandas-ta-lock.json</code>).</p>
+<pre><code class="language-sh">uv lock --upgrade
+</code></pre>
+<h3 id="optional-pandas-ta-sync">optional-pandas-ta-sync<a class="headerlink" href="#optional-pandas-ta-sync" title="Permanent link">&para;</a></h3>
+<p>Exit0, 1.85seconds. Commandrecord (workspace maintenance evidence: <code>lean-optional-pandas-ta-sync.json</code>).</p>
+<pre><code class="language-sh">uv sync --locked
+</code></pre>
+<h3 id="optional-pystan315-wheel-attempt">optional-pystan315-wheel-attempt<a class="headerlink" href="#optional-pystan315-wheel-attempt" title="Permanent link">&para;</a></h3>
+<p>Exit1, 1.11seconds. Commandrecord (workspace maintenance evidence: <code>lean-optional-pystan315-wheel-attempt.json</code>).</p>
+<pre><code class="language-sh">uv pip compile /tmp/lean-pystan-latest.in --python-version 3.15 --python-platform aarch64-apple-darwin --only-binary :all:
+</code></pre>
+<h3 id="optional-pystan314-lock">optional-pystan314-lock<a class="headerlink" href="#optional-pystan314-lock" title="Permanent link">&para;</a></h3>
+<p>Exit0, 0.76seconds. Commandrecord (workspace maintenance evidence: <code>lean-optional-pystan314-lock.json</code>).</p>
+<pre><code class="language-sh">uv lock --upgrade
+</code></pre>
+<h3 id="optional-pystan314-sync">optional-pystan314-sync<a class="headerlink" href="#optional-pystan314-sync" title="Permanent link">&para;</a></h3>
+<p>Exit0, 18.98seconds. Commandrecord (workspace maintenance evidence: <code>lean-optional-pystan314-sync.json</code>).</p>
+<pre><code class="language-sh">uv sync --locked
+</code></pre>
+<h3 id="optional-pystan314-consistency">optional-pystan314-consistency<a class="headerlink" href="#optional-pystan314-consistency" title="Permanent link">&para;</a></h3>
+<p>Exit0, 0.03seconds. Commandrecord (workspace maintenance evidence: <code>lean-optional-pystan314-consistency.json</code>).</p>
+<pre><code class="language-sh">uv pip check --python python-environments/pystan/.venv/bin/python
+</code></pre></main>
+</body></html>

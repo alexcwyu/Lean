@@ -1,0 +1,10 @@
+[project]
+name = "lean-optional-pystan"
+version = "0.1.0"
+description = "Genuine current Stan compiler and sampler for the original LEAN workflow"
+requires-python = ">=3.14,<3.15"
+dependencies = ["pystan>=3.14.0", "pandas>=3.0.6"]
+
+[tool.uv]
+package = false
+environments = ["sys_platform == 'darwin' and platform_machine == 'arm64'"]
