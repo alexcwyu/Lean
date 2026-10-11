@@ -80,7 +80,8 @@ namespace QuantConnect.Tests.Compression
             var fileBytes = File.ReadAllBytes(file);
             var zippedBytes = QuantConnect.Compression.ZipBytes(fileBytes, "entry");
 
-            Assert.AreEqual(OS.IsWindows ? 905693 : 906121, zippedBytes.Length);
+            // The .NET macOS compressor produces the same fixture length as Windows.
+            Assert.AreEqual(OS.IsWindows || OperatingSystem.IsMacOS() ? 905693 : 906121, zippedBytes.Length);
         }
 
         [Test]

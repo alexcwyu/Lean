@@ -55,7 +55,7 @@ class FundamentalRegressionAlgorithm(QCAlgorithm):
 
         for ticker in [ "AAPL", "SPY" ]:
             data = history.loc[ticker]
-            if data["value"][0] == 0:
+            if data["value"].iloc[0] == 0:
                 raise ValueError(f"Unexpected {data} fundamental data")
         if Object.reference_equals(data.earningreports.iloc[0], data.earningreports.iloc[1]):
             raise ValueError(f"Unexpected fundamental data instance duplication")

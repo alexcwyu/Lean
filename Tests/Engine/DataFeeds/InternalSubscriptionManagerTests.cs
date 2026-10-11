@@ -275,15 +275,27 @@ namespace QuantConnect.Tests.Engine.DataFeeds
         [Test, Category("TravisExclude")]
         public void UniverseSelectionAddAndRemove()
         {
+            // Own the live clock so the equity selection runs during an open
+            // market regardless of the host's current day or scheduler load.
+            var dataQueue = new FakeDataQueueTest();
+            dataQueue.ManualTimeProvider.SetCurrentTimeUtc(new DateTime(2020, 09, 03, 14, 0, 0));
+            TearDown();
+            var liveSynchronizer = new TestableLiveSynchronizer(dataQueue.ManualTimeProvider);
+            using var dataAggregator = new TestAggregationManager(dataQueue.ManualTimeProvider);
+            SetupImpl(dataQueue, liveSynchronizer, dataAggregator);
+            _algorithm.SetDateTime(dataQueue.ManualTimeProvider.GetUtcNow());
             _algorithm.SetLiveMode(true);
             _algorithm.PostInitialize();
             _algorithm.UniverseSettings.Resolution = Resolution.Hour;
             _algorithm.UniverseSettings.MinimumTimeInUniverse = TimeSpan.Zero;
             var added = false;
+            var replaced = false;
             using var manualEvent = new ManualResetEvent(false);
             using var tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(15));
             foreach (var timeSlice in _synchronizer.StreamData(tokenSource.Token))
             {
+                dataQueue.ManualTimeProvider.AdvanceSeconds(1);
+                _algorithm.SetDateTime(dataQueue.ManualTimeProvider.GetUtcNow());
                 if (!added)
                 {
                     _algorithm.AddUniverse(SecurityType.Equity,
@@ -308,13 +320,16 @@ namespace QuantConnect.Tests.Engine.DataFeeds
                             "Unexpected AAPL subscription was found");
                         manualEvent.Set();
                     }
-                    else
+                    // Buffered IBM slices may arrive after requesting the change. Wait
+                    // for the actual selection event before checking its subscriptions.
+                    else if (timeSlice.SecurityChanges.AddedSecurities.Any(security => security.Symbol == Symbols.AAPL))
                     {
                         Assert.IsTrue(_algorithm.SubscriptionManager.SubscriptionDataConfigService
                             .GetSubscriptionDataConfigs(Symbols.AAPL, includeInternalConfigs: true).Any(config => config.Resolution == Resolution.Second),
                             "AAPL subscription was not found");
                         Assert.IsFalse(_algorithm.SubscriptionManager.SubscriptionDataConfigService.GetSubscriptionDataConfigs(Symbols.IBM, includeInternalConfigs: true).Any(),
                             "Unexpected IBM subscription was found");
+                        replaced = true;
                         break;
                     }
                 }
@@ -331,6 +346,7 @@ namespace QuantConnect.Tests.Engine.DataFeeds
                 }
             }
             Assert.IsFalse(tokenSource.IsCancellationRequested, "Test timed out");
+            Assert.IsTrue(replaced, "The universe did not complete the IBM to AAPL transition");
         }
 
         private static TestCaseData[] DataTypeTestCases

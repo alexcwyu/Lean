@@ -57,7 +57,7 @@ namespace QuantConnect.Algorithm.CSharp
             if (slice.ContainsKey("SPX"))
             {
                 var spxData = slice.Bars["SPX"];
-                var message = $"{Time.ToString(CultureInfo.GetCultureInfo("en-US"))} ==== FF {spxData.IsFillForward}. {spxData.ToString().Replace(',', '.')} {spxData.Time:HH:mm:ss}->{spxData.EndTime:HH:mm:ss}";
+                var message = $"{Time.ToString("M/d/yyyy h:mm:ss tt", CultureInfo.GetCultureInfo("en-US"))} ==== FF {spxData.IsFillForward}. {spxData.ToString().Replace(',', '.')} {spxData.Time:HH:mm:ss}->{spxData.EndTime:HH:mm:ss}";
                 _data.AppendLine(message);
                 Debug(message);
             }

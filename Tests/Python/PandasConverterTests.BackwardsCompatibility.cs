@@ -57,6 +57,8 @@ def Test(df, symbol):
         [Test, TestCaseSource(nameof(TestDataFrameParameterlessFunctions))]
         public void BackwardsCompatibilityDataFrameParameterlessFunctions(string method, string index, bool cache)
         {
+            if (method == ".replace()") method = ".replace({})";
+            var lookup = method == ".transpose()" ? $"df.loc[{index}].iloc[-1]" : $"df.iloc[-1][{index}]";
             if (cache) SymbolCache.Set("SPY", Symbols.SPY);
 
             using (Py.GIL())
@@ -68,7 +70,7 @@ def Test(df, symbol):
     # If not DataFrame, return
     if not hasattr(df, 'columns'):
         return
-    if df.iloc[-1][{index}] is 0:
+    if {lookup} is 0:
         raise Exception('Data is zero')").GetAttr("Test");
 
                 Assert.DoesNotThrow(() => test(GetTestDataFrame(Symbols.SPY), Symbols.SPY));
@@ -91,6 +93,9 @@ def Test(df, symbol):
                 dynamic test = PyModule.FromString("testModule",
                     $@"
 def Test(df, other, symbol):
+    # Arithmetic applies to market values, not the exchange-name string column.
+    df = df.select_dtypes(include='number')
+    other = other.select_dtypes(include='number')
     df = df{method}
     df = df.lastprice.unstack(level=0)
     # If not DataFrame, return
@@ -123,6 +128,8 @@ def Test(df, symbol):
         [Test, TestCaseSource(nameof(TestSeriesParameterlessFunctions))]
         public void BackwardsCompatibilitySeriesParameterlessFunctions(string method, string index, bool cache)
         {
+            if (method == ".map()") method = ".map(lambda value: value)";
+            if (method == ".replace()") method = ".replace({})";
             if (cache) SymbolCache.Set("SPY", Symbols.SPY);
 
             using (Py.GIL())
@@ -180,9 +187,9 @@ def Test(df, other, symbol):
                     ".aggregate('mean', axis=0)",
                     ".clip(100, 200)",
                     ".fillna(value=999)",
-                    ".first('2S')",
+                    ".loc[lambda x: x.index < x.index[0] + __import__('pandas').Timedelta('2s')]",
                     ".isin([100])",
-                    ".last('2S')",
+                    ".loc[lambda x: x.index > x.index[-1] - __import__('pandas').Timedelta('2s')]",
                     ".melt()"
                 };
                 
@@ -316,7 +323,7 @@ def Test(df, other, symbol):
             {
                 var module = PyModule.FromString("Test",
                     @"import pandas
-from inspect import getmembers, isfunction, signature
+from inspect import getmembers, isfunction, signature, Parameter
 
 skipped = [ 'boxplot', 'hist', 'plot',        # <- Graphics
     'agg', 'aggregate', 'align', 'bool','combine', 'corrwith', 'dot', 'drop',
@@ -328,13 +335,16 @@ skipped = [ 'boxplot', 'hist', 'plot',        # <- Graphics
 
 newPandas = int(pandas.__version__.split('.')[0]) >= 1
 
+def accepts_no_arguments(member):
+    return all(p.name == 'self' or p.default is not p.empty or p.kind in (Parameter.VAR_POSITIONAL, Parameter.VAR_KEYWORD) for p in signature(member).parameters.values())
+
 def getSimpleExceptionTestFunctions(cls):
     functions = [ 'describe', 'mode']
     if not newPandas:
         functions.append('get_dtype_counts')
         functions.append('get_ftype_counts')
     for name, member in getmembers(cls):
-        if isfunction(member) and name.startswith('to') and name not in skipped:
+        if isfunction(member) and name.startswith('to') and name not in skipped and accepts_no_arguments(member):
             functions.append(name)
     return functions
 
@@ -347,13 +357,7 @@ def getParameterlessFunctions(cls):
     for name, member in getmembers(cls):
         if isfunction(member) and not name.startswith('_') and name not in skipped:
             parameters = signature(member).parameters
-            count = 0
-            for parameter in parameters.values():
-                if parameter.default is parameter.empty:
-                    count += 1
-                else:
-                    break
-            if count < 2:
+            if accepts_no_arguments(member):
                 functions.append(name)
     return functions
 

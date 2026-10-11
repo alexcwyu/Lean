@@ -93,7 +93,12 @@ namespace QuantConnect.Algorithm.Framework.Portfolio.SignalExports
 
             _stampApiUrl = new Uri(ApiBaseUrl.TrimEnd('/') + "/v1/stamp/"); ;
 
-            var collectionCidBytes = SHA3_256.HashData(Encoding.UTF8.GetBytes(collectionName));
+            var collectionNameBytes = Encoding.UTF8.GetBytes(collectionName);
+            // macOS does not expose SHA-3 through the .NET cryptography provider.
+            // Use the same standardized SHA3-256 digest through the managed provider.
+            var collectionCidBytes = SHA3_256.IsSupported
+                ? SHA3_256.HashData(collectionNameBytes)
+                : Org.BouncyCastle.Security.DigestUtilities.CalculateDigest("SHA3-256", collectionNameBytes);
             _collectionCid = "0x" + collectionCidBytes.ToHexString().ToLowerInvariant();
 
             _storeStampedFile = storeStampedFile;

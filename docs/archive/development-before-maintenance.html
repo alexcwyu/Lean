@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Historical development guide</title><style>
+:root{color-scheme:light dark;--bg:#f6f8fa;--paper:#fff;--fg:#182332;--muted:#526274;--line:#d9e0e7;--accent:#1769aa}
+@media(prefers-color-scheme:dark){:root{--bg:#111820;--paper:#192330;--fg:#e6edf3;--muted:#a0b3c5;--line:#344354;--accent:#71b7ee}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.7 system-ui,-apple-system,sans-serif}
+header{border-bottom:1px solid var(--line);padding:16px max(24px,calc((100vw - 1120px)/2));background:var(--paper);font-size:14px}
+main{max-width:1120px;margin:32px auto;padding:40px 48px;background:var(--paper);border:1px solid var(--line);border-radius:12px}
+h1,h2,h3,h4{line-height:1.3;scroll-margin-top:24px}h1{font-size:2.1rem}h2{margin-top:2.5em;border-bottom:1px solid var(--line);padding-bottom:.35em}h3{margin-top:1.8em}
+a{color:var(--accent);text-underline-offset:3px}code{font:14px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--bg);border-radius:4px;padding:2px 5px}pre{overflow:auto;border:1px solid var(--line);background:var(--bg);padding:16px;border-radius:7px}pre code{padding:0;background:none}
+table{border-collapse:collapse;width:100%;display:block;overflow-x:auto;font-size:14px}th,td{border:1px solid var(--line);padding:9px 12px;text-align:left}th{background:var(--bg)}blockquote{border-left:4px solid var(--accent);margin:16px 0;padding:4px 20px;color:var(--muted)}
+.diagram{overflow-x:auto;margin:24px 0;padding:20px;border:1px solid var(--line);border-radius:8px;background:#fff;color:#182332}.mermaid{border:0;background:none;text-align:center}.mermaid svg{height:auto;max-width:100%}details{font-size:13px;color:#526274}.headerlink{margin-left:.4em;font-size:.7em;text-decoration:none;color:var(--muted)}
+main{min-width:0;overflow-wrap:anywhere}table,pre{max-width:100%}.diagram svg{display:block}
+th,td{min-width:120px;overflow-wrap:normal}
+@media(max-width:740px){main{margin:0;padding:24px 18px;border:0;border-radius:0}h1{font-size:1.7rem}.diagram{padding:8px}}
+@media print{header,details,.headerlink{display:none}body,main{background:#fff;color:#000;border:0;margin:0;padding:0}a{color:#000}.diagram,pre{break-inside:avoid}}
+</style></head><body><header>Engineering documentation · <a href="development-before-maintenance.md">Markdown source</a></header><main><h1 id="historical-development-guide">Historical development guide<a class="headerlink" href="#historical-development-guide" title="Permanent link">&para;</a></h1>
+<p>This is the development guide from before the current maintenance. Consult <a href="../development.md">the current workflow</a> for validated source/toolchain instructions. Historical source paths and APIs may have moved.</p>
+<h1 id="lean-development-guide">LEAN — Development Guide<a class="headerlink" href="#lean-development-guide" title="Permanent link">&para;</a></h1>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Minimum Version</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.NET SDK</td>
+<td>8.0</td>
+<td><code>dotnet --version</code> to confirm</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>3.8+</td>
+<td>Required for Python algorithm support</td>
+</tr>
+<tr>
+<td>Docker</td>
+<td>20.x+</td>
+<td>Required for LEAN CLI workflows</td>
+</tr>
+<tr>
+<td>Git</td>
+<td>2.x</td>
+<td>For submodule management</td>
+</tr>
+</tbody>
+</table>
+<p>Install the .NET SDK: <a href="https://dotnet.microsoft.com/download">https://dotnet.microsoft.com/download</a></p>
+<h2 id="project-structure">Project Structure<a class="headerlink" href="#project-structure" title="Permanent link">&para;</a></h2>
+<pre><code>lean/
+├── QuantConnect.Lean.sln           # Solution file — build everything from here
+├── Launcher/
+│   ├── config.json                 # Primary runtime configuration
+│   └── Program.cs                  # Entry point — wires handlers and calls Engine.Run()
+├── Engine/
+│   ├── Engine.cs                   # Core engine — orchestrates all handlers
+│   ├── AlgorithmManager.cs         # Main time-sliced event loop
+│   ├── DataFeeds/                  # IDataFeed implementations
+│   ├── TransactionHandlers/        # Backtest and live order handlers
+│   ├── Results/                    # Result writers (JSON, chart data)
+│   ├── RealTime/                   # Scheduled event handlers
+│   ├── Setup/                      # Algorithm initializers
+│   └── HistoricalData/             # History provider implementations
+├── Algorithm/
+│   ├── QCAlgorithm.cs              # Base algorithm class
+│   ├── QCAlgorithm.Trading.cs      # Order placement API
+│   ├── QCAlgorithm.Indicators.cs   # Indicator factory methods
+│   ├── QCAlgorithm.History.cs      # Historical data access
+│   └── QCAlgorithm.Universe.cs     # Universe management
+├── Algorithm.Framework/            # Optional 5-layer composable framework
+├── Algorithm.CSharp/               # C# example algorithms
+├── Algorithm.Python/               # Python example algorithms
+├── Common/
+│   ├── Orders/                     # Order types, tickets, events, fills
+│   ├── Securities/                 # Security models, holdings, portfolio
+│   ├── Data/                       # Data types (TradeBar, Tick, Slice, …)
+│   ├── Brokerages/                 # Brokerage models (fees, margin, fills)
+│   └── Indicators/                 # (see also top-level Indicators/)
+├── Brokerages/                     # Live brokerage adapter implementations
+├── Indicators/                     # 100+ technical indicator implementations
+├── Optimizer/                      # Grid-search and Optuna optimization
+├── Research/                       # Jupyter notebook research environment
+├── Report/                         # Backtest report generator
+├── ToolBox/                        # Data download and conversion tools
+├── Tests/                          # Unit and regression tests
+└── Data/                           # Sample market data (not in repo — download separately)
+</code></pre>
+<h2 id="building">Building<a class="headerlink" href="#building" title="Permanent link">&para;</a></h2>
+<pre><code class="language-bash"># Clone (or update submodule in this workspace)
+cd ext-systems/lean
+
+# Build entire solution (Release)
+dotnet build QuantConnect.Lean.sln -c Release
+
+# Build a specific project
+dotnet build Engine/QuantConnect.Lean.Engine.csproj -c Release
+
+# Run unit tests
+dotnet test Tests/QuantConnect.Tests.csproj
+
+# Run regression tests (requires Data/)
+dotnet test Tests/QuantConnect.Tests.csproj --filter &quot;Category=RegressionAlgorithm&quot;
+</code></pre>
+<h2 id="running-a-backtest">Running a Backtest<a class="headerlink" href="#running-a-backtest" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Edit <code>Launcher/config.json</code> to point to your algorithm.</li>
+<li>Place market data in the <code>Data/</code> directory (or use <code>ToolBox</code> to download).</li>
+<li>Run the launcher:</li>
+</ol>
+<pre><code class="language-bash">cd Launcher
+dotnet run --project QuantConnect.Lean.Launcher.csproj -c Release
+</code></pre>
+<h2 id="configuration-reference-launcherconfigjson">Configuration Reference (<code>Launcher/config.json</code>)<a class="headerlink" href="#configuration-reference-launcherconfigjson" title="Permanent link">&para;</a></h2>
+<p>Source: <a href="../Launcher/config.json"><code>Launcher/config.json</code></a></p>
+<h3 id="core-settings">Core Settings<a class="headerlink" href="#core-settings" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>environment</code></td>
+<td><code>"backtesting"</code></td>
+<td>Active environment: <code>"backtesting"</code>, <code>"live-paper"</code>, <code>"live-interactive"</code></td>
+</tr>
+<tr>
+<td><code>algorithm-type-name</code></td>
+<td><code>"BasicTemplateAlgorithm"</code></td>
+<td>Fully-qualified class name of the algorithm to run</td>
+</tr>
+<tr>
+<td><code>algorithm-language</code></td>
+<td><code>"CSharp"</code></td>
+<td><code>"CSharp"</code> or <code>"Python"</code></td>
+</tr>
+<tr>
+<td><code>algorithm-location</code></td>
+<td><code>"QuantConnect.Algorithm.CSharp.dll"</code></td>
+<td>Path to the compiled DLL or <code>.py</code> file</td>
+</tr>
+<tr>
+<td><code>data-folder</code></td>
+<td><code>"../../../Data/"</code></td>
+<td>Root directory for market data files</td>
+</tr>
+<tr>
+<td><code>debugging</code></td>
+<td><code>false</code></td>
+<td>Enable debug attach point at startup</td>
+</tr>
+<tr>
+<td><code>debugging-method</code></td>
+<td><code>"LocalCmdline"</code></td>
+<td><code>"LocalCmdline"</code>, <code>"VisualStudio"</code>, <code>"Debugpy"</code>, <code>"PyCharm"</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="handler-overrides">Handler Overrides<a class="headerlink" href="#handler-overrides" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default Class</th>
+<th>Interface</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>log-handler</code></td>
+<td><code>CompositeLogHandler</code></td>
+<td><code>ILogHandler</code></td>
+</tr>
+<tr>
+<td><code>messaging-handler</code></td>
+<td><code>Messaging</code></td>
+<td><code>IMessagingHandler</code></td>
+</tr>
+<tr>
+<td><code>job-queue-handler</code></td>
+<td><code>JobQueue</code></td>
+<td><code>IJobQueueHandler</code></td>
+</tr>
+<tr>
+<td><code>api-handler</code></td>
+<td><code>Api</code></td>
+<td><code>IApi</code></td>
+</tr>
+<tr>
+<td><code>data-provider</code></td>
+<td><code>DefaultDataProvider</code></td>
+<td><code>IDataProvider</code></td>
+</tr>
+<tr>
+<td><code>data-aggregator</code></td>
+<td><code>AggregationManager</code></td>
+<td><code>IDataAggregator</code></td>
+</tr>
+<tr>
+<td><code>object-store</code></td>
+<td><code>LocalObjectStore</code></td>
+<td><code>IObjectStore</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="data-symbol-limits">Data &amp; Symbol Limits<a class="headerlink" href="#data-symbol-limits" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>symbol-minute-limit</code></td>
+<td><code>10000</code></td>
+<td>Max symbols at minute resolution</td>
+</tr>
+<tr>
+<td><code>symbol-second-limit</code></td>
+<td><code>10000</code></td>
+<td>Max symbols at second resolution</td>
+</tr>
+<tr>
+<td><code>symbol-tick-limit</code></td>
+<td><code>10000</code></td>
+<td>Max symbols at tick resolution</td>
+</tr>
+<tr>
+<td><code>maximum-data-points-per-chart-series</code></td>
+<td><code>1000000</code></td>
+<td>Chart rendering limit</td>
+</tr>
+<tr>
+<td><code>maximum-chart-series</code></td>
+<td><code>30</code></td>
+<td>Max chart series per backtest</td>
+</tr>
+</tbody>
+</table>
+<h3 id="live-brokerage-settings-interactive-brokers-example">Live Brokerage Settings (Interactive Brokers example)<a class="headerlink" href="#live-brokerage-settings-interactive-brokers-example" title="Permanent link">&para;</a></h3>
+<pre><code class="language-json">&quot;ib-account&quot;: &quot;&quot;,
+&quot;ib-user-name&quot;: &quot;&quot;,
+&quot;ib-password&quot;: &quot;&quot;,
+&quot;ib-host&quot;: &quot;127.0.0.1&quot;,
+&quot;ib-port&quot;: &quot;4002&quot;,
+&quot;ib-trading-mode&quot;: &quot;paper&quot;
+</code></pre>
+<p>Other brokerages (Alpaca, Oanda, Tradier, Binance, Coinbase) have analogous key groups in <code>config.json</code>.</p>
+<h3 id="environment-layering">Environment Layering<a class="headerlink" href="#environment-layering" title="Permanent link">&para;</a></h3>
+<p><code>config.json</code> supports named environment blocks that overlay the top-level keys. Example:</p>
+<pre><code class="language-json">&quot;environment&quot;: &quot;live-paper&quot;,
+&quot;environments&quot;: {
+  &quot;live-paper&quot;: {
+    &quot;live-mode&quot;: true,
+    &quot;setup-handler&quot;: &quot;QuantConnect.Lean.Engine.Setup.BrokerageSetupHandler&quot;,
+    &quot;data-feed-handler&quot;: &quot;QuantConnect.Lean.Engine.DataFeeds.LiveTradingDataFeed&quot;,
+    &quot;transaction-handler&quot;: &quot;QuantConnect.Lean.Engine.TransactionHandlers.BrokerageTransactionHandler&quot;
+  }
+}
+</code></pre>
+<h2 id="writing-an-algorithm">Writing an Algorithm<a class="headerlink" href="#writing-an-algorithm" title="Permanent link">&para;</a></h2>
+<h3 id="c-algorithm-skeleton">C# Algorithm Skeleton<a class="headerlink" href="#c-algorithm-skeleton" title="Permanent link">&para;</a></h3>
+<pre><code class="language-csharp">using QuantConnect;
+using QuantConnect.Algorithm;
+using QuantConnect.Data;
+
+public class MyAlgorithm : QCAlgorithm
+{
+    public override void Initialize()
+    {
+        SetStartDate(2022, 1, 1);
+        SetEndDate(2023, 12, 31);
+        SetCash(100_000);
+
+        AddEquity(&quot;AAPL&quot;, Resolution.Daily);
+        AddEquity(&quot;MSFT&quot;, Resolution.Daily);
+    }
+
+    public override void OnData(Slice slice)
+    {
+        if (!Portfolio.Invested)
+        {
+            SetHoldings(&quot;AAPL&quot;, 0.5m);
+            SetHoldings(&quot;MSFT&quot;, 0.5m);
+        }
+    }
+
+    public override void OnOrderEvent(OrderEvent orderEvent)
+    {
+        Log($&quot;Order {orderEvent.OrderId}: {orderEvent.Status} @ {orderEvent.FillPrice}&quot;);
+    }
+}
+</code></pre>
+<h3 id="python-algorithm-skeleton">Python Algorithm Skeleton<a class="headerlink" href="#python-algorithm-skeleton" title="Permanent link">&para;</a></h3>
+<pre><code class="language-python">from AlgorithmImports import *
+
+class MyAlgorithm(QCAlgorithm):
+    def initialize(self):
+        self.set_start_date(2022, 1, 1)
+        self.set_end_date(2023, 12, 31)
+        self.set_cash(100_000)
+        self.aapl = self.add_equity(&quot;AAPL&quot;, Resolution.DAILY).symbol
+
+    def on_data(self, slice: Slice):
+        if not self.portfolio.invested:
+            self.set_holdings(self.aapl, 1.0)
+
+    def on_order_event(self, order_event: OrderEvent):
+        self.log(f&quot;Order {order_event.order_id}: {order_event.status}&quot;)
+</code></pre>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="1-could-not-find-algorithm-type">1. <code>Could not find algorithm type</code><a class="headerlink" href="#1-could-not-find-algorithm-type" title="Permanent link">&para;</a></h3>
+<p><strong>Symptom</strong>: Engine throws <code>AlgorithmTypeNotFoundException</code> at startup.</p>
+<p><strong>Cause</strong>: The <code>algorithm-type-name</code> in <code>config.json</code> does not match the compiled class name, or <code>algorithm-location</code> points to a missing or stale DLL.</p>
+<p><strong>Fix</strong>: Rebuild the solution (<code>dotnet build</code>) and confirm the DLL path. Use the fully-qualified type name including namespace if ambiguous.</p>
+<hr />
+<h3 id="2-data-not-found-empty-slice">2. <code>Data not found</code> / Empty Slice<a class="headerlink" href="#2-data-not-found-empty-slice" title="Permanent link">&para;</a></h3>
+<p><strong>Symptom</strong>: <code>OnData</code> receives empty slices; no trades execute.</p>
+<p><strong>Cause</strong>: The <code>data-folder</code> path does not contain data files for the requested ticker, resolution, and date range.</p>
+<p><strong>Fix</strong>: Download data using <code>ToolBox</code> or the QuantConnect cloud data downloader. Check the expected file path format: <code>Data/equity/usa/minute/spy/20200101_trade.zip</code>.</p>
+<hr />
+<h3 id="3-margin-model-rejected-order-orders-not-filling">3. <code>Margin model rejected order</code> / Orders not filling<a class="headerlink" href="#3-margin-model-rejected-order-orders-not-filling" title="Permanent link">&para;</a></h3>
+<p><strong>Symptom</strong>: Orders appear with <code>OrderStatus.Invalid</code> and a margin error message.</p>
+<p><strong>Cause</strong>: The algorithm requests more buying power than the portfolio has (including margin). Default equity margin is 2× for day trades, 1× for overnight.</p>
+<p><strong>Fix</strong>: Reduce position size. Check <code>Portfolio.MarginRemaining</code> before placing orders. Override the brokerage model's margin model if needed.</p>
+<hr />
+<h3 id="4-python-algorithm-fails-to-load-pythonengine-errors">4. Python algorithm fails to load (<code>PythonEngine</code> errors)<a class="headerlink" href="#4-python-algorithm-fails-to-load-pythonengine-errors" title="Permanent link">&para;</a></h3>
+<p><strong>Symptom</strong>: <code>pythonnet</code> or <code>Python.Runtime</code> exceptions at startup when using a Python algorithm.</p>
+<p><strong>Cause</strong>: Python is not installed, the virtual environment is not activated, or <code>python-venv</code> in <code>config.json</code> is misconfigured.</p>
+<p><strong>Fix</strong>: Install Python 3.8+, create a venv, install <code>lean</code> and <code>quantconnect</code> packages, and set <code>"python-venv": "/path/to/venv"</code> in <code>config.json</code>. On Linux, ensure <code>libpython3.x.so</code> is on <code>LD_LIBRARY_PATH</code>.</p>
+<hr />
+<h3 id="5-outofmemoryexception-during-large-backtests">5. <code>OutOfMemoryException</code> during large backtests<a class="headerlink" href="#5-outofmemoryexception-during-large-backtests" title="Permanent link">&para;</a></h3>
+<p><strong>Symptom</strong>: Engine crashes during backtesting many symbols over a long date range.</p>
+<p><strong>Cause</strong>: Tick or second resolution data for many symbols generates large in-memory queues.</p>
+<p><strong>Fix</strong>:
+- Reduce resolution to <code>Minute</code> or <code>Daily</code> where possible.
+- Lower <code>symbol-minute-limit</code> / <code>symbol-tick-limit</code> in <code>config.json</code>.
+- Enable <code>"maximum-data-points-per-chart-series"</code> cap.
+- Run via Docker with <code>--memory</code> limit to surface the issue early.</p>
+<hr />
+<h3 id="6-live-trading-orders-not-appearing-in-brokerage">6. Live trading orders not appearing in brokerage<a class="headerlink" href="#6-live-trading-orders-not-appearing-in-brokerage" title="Permanent link">&para;</a></h3>
+<p><strong>Symptom</strong>: Algorithm places orders but they are not visible in the brokerage dashboard.</p>
+<p><strong>Cause</strong>: Brokerage API credentials missing or incorrect; wrong environment selected (paper vs. live).</p>
+<p><strong>Fix</strong>: Verify credentials in <code>config.json</code>. Ensure <code>ib-trading-mode</code> (or equivalent) is set to <code>"live"</code> (not <code>"paper"</code>) and that TWS / Gateway is running and connected. Check LEAN logs for brokerage error messages.</p>
+<hr />
+<h3 id="7-scheduled-events-not-firing">7. Scheduled events not firing<a class="headerlink" href="#7-scheduled-events-not-firing" title="Permanent link">&para;</a></h3>
+<p><strong>Symptom</strong>: <code>Schedule.On(...)</code> callbacks never execute.</p>
+<p><strong>Cause</strong>: The scheduled time falls outside market hours, or <code>force-exchange-always-open</code> is <code>false</code> (default) and the market is closed.</p>
+<p><strong>Fix</strong>: Use <code>DateRules.EveryDay</code> + <code>TimeRules.At(9, 30)</code> relative to market open, or set <code>"force-exchange-always-open": true</code> in <code>config.json</code> for testing.</p>
+<h2 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>API credentials</strong> in <code>config.json</code> (<code>api-access-token</code>, brokerage passwords) are stored in plaintext. Use environment variable substitution or a secrets manager in production.</li>
+<li><strong>Live trading</strong> should always be tested in paper mode first. Set <code>"ib-trading-mode": "paper"</code> or the brokerage equivalent.</li>
+<li>The <code>job-user-id</code> / <code>api-access-token</code> fields grant access to the QuantConnect cloud API — rotate these tokens regularly.</li>
+<li>When running LEAN in Docker, bind-mount <code>config.json</code> from a secrets vault rather than baking credentials into the image.</li>
+<li>Restrict file system access: the <code>data-folder</code> should be read-only for the LEAN process in production.</li>
+</ul>
+<h2 id="see-also">See Also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="architecture.md">architecture.md</a> — Handler interfaces and plugin points</li>
+<li><a href="workflow.md">workflow.md</a> — Algorithm execution pipeline</li>
+<li><a href="state-management.md">state-management.md</a> — Order and portfolio state</li>
+</ul></main>
+</body></html>

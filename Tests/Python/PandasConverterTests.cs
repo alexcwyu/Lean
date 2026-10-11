@@ -174,7 +174,7 @@ namespace QuantConnect.Tests.Python
                             var datum = collection.Data[i];
                             Assert.AreEqual(collection.EndTime, collectionTimes[i].AsManagedObject(typeof(DateTime)));
                             Assert.AreEqual(datum.Symbol, symbols[i].AsManagedObject(typeof(Symbol)));
-                            Assert.AreEqual(datum.EndTime, times[i].AsManagedObject(typeof(DateTime)));
+                            Assert.AreEqual(datum.EndTime, times.iloc[i].AsManagedObject(typeof(DateTime)));
                         }
                     }
                 });
@@ -861,7 +861,7 @@ def Test(dataFrame, symbol):
                 dynamic test = PyModule.FromString("testModule",
                     $@"
 def Test(dataFrame, symbol):
-    data = dataFrame.lastprice.unstack(level=0).applymap(lambda x: x*2)
+    data = dataFrame.lastprice.unstack(level=0).map(lambda x: x*2)
     data = data[{index}]
     if data is 0:
         raise Exception('Data is zero')").GetAttr("Test");
@@ -882,7 +882,7 @@ def Test(dataFrame, symbol):
                 dynamic test = PyModule.FromString("testModule",
                     $@"
 def Test(dataFrame, symbol):
-    data = dataFrame.lastprice.unstack(level=0).asfreq(freq='30S')
+    data = dataFrame.lastprice.unstack(level=0).asfreq(freq='30s')
     data = data[{index}]
     if data is 0:
         raise Exception('Data is zero')").GetAttr("Test");
@@ -2054,7 +2054,7 @@ def Test(dataFrame, symbol):
                     $@"
 def Test(dataFrame, symbol):
     data = dataFrame.lastprice.unstack(0)
-    data = data.resample('2S').sum()
+    data = data.resample('2s').sum()
     data = data[{index}]
     if data is 0:
         raise Exception('Data is zero')").GetAttr("Test");
@@ -2209,7 +2209,7 @@ def Test(dataFrame, symbol):
                 dynamic test = PyModule.FromString("testModule",
                     $@"
 def Test(dataFrame, symbol):
-    data = dataFrame.lastprice.unstack(0).swapaxes('index', 'columns')
+    data = dataFrame.lastprice.unstack(0).transpose()
     data = data.loc[{index}]
     if data is 0:
         raise Exception('Data is zero')").GetAttr("Test");
@@ -2432,7 +2432,7 @@ def Test(dataFrame, symbol):
         {
             if (cache) SymbolCache.Set("SPY", Symbols.SPY);
 
-            var other = "{'lastprice': ['d', 'e', 'f']}";
+            var other = "{'lastprice': [168.0, 169.0, 170.0]}";
 
             using (Py.GIL())
             {
@@ -2598,7 +2598,7 @@ def Test(dataFrame, symbol):
                     $@"
 def Test(dataFrame, symbol):
     series = dataFrame.lastprice.droplevel(0)
-    data = series.asfreq(freq='30S')").GetAttr("Test");
+    data = series.asfreq(freq='30s')").GetAttr("Test");
 
                 Assert.DoesNotThrow(() => test(GetTestDataFrame(Symbols.SPY), Symbols.SPY));
             }
@@ -2872,7 +2872,7 @@ def Test(dataFrame, symbol):
                     $@"
 def Test(dataFrame, symbol):
     series = dataFrame.lastprice.droplevel(0)
-    data = series.first('2S')").GetAttr("Test");
+    data = series.loc[lambda x: x.index < x.index[0] + __import__('pandas').Timedelta('2s')]").GetAttr("Test");
 
                 Assert.DoesNotThrow(() => test(GetTestDataFrame(Symbols.SPY, 10), Symbols.SPY));
             }
@@ -2963,7 +2963,7 @@ def Test(df, other, symbol):
                     $@"
 def Test(dataFrame, symbol):
     series = dataFrame.lastprice.droplevel(0)
-    data = series.last('2S')").GetAttr("Test");
+    data = series.loc[lambda x: x.index > x.index[-1] - __import__('pandas').Timedelta('2s')]").GetAttr("Test");
 
                 Assert.DoesNotThrow(() => test(GetTestDataFrame(Symbols.SPY, 10), Symbols.SPY));
             }
@@ -3143,7 +3143,7 @@ def Test(dataFrame, symbol):
                     $@"
 def Test(dataFrame, symbol):
     series = dataFrame.lastprice
-    data = series.resample('2S', level=1).mean()").GetAttr("Test");
+    data = series.resample('2s', level=1).mean()").GetAttr("Test");
 
                 Assert.DoesNotThrow(() => test(GetTestDataFrame(Symbols.SPY, 10), Symbols.SPY));
             }
@@ -3258,7 +3258,7 @@ def Test(dataFrame, symbol):
                     $@"
 def Test(dataFrame, symbol):
     series = dataFrame.lastprice
-    data = series.swapaxes('index', 'index')
+    data = series.copy()
     data = data.loc[{index}]
     if data is 0:
         raise Exception('Data is zero')").GetAttr("Test");
@@ -3416,7 +3416,7 @@ def Test(dataFrame, symbol):
 import pandas as pd
 def Test(dataFrame, symbol):
     series = dataFrame.lastprice
-    other = pd.Series(['d', 'e', 'f'], index=series.index)
+    other = pd.Series([168.0, 169.0, 170.0], index=series.index)
     series.update(other)
     data = series.loc[{index}]
     if data is 0:

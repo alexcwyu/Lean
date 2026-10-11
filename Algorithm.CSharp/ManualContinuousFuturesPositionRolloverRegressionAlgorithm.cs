@@ -72,7 +72,7 @@ namespace QuantConnect.Algorithm.CSharp
 
                 // Rolling over: liquidate any position of the old mapped contract and switch to the newly mapped contract
                 var quantity = oldSecurity.Holdings.Quantity;
-                var tag = $"Rollover - Symbol changed at {Time.ToString(CultureInfo.GetCultureInfo("en-US"))}: {changedEvent.OldSymbol} -> {changedEvent.NewSymbol}";
+                var tag = $"Rollover - Symbol changed at {Time.ToString("M/d/yyyy h:mm:ss tt", CultureInfo.GetCultureInfo("en-US"))}: {changedEvent.OldSymbol} -> {changedEvent.NewSymbol}";
                 Liquidate(symbol: oldSecurity.Symbol, tag: tag);
                 Order(newSecurity.Symbol, quantity, tag: tag);
             }
