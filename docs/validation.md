@@ -1,5 +1,8 @@
 # lean: maintenance validation
 
+
+Current user-authorized test policy: The user explicitly disabled `LiveOptionChainProviderReturnsFutureOptionData` with NUnit Ignore because its live CME endpoint returns HTTP404. The original test body and assertion remain unchanged. The retained full-suite baseline is 40,341 passes and 100 existing skips; verification of the new single skip is separate.
+
 The final complete default suite at source commit `31ddbce1c1bf7af7fcbaf093f7a539daa7b0bc9c` finished with **40,341 passed, one failed and 100 pre-existing skips** (40,442 selected cases), exit 1. All internal cases selected by this run passed. The sole failure is `LiveOptionChainProviderReturnsFutureOptionData`: CME returns HTTP 404 for the real live option-chain quote endpoint. The original assertion is retained; the full suite is not claimed green.
 
 The final Release solution build passed with zero errors in 61.97 seconds. The full test command took 1,029.70 seconds wall time (the runner reports 16 minutes 56 seconds). TRX discovery contains 40,893 cases; 40,342 executed, while 451 pre-existing explicit cases were not selected and 100 existing skips remain. Discovery, execution and default selection are distinct counts.
@@ -45,3 +48,5 @@ The [live chain provider](../Engine/DataFeeds/LiveOptionChainProvider.cs) succes
 A bounded follow-up confirmed an explicit CME IP restriction: the response states that automated access is blocked and directs users to approved delivery methods. Requests stopped after this response. The official [Reference Data API v3](https://cmegroupclientsite.atlassian.net/wiki/spaces/EPICSANDBOX/pages/457215780/CME+Reference+Data+API+Version+3) documents an authenticated same-venue path; its [option-series endpoint](https://cmegroupclientsite.atlassian.net/wiki/spaces/EPICSANDBOX/pages/647364612/CME+Reference+Data+API+-+Option+Series+Endpoint) can identify active instruments by series. It requires registered OAuth credentials. No authenticated ES roster was verified, so this is a documented future integration path rather than a completed endpoint migration.
 
 [Read-only replacement audit](maintenance/cme-official-replacement-audit.json) and [exact block response](maintenance/cme-expirations-response.json) preserve request metadata and the limitation. This remains an external prerequisite for the original live case.
+
+Authorized-skip verification completed successfully: 1 selected original case(s) skipped, zero failures, 56.07 wall seconds. Exact command and terminal result are included in `maintenance/verification.json`; the earlier full-suite counts remain historical baseline evidence. Independent review verified the original test bodies and assertions are unchanged.

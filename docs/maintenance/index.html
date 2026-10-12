@@ -644,6 +644,12 @@
 <td><code>env MPLBACKEND=Agg OPENBLAS_NUM_THREADS=2 OMP_NUM_THREADS=2 .venv/bin/python -c import umap; print(umap.__version__)</code></td>
 </tr>
 <tr>
+<td>user-authorized-cme-live-skip</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">56.07s</td>
+<td><code>env PATH=/Users/alex/.local/share/lean-dotnet-tools:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib PYTHONPATH=&lt;workspace&gt;/lean/.venv/lib/python3.11/site-packages DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib NLTK_DATA=&lt;workspace&gt;/lean/.venv/nltk_data MPLBACKEND=Agg DOTNET_ROOT=/Users/alex/.local/share/dotnet DOTNET_ROLL_FORWARD=Major DOTNET_INTERACTIVE_CLI_TELEMETRY_OPTOUT=1 JUPYTER_PATH=/Users/alex/.local/share/lean-jupyter:/Users/alex/.local/share/lean-jupyter/share/jupyter uv run --no-sync dotnet test Tests/QuantConnect.Tests.csproj --configuration Release --results-directory TestResults/ayu-user-skip --logger trx;LogFileName=user-authorized-cme-skip.trx --filter FullyQualifiedName~LiveOptionChainProviderReturnsFutureOptionData</code></td>
+</tr>
+<tr>
 <td>uv-latest-pandas-extras</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.5s</td>
@@ -812,5 +818,4 @@
 <td><code>uv sync --upgrade --python 3.11</code></td>
 </tr>
 </tbody>
-</table></main>
-</body></html>
+</table></main></body></html>
