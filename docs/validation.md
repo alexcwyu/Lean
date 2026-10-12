@@ -40,3 +40,8 @@ All 67 affected existing wrapper, fee, memory and universe cases passed in the f
 ## Remaining live CME requirement
 
 The [live chain provider](../Engine/DataFeeds/LiveOptionChainProvider.cs) successfully reaches product and expiration metadata but the option quote roster URL responds 404. Its five actual retries and original nonempty-chain assertion are preserved. The official [CME E-mini S&P 500 option page](https://www.cmegroup.com/markets/equities/sp/e-mini-sandp500.quotes.options.html) remains the source for investigating a current replacement. Fabricated strikes, a different venue or a skipped assertion would not verify this requirement.
+
+
+A bounded follow-up confirmed an explicit CME IP restriction: the response states that automated access is blocked and directs users to approved delivery methods. Requests stopped after this response. The official [Reference Data API v3](https://cmegroupclientsite.atlassian.net/wiki/spaces/EPICSANDBOX/pages/457215780/CME+Reference+Data+API+Version+3) documents an authenticated same-venue path; its [option-series endpoint](https://cmegroupclientsite.atlassian.net/wiki/spaces/EPICSANDBOX/pages/647364612/CME+Reference+Data+API+-+Option+Series+Endpoint) can identify active instruments by series. It requires registered OAuth credentials. No authenticated ES roster was verified, so this is a documented future integration path rather than a completed endpoint migration.
+
+[Read-only replacement audit](maintenance/cme-official-replacement-audit.json) and [exact block response](maintenance/cme-expirations-response.json) preserve request metadata and the limitation. This remains an external prerequisite for the original live case.

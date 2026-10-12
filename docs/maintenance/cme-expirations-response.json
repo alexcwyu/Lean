@@ -1,0 +1,11 @@
+{
+  "url": "https://www.cmegroup.com/CmeWS/mvc/Settlements/Options/TradeDateAndExpirations/133",
+  "http_status": 403,
+  "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:122.0) Gecko/20100101 Firefox/122.0",
+  "captured_utc": "2026-10-12T03:07:52.539912+00:00",
+  "response": {
+    "message": "This IP address is blocked due to suspected web scraping activity associated with it on this CMEgroup.com page. Use of scripts, software, spiders, robots, avatars, agents, tools or other scraping mechanisms is strictly prohibited by CME Group\u2019s website Data Terms of Use. If you are attempting to access data or content from the website via automated means or for commercial purposes, CME has numerous other methods to deliver the content you require. Please contact CME Group's Global Command Center (GCC) at gcc@cmegroup.com and your inquiry will be directed to the appropriate team."
+  },
+  "response_sha256": "eecde3fafbde4090c30e610a7ed4b8d877f8351c0490e4189574890e8a5a4f7e",
+  "conclusion": "CME explicitly blocks automated access from this IP. No verified current public full-strike-roster replacement was found; no bypass or further direct API retries were attempted after reading this response."
+}

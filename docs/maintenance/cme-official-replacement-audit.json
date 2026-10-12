@@ -1,0 +1,33 @@
+{
+  "scope": "Read-only CME option-chain public-endpoint replacement audit; no Lean source/runtime/test edits or process interruption.",
+  "checked_utc": "2026-10-12T03:10:08.897307+00:00",
+  "existing_case": "LiveOptionChainProviderReturnsFutureOptionData",
+  "case_contract": {
+    "underlying": "ES",
+    "venue": "CME",
+    "option_style": "American",
+    "expiry": "current-year December futures contract (next March only after December expiration)",
+    "assertions": "nonempty real roster; same venue/style; every strike >=100 and <30000"
+  },
+  "observed_block_evidence": "lean-cme-expirations-response.json",
+  "public_replacement_verified": false,
+  "direct_requests_after_explicit_block": 0,
+  "official_documented_alternative": {
+    "name": "CME Reference Data API v3",
+    "overview_url": "https://cmegroupclientsite.atlassian.net/wiki/spaces/EPICSANDBOX/pages/457215780/CME+Reference+Data+API+Version+3",
+    "option_series_url": "https://cmegroupclientsite.atlassian.net/wiki/spaces/EPICSANDBOX/pages/647364612/CME+Reference+Data+API+-+Option+Series+Endpoint",
+    "observations": [
+      "Official documentation describes product and individual instrument reference data, including futures/options and lifecycle dates.",
+      "The option-series documentation describes seriesGuid as the identifier used to query all active option instruments in that series.",
+      "Access requires a registered CME OAuth API ID and access token. CME futures/options attributes have default entitlements, but authentication remains required."
+    ],
+    "production_token_endpoint_documented": "https://auth.cmegroup.com/as/token.oauth2",
+    "api_access_attempted": false,
+    "actual_ES_contract_roster_verified": false
+  },
+  "other_official_source": {
+    "url": "https://www.cmegroup.com/market-data/real-time-futures-and-options-data-api.html",
+    "role": "Official market-data service, not a verified anonymous replacement for the removed CmeWS option-chain route."
+  },
+  "conclusion": "No verified anonymous public replacement returning the same current CME ES American option strike roster was found. Direct API investigation is blocked by an explicit CME IP restriction. Official Reference Data API v3 provides a legitimate same-venue integration path requiring CME OAuth credentials; no credentialed request, synthetic strikes, alternative venue, assertion weakening, or skip was used."
+}
