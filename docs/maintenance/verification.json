@@ -1,0 +1,3363 @@
+[
+  {
+    "command": [
+      "dotnet",
+      "build",
+      "QuantConnect.Lean.sln",
+      "--configuration",
+      "Release",
+      "--nologo"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 113.17,
+    "check": "build",
+    "evidence_record": "lean-build.json",
+    "original_log": "lean-build.log",
+    "log_sha256": "22708475146d4005db59211aa38cbcd32d13148479ac65ac9304c37a33b60d8f",
+    "log_bytes": 6288582,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "env",
+      "PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib",
+      "PYTHONPATH=<workspace>/lean/.venv/lib/python3.11/site-packages",
+      "MPLBACKEND=Agg",
+      "uv",
+      "run",
+      "--no-sync",
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--filter",
+      "Name~HistoryWithDifferent|Name~FillForwardStrictEndTime|FullyQualifiedName~QuantConnect.Tests.Compression.CompressionTests",
+      "--logger",
+      "trx;LogFileName=history-date-compression.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 30.57,
+    "check": "current-history-date-compression-tests",
+    "evidence_record": "lean-current-history-date-compression-tests.json",
+    "original_log": "lean-current-history-date-compression-tests.log",
+    "log_sha256": "c2ac16a958ecc5f8726f86dde9410cc0603f9a17c9d247df69df3be970047227",
+    "log_bytes": 1124,
+    "outcome_lines": [
+      "Passed!  - Failed:     0, Passed:    23, Skipped:     0, Total:    23, Duration: 10 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--logger",
+      "trx;LogFileName=full311-uv.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 1706.35,
+    "check": "embedded311-full-tests",
+    "evidence_record": "lean-embedded311-full-tests.json",
+    "original_log": "lean-embedded311-full-tests.log",
+    "log_sha256": "5fd70093feeeaef25b3e9a39dda2c8bf182970a935263a45e53f5add98e9dba2",
+    "log_bytes": 2887765,
+    "outcome_lines": [
+      "Failed!  - Failed:   285, Passed: 40051, Skipped:   100, Total: 40436, Duration: 27 m 52 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--filter",
+      "FullyQualifiedName~IndicatorTests",
+      "--logger",
+      "trx;LogFileName=indicator311.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 12.34,
+    "check": "embedded311-indicator-tests",
+    "evidence_record": "lean-embedded311-indicator-tests.json",
+    "original_log": "lean-embedded311-indicator-tests.log",
+    "log_sha256": "fe558d7dc92034c975ca148a7e99979248d938ebae258dae588057e2db016233",
+    "log_bytes": 2334,
+    "outcome_lines": [
+      "Passed!  - Failed:     0, Passed:   205, Skipped:     0, Total:   205, Duration: 4 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "env",
+      "PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib",
+      "PYTHONPATH=<workspace>/lean/.venv/lib/python3.11/site-packages",
+      "MPLBACKEND=Agg",
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--logger",
+      "trx;LogFileName=full311-updated.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 1336.69,
+    "check": "embedded311-updated-full-tests",
+    "evidence_record": "lean-embedded311-updated-full-tests.json",
+    "original_log": "lean-embedded311-updated-full-tests.log",
+    "log_sha256": "d481d45bbdda8a8eee09d1d4d1e5d11d30a396a59d7efe5a801e950dd56ea197",
+    "log_bytes": 2310601,
+    "outcome_lines": [
+      "Failed!  - Failed:   151, Passed: 40191, Skipped:   100, Total: 40442, Duration: 21 m 40 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "dotnet",
+      "build",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-restore",
+      "--verbosity",
+      "quiet"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 52.23,
+    "check": "event-driven-subscription-fixture-build",
+    "evidence_record": "lean-event-driven-subscription-fixture-build.json",
+    "original_log": "lean-event-driven-subscription-fixture-build.log",
+    "log_sha256": "c67d8de967b48492dcd2ca769632c2248025db7ba4834049e2b4913baefda13a",
+    "log_bytes": 2661233,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "env",
+      "PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib",
+      "PYTHONPATH=<workspace>/lean/.venv/lib/python3.11/site-packages",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "uv",
+      "run",
+      "--no-sync",
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--filter",
+      "Name~UniverseSelectionAddAndRemove",
+      "--logger",
+      "trx;LogFileName=event-driven-universe.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 24.35,
+    "check": "event-driven-universe-existing-test",
+    "evidence_record": "lean-event-driven-universe-existing-test.json",
+    "original_log": "lean-event-driven-universe-existing-test.log",
+    "log_sha256": "ad011af72d43a52e29679d85b1d6aa1bf704f17ab4863dcfc4d5c0f543d35a27",
+    "log_bytes": 6288,
+    "outcome_lines": [
+      "Failed!  - Failed:     1, Passed:     0, Skipped:     0, Total:     1, Duration: 15 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "env",
+      "PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib",
+      "PYTHONPATH=<workspace>/lean/.venv/lib/python3.11/site-packages",
+      "MPLBACKEND=Agg",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "DOTNET_ROLL_FORWARD=Major",
+      "DOTNET_INTERACTIVE_CLI_TELEMETRY_OPTOUT=1",
+      "JUPYTER_PATH=/Users/alex/.local/share/lean-jupyter",
+      "uv",
+      "run",
+      "--no-sync",
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--filter",
+      "TestCategory=ResearchRegressionTests",
+      "--logger",
+      "trx;LogFileName=research-managed-prerequisites.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 39.68,
+    "check": "existing-research-prerequisites",
+    "evidence_record": "lean-existing-research-prerequisites.json",
+    "original_log": "lean-existing-research-prerequisites.log",
+    "log_sha256": "d60b95ac0104afe70a3ea57166ecd18b632b0f8971a04104220d7afa8a9cf818",
+    "log_bytes": 6322,
+    "outcome_lines": [
+      "Failed!  - Failed:     4, Passed:     1, Skipped:     0, Total:     5, Duration: 15 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "env",
+      "PATH=<workspace>/lean/.venv/bin:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+      "PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib",
+      "PYTHONPATH=<workspace>/lean/.venv/lib/python3.11/site-packages",
+      "NLTK_DATA=<workspace>/lean/.venv/nltk_data",
+      "MPLBACKEND=Agg",
+      "PYTHONNET_RUNTIME=coreclr",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "OPENBLAS_NUM_THREADS=2",
+      "OMP_NUM_THREADS=2",
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--filter",
+      "FullyQualifiedName~QuantConnect.Tests.Python.PythonPackagesTests|FullyQualifiedName~HandlesAllTypes|FullyQualifiedName~ProcessesOrdersInLivePaperTrading|FullyQualifiedName~PythonVirtualEnvironmentTests.VirtualEnvironment",
+      "--logger",
+      "trx;LogFileName=final-all-optional-workflow-focused.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 157.06,
+    "check": "final-all-optional-workflow-focused-tests",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "46e27c1e4ca6c54694fca971615668c64065c55f9df39773e3cac20b932e9478",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-third-party-final-outcomes.json",
+    "original_log": "lean-final-all-optional-workflow-focused-tests.log",
+    "log_sha256": "48595ccfe7bc2585ddd1f2b6370bd562254d05fe8f1ba9bb440fb030eaab37d7",
+    "log_bytes": 17282,
+    "outcome_lines": [
+      "Passed!  - Failed:     0, Passed:   170, Skipped:     0, Total:   170, Duration: 2 m 31 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "env",
+      "PATH=/Users/alex/.local/share/lean-dotnet-tools:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin",
+      "PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib",
+      "PYTHONPATH=<workspace>/lean/.venv/lib/python3.11/site-packages",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "MPLBACKEND=Agg",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "DOTNET_ROLL_FORWARD=Major",
+      "DOTNET_INTERACTIVE_CLI_TELEMETRY_OPTOUT=1",
+      "JUPYTER_PATH=/Users/alex/.local/share/lean-jupyter:/Users/alex/.local/share/lean-jupyter/share/jupyter",
+      "uv",
+      "run",
+      "--no-sync",
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--logger",
+      "trx;LogFileName=final-complete-existing-suite.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 1743.39,
+    "check": "final-complete-existing-suite",
+    "evidence_record": "lean-final-complete-existing-suite.json",
+    "original_log": "lean-final-complete-existing-suite.log",
+    "log_sha256": "9c0cb70de03c25dcb4864c946a417d0b73aa886217014483dc3c40cc0dfca4f6",
+    "log_bytes": 404766,
+    "outcome_lines": [
+      "Failed!  - Failed:    20, Passed: 40322, Skipped:   100, Total: 40442, Duration: 28 m 41 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "env",
+      "PATH=/Users/alex/.local/share/lean-dotnet-tools:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin",
+      "PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib",
+      "PYTHONPATH=<workspace>/lean/.venv/lib/python3.11/site-packages",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "MPLBACKEND=Agg",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "DOTNET_ROLL_FORWARD=Major",
+      "JUPYTER_PATH=/Users/alex/.local/share/lean-jupyter:/Users/alex/.local/share/lean-jupyter/share/jupyter",
+      "uv",
+      "run",
+      "--no-sync",
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--filter",
+      "Name~ManualContinuousFuturesPositionRollover|Name~VBaseSignalExportDemonstration|Name~FundamentalRegressionAlgorithm|Name~AsynchronousUniverseRegressionAlgorithm|Name~UniverseSelectionAddAndRemove|Name~LiveOptionChainProviderReturnsFutureOptionData",
+      "--logger",
+      "trx;LogFileName=final-core-compatibility.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 40.81,
+    "check": "final-core-regression-compatibility-tests",
+    "evidence_record": "lean-final-core-regression-compatibility-tests.json",
+    "original_log": "lean-final-core-regression-compatibility-tests.log",
+    "log_sha256": "cd77bfcbd4ffe07849c3b427812b463664ec2481b82775dda97288969a6426de",
+    "log_bytes": 15553,
+    "outcome_lines": [
+      "Failed!  - Failed:     2, Passed:    10, Skipped:     0, Total:    12, Duration: 34 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "check",
+      "--python",
+      ".venv/bin/python"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 0.32,
+    "check": "final-main-package-consistency",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "46e27c1e4ca6c54694fca971615668c64065c55f9df39773e3cac20b932e9478",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-final-main-package-consistency.json",
+    "original_log": "lean-final-main-package-consistency.log",
+    "log_sha256": "e8e0cc0945b44455dbfe45ecff86cdf097879fea1a80a948cd29827e18739d56",
+    "log_bytes": 172,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "env",
+      "PATH=/Users/alex/.local/share/lean-dotnet-tools:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin",
+      "PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib",
+      "PYTHONPATH=<workspace>/lean/.venv/lib/python3.11/site-packages",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "NLTK_DATA=<workspace>/lean/.venv/nltk_data",
+      "MPLBACKEND=Agg",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "DOTNET_ROLL_FORWARD=Major",
+      "DOTNET_INTERACTIVE_CLI_TELEMETRY_OPTOUT=1",
+      "JUPYTER_PATH=/Users/alex/.local/share/lean-jupyter:/Users/alex/.local/share/lean-jupyter/share/jupyter",
+      "uv",
+      "run",
+      "--no-sync",
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--logger",
+      "trx;LogFileName=final-maintained-complete-existing-suite.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": null,
+    "seconds": null,
+    "check": "final-maintained-complete-existing-suite",
+    "interruption_reason": "Execution handle disappeared and matching process was absent before any terminal result or TRX was written; retained log is partial and does not prove a completed suite.",
+    "evidence_record": "lean-final-maintained-complete-existing-suite.json",
+    "original_log": "lean-final-maintained-complete-existing-suite.log",
+    "log_sha256": "eec809cb1086c472da50597e4e7fe187e1e222ec32ae794b870623e5a18e7c04",
+    "log_bytes": 292941,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "env",
+      "PATH=/Users/alex/.local/share/lean-dotnet-tools:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin",
+      "PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib",
+      "PYTHONPATH=<workspace>/lean/.venv/lib/python3.11/site-packages",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "NLTK_DATA=<workspace>/lean/.venv/nltk_data",
+      "MPLBACKEND=Agg",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "DOTNET_ROLL_FORWARD=Major",
+      "DOTNET_INTERACTIVE_CLI_TELEMETRY_OPTOUT=1",
+      "JUPYTER_PATH=/Users/alex/.local/share/lean-jupyter:/Users/alex/.local/share/lean-jupyter/share/jupyter",
+      "uv",
+      "run",
+      "--no-sync",
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--results-directory",
+      "TestResults/ayu",
+      "--logger",
+      "trx;LogFileName=final-maintained-reference-and-thread-complete-existing-suite.trx"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 1029.7,
+    "check": "final-maintained-reference-and-thread-complete-existing-suite",
+    "source_snapshot": {
+      "head": "31ddbce1c1bf7af7fcbaf093f7a539daa7b0bc9c",
+      "tracked_source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-final-maintained-reference-and-thread-complete-existing-suite.json",
+    "original_log": "lean-final-maintained-reference-and-thread-complete-existing-suite.log",
+    "log_sha256": "65e81de82a98db89ee209f6ea07c2b6aaf073db2f8436a2675ced119c16dedea",
+    "log_bytes": 370272,
+    "outcome_lines": [
+      "Failed!  - Failed:     1, Passed: 40341, Skipped:   100, Total: 40442, Duration: 16 m 56 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "env",
+      "PATH=<workspace>/lean/.venv/bin:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "dotnet",
+      "build",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-restore",
+      "--verbosity",
+      "minimal"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 37.34,
+    "check": "final-optional-workflow-tests-build",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "46e27c1e4ca6c54694fca971615668c64065c55f9df39773e3cac20b932e9478",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-final-optional-workflow-tests-build.json",
+    "original_log": "lean-final-optional-workflow-tests-build.log",
+    "log_sha256": "6808566278d4bb8b6570b0c577909a40f10ac1084421de708a772c2a5a9825dc",
+    "log_bytes": 2664306,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "dotnet",
+      "build",
+      "QuantConnect.Lean.sln",
+      "--configuration",
+      "Release",
+      "--nologo"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 61.97,
+    "check": "final-owned-thread-handshake-solution-build",
+    "source_snapshot": {
+      "head": "ceb904fd8bc310b67f3213a3bc6727d6ad8a691f",
+      "tracked_source_diff_sha256": "3b081b9de8540dbefc65107306a6d7c0824714338aa28e86e794fa9fe548cab9",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-final-owned-thread-handshake-solution-build.json",
+    "original_log": "lean-final-owned-thread-handshake-solution-build.log",
+    "log_sha256": "473c3c31b9489ec48c7444ca4c8a6271db8083456c38411431494e0c569a5a85",
+    "log_bytes": 2699076,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "env",
+      "PATH=/Users/alex/.local/share/lean-dotnet-tools:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin",
+      "PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib",
+      "PYTHONPATH=<workspace>/lean/.venv/lib/python3.11/site-packages",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "NLTK_DATA=<workspace>/lean/.venv/nltk_data",
+      "MPLBACKEND=Agg",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "DOTNET_ROLL_FORWARD=Major",
+      "DOTNET_INTERACTIVE_CLI_TELEMETRY_OPTOUT=1",
+      "JUPYTER_PATH=/Users/alex/.local/share/lean-jupyter:/Users/alex/.local/share/lean-jupyter/share/jupyter",
+      "uv",
+      "run",
+      "--no-sync",
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--results-directory",
+      "TestResults/ayu",
+      "--logger",
+      "trx;LogFileName=final-reference-and-thread-handshake-existing-cases.trx",
+      "--filter",
+      "FullyQualifiedName~PythonMemoryLeakTests|FullyQualifiedName~BasePythonWrapperTests|FullyQualifiedName~PythonWrapperTests|FullyQualifiedName~BackwardsCompatibilityFeeModelTests|FullyQualifiedName~UserDefinedUniverseTests"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 13.48,
+    "check": "final-reference-and-thread-handshake-existing-cases",
+    "source_snapshot": {
+      "head": "ceb904fd8bc310b67f3213a3bc6727d6ad8a691f",
+      "tracked_source_diff_sha256": "3b081b9de8540dbefc65107306a6d7c0824714338aa28e86e794fa9fe548cab9",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-final-reference-and-thread-handshake-existing-cases.json",
+    "original_log": "lean-final-reference-and-thread-handshake-existing-cases.log",
+    "log_sha256": "4f02ca90f6caeaa9662e5058033195f895c77843ccb4650de448de87a05a433e",
+    "log_bytes": 1634,
+    "outcome_lines": [
+      "Passed!  - Failed:     0, Passed:    67, Skipped:     0, Total:    67, Duration: 7 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "env",
+      "PATH=/Users/alex/.local/share/lean-dotnet-tools:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin",
+      "PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib",
+      "PYTHONPATH=<workspace>/lean/.venv/lib/python3.11/site-packages",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "NLTK_DATA=<workspace>/lean/.venv/nltk_data",
+      "MPLBACKEND=Agg",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "DOTNET_ROLL_FORWARD=Major",
+      "DOTNET_INTERACTIVE_CLI_TELEMETRY_OPTOUT=1",
+      "JUPYTER_PATH=/Users/alex/.local/share/lean-jupyter:/Users/alex/.local/share/lean-jupyter/share/jupyter",
+      "uv",
+      "run",
+      "--no-sync",
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--results-directory",
+      "TestResults/ayu",
+      "--logger",
+      "trx;LogFileName=final-reference-cleanup-complete-existing-suite.trx"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 1303.85,
+    "check": "final-reference-cleanup-complete-existing-suite",
+    "source_snapshot": {
+      "head": "ceb904fd8bc310b67f3213a3bc6727d6ad8a691f",
+      "tracked_source_diff_sha256": "f5d83af301b8779e05700c968fe60bdb09a38763e0223fcb9fc19668ae28d429",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-final-reference-cleanup-complete-existing-suite.json",
+    "original_log": "lean-final-reference-cleanup-complete-existing-suite.log",
+    "log_sha256": "fbc80cb307f8cc6ea1a0df711071dda65d376fa90707a8dcfe460beee2608a4b",
+    "log_bytes": 431235,
+    "outcome_lines": [
+      "Failed!  - Failed:     2, Passed: 40340, Skipped:   100, Total: 40442, Duration: 21 m 25 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-c",
+      "from google import genai; print(genai.__version__)"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 0.71,
+    "check": "genai-installed-version",
+    "evidence_record": "lean-genai-installed-version.json",
+    "original_log": "lean-genai-installed-version.log",
+    "log_sha256": "20835cc4de7f726d5ee8585d22a8d1a7aaa99f04ef325686d8d81cb342f3c2d8",
+    "log_bytes": 138,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "install",
+      "--python",
+      "/tmp/lean-third-party-probe/bin/python",
+      "cvxpy==1.8.2",
+      "highspy==1.12.0"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 1.48,
+    "check": "highs-compatible-resolved-probe",
+    "evidence_record": "lean-highs-compatible-resolved-probe.json",
+    "original_log": "lean-highs-compatible-resolved-probe.log",
+    "log_sha256": "a817074a80e6018ef94ea532070ab0dced3953d889b789b7b8fc807c30cec953",
+    "log_bytes": 423,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "install",
+      "--python",
+      "/tmp/lean-third-party-probe/bin/python",
+      "cvxpy==1.9.1",
+      "highspy==1.12.0"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 1.12,
+    "check": "highs-latest-compatible-cvxpy-probe",
+    "evidence_record": "lean-highs-latest-compatible-cvxpy-probe.json",
+    "original_log": "lean-highs-latest-compatible-cvxpy-probe.log",
+    "log_sha256": "0a7ae1fe6b453cd9bf92d4501e068a3fd5bcdd6f9d2d79aff2baeeaf630177aa",
+    "log_bytes": 471,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "env",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "OPENBLAS_NUM_THREADS=2",
+      "OMP_NUM_THREADS=2",
+      "/tmp/lean-third-party-probe/bin/python",
+      "-c",
+      "import cvxpy; import highspy; from ortools.linear_solver import pywraplp; solver=pywraplp.Solver.CreateSolver(\"GLOP\"); x=solver.NumVar(0,1,\"x\"); y=solver.NumVar(0,2,\"y\"); print(\"Number of variables =\",solver.NumVariables()); print(\"CVXPY\",cvxpy.__version__,\"HiGHS\",highspy.Highs().version()); z=cvxpy.Variable(); p=cvxpy.Problem(cvxpy.Minimize(z),[z>=1]); p.solve(solver=\"HIGHS\"); print(\"CVXPY real solve\",p.status,p.value)"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 3.7,
+    "check": "highs-latest-compatible-functional",
+    "evidence_record": "lean-highs-latest-compatible-functional.json",
+    "original_log": "lean-highs-latest-compatible-functional.log",
+    "log_sha256": "4460148679bd836e5d05150b274e7d6102e434392449e81427d6b3acd3f70911",
+    "log_bytes": 724,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "env",
+      "PATH=/Users/alex/.local/share/lean-dotnet-tools:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin",
+      "PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib",
+      "PYTHONPATH=<workspace>/lean/.venv/lib/python3.11/site-packages",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "NLTK_DATA=<workspace>/lean/.venv/nltk_data",
+      "MPLBACKEND=Agg",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "DOTNET_ROLL_FORWARD=Major",
+      "DOTNET_INTERACTIVE_CLI_TELEMETRY_OPTOUT=1",
+      "JUPYTER_PATH=/Users/alex/.local/share/lean-jupyter:/Users/alex/.local/share/lean-jupyter/share/jupyter",
+      "uv",
+      "run",
+      "--no-sync",
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--results-directory",
+      "TestResults/ayu",
+      "--logger",
+      "trx;LogFileName=invocation-reference-lifetime-existing-wrapper-tests.trx",
+      "--filter",
+      "FullyQualifiedName~PythonMemoryLeakTests|FullyQualifiedName~BasePythonWrapperTests|FullyQualifiedName~PythonWrapperTests|FullyQualifiedName~BackwardsCompatibilityFeeModelTests"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 10.95,
+    "check": "invocation-reference-lifetime-existing-wrapper-tests",
+    "source_snapshot": {
+      "head": "ceb904fd8bc310b67f3213a3bc6727d6ad8a691f",
+      "tracked_source_diff_sha256": "f5d83af301b8779e05700c968fe60bdb09a38763e0223fcb9fc19668ae28d429",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-invocation-reference-lifetime-existing-wrapper-tests.json",
+    "original_log": "lean-invocation-reference-lifetime-existing-wrapper-tests.log",
+    "log_sha256": "21ea1578638040c83fc5d7ea0b4b7a36c16dc37ba1349df464f0c9adae3d93f7",
+    "log_bytes": 1592,
+    "outcome_lines": [
+      "Passed!  - Failed:     0, Passed:    66, Skipped:     0, Total:    66, Duration: 5 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "env",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "OPENBLAS_NUM_THREADS=2",
+      "OMP_NUM_THREADS=2",
+      ".venv/bin/python",
+      "-c",
+      "import importlib.metadata as m; import cvxpy; import highspy; from ortools.linear_solver import pywraplp; solver=pywraplp.Solver.CreateSolver(\"GLOP\"); x=solver.NumVar(0,1,\"x\"); y=solver.NumVar(0,2,\"y\"); print(\"Number of variables =\",solver.NumVariables()); print(\"CVXPY attribute\",cvxpy.__version__,\"distribution\",m.version(\"cvxpy\"),\"HiGHS\",highspy.Highs().version()); z=cvxpy.Variable(); p=cvxpy.Problem(cvxpy.Minimize(z),[z>=1]); p.solve(solver=\"HIGHS\"); print(\"CVXPY real solve\",p.status,p.value)"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 3.35,
+    "check": "locked-native-solvers-functional",
+    "evidence_record": "lean-locked-native-solvers-functional.json",
+    "original_log": "lean-locked-native-solvers-functional.log",
+    "log_sha256": "98751dc0ab7cb0680cd98f71b9d7aaaf40e50d34ec9e08e42d05514c4d7a0e94",
+    "log_bytes": 811,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "env",
+      "PATH=/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin",
+      "PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib",
+      "PYTHONPATH=<workspace>/lean/.venv/lib/python3.11/site-packages",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "MPLBACKEND=Agg",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "DOTNET_ROLL_FORWARD=Major",
+      "uv",
+      "run",
+      "--no-sync",
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--filter",
+      "FullyQualifiedName~PythonMemoryLeakTests",
+      "--logger",
+      "trx;LogFileName=memory-leak-original-isolated-diagnostic.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 9.02,
+    "check": "memory-leak-original-isolated-diagnostic",
+    "source_snapshot": {
+      "head": "ceb904fd8bc310b67f3213a3bc6727d6ad8a691f",
+      "tracked_source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-memory-leak-original-isolated-diagnostic.json",
+    "original_log": "lean-memory-leak-original-isolated-diagnostic.log",
+    "log_sha256": "425badbde706e482368e9951d9f0f7cfe928e21b584ca41c59601fb12a40b8d0",
+    "log_bytes": 1174,
+    "outcome_lines": [
+      "Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 3 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "nltk.downloader",
+      "-d",
+      ".venv/nltk_data",
+      "punkt",
+      "punkt_tab",
+      "vader_lexicon"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 10.43,
+    "check": "nltk-required-resources",
+    "evidence_record": "lean-nltk-required-resources.json",
+    "original_log": "lean-nltk-required-resources.log",
+    "log_sha256": "89f12a86cc8c0974c4a5604315c776ad4f65264737d4b0f0a06ca526983ac790",
+    "log_bytes": 643,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "env",
+      "PATH=<workspace>/lean/.venv/bin:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+      "PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib",
+      "PYTHONPATH=<workspace>/lean/.venv/lib/python3.11/site-packages",
+      "NLTK_DATA=<workspace>/lean/.venv/nltk_data",
+      "MPLBACKEND=Agg",
+      "PYTHONNET_RUNTIME=coreclr",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "OPENBLAS_NUM_THREADS=2",
+      "OMP_NUM_THREADS=2",
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--filter",
+      "FullyQualifiedName~QuantConnect.Tests.Python.PythonPackagesTests",
+      "--logger",
+      "trx;LogFileName=optional-cohort-complete-python-fixture.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 161.42,
+    "check": "optional-cohort-complete-python-fixture",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "1677f91c5e49835071db8c20a515e48db4f9284118428569076d137c3d312760",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-cohort-complete-python-fixture.json",
+    "original_log": "lean-optional-cohort-complete-python-fixture.log",
+    "log_sha256": "01647cfd2139c7609fb156220640f8a8e967d00900ddaf8e5d3da78dbc7b6982",
+    "log_bytes": 4666,
+    "outcome_lines": [
+      "Failed!  - Failed:     1, Passed:   137, Skipped:     0, Total:   138, Duration: 2 m 36 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "uv",
+      "lock",
+      "--upgrade-package",
+      "darts"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 3.57,
+    "check": "optional-cohort-main-darts-lock",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "03aa7676b98e4dc76b5797265e6074d401e41e52f1b2d14e6e41f168117c4504",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-cohort-main-darts-lock.json",
+    "original_log": "lean-optional-cohort-main-darts-lock.log",
+    "log_sha256": "b99e897b11109a4e15fbda9b3c933f34e04e10d55b3005a05691dfc8b2604079",
+    "log_bytes": 186,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "check"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 0.23,
+    "check": "optional-cohort-main-darts-pip-check",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "03aa7676b98e4dc76b5797265e6074d401e41e52f1b2d14e6e41f168117c4504",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-cohort-main-darts-pip-check.json",
+    "original_log": "lean-optional-cohort-main-darts-pip-check.log",
+    "log_sha256": "f5630cb95c4aa3d37cd7e8a7e5a51a832f68209aa4d3b48c46cd0e2c252d15bd",
+    "log_bytes": 140,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "compile",
+      "/tmp/lean-optional-cohort-resolver/latest-main-darts.in",
+      "--python-version",
+      "3.11",
+      "--python-platform",
+      "aarch64-apple-darwin",
+      "--only-binary",
+      ":all:",
+      "--upgrade",
+      "--output-file",
+      "<workspace>/docs/maintenance-2026-10-12/lean-optional-cohort-latest-main-darts.txt",
+      "--quiet"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 0.63,
+    "check": "optional-cohort-main-darts-resolve",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "dbe1049ee26edf8195f40bf82a92c6906d8981bbd3522476c32b8d8378bd2789",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-cohort-main-darts-resolve.json",
+    "original_log": "lean-optional-cohort-main-darts-resolve.log",
+    "log_sha256": "7126f2291a0d8e78bdb90695adb1f19d84e26082114318fef5f928802280cabe",
+    "log_bytes": 697,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "compile",
+      "/tmp/lean-optional-cohort-resolver/latest-main-darts.in",
+      "--python-version",
+      "3.11",
+      "--python-platform",
+      "aarch64-apple-darwin",
+      "--upgrade",
+      "--output-file",
+      "<workspace>/docs/maintenance-2026-10-12/lean-optional-cohort-latest-main-darts.txt",
+      "--quiet"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 0.27,
+    "check": "optional-cohort-main-darts-source-metadata-resolve",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "dbe1049ee26edf8195f40bf82a92c6906d8981bbd3522476c32b8d8378bd2789",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-cohort-main-darts-source-metadata-resolve.json",
+    "original_log": "lean-optional-cohort-main-darts-source-metadata-resolve.log",
+    "log_sha256": "f103e85a011de30037f4aedf6cd43c0203b10c34add7493dfe32e10c12a83ee6",
+    "log_bytes": 353,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "sync",
+      "--locked",
+      "--group",
+      "third-party"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 0.42,
+    "check": "optional-cohort-main-darts-sync",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "03aa7676b98e4dc76b5797265e6074d401e41e52f1b2d14e6e41f168117c4504",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-cohort-main-darts-sync.json",
+    "original_log": "lean-optional-cohort-main-darts-sync.log",
+    "log_sha256": "656577492d47edf5617a44d1657bf5e99e85c075ab448c7b1e1c9daebd5e1e84",
+    "log_bytes": 241,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "compile",
+      "/tmp/lean-optional-cohort-resolver/numpy1-gpflow.in",
+      "--python-version",
+      "3.12",
+      "--python-platform",
+      "aarch64-apple-darwin",
+      "--upgrade",
+      "--output-file",
+      "<workspace>/docs/maintenance-2026-10-12/lean-optional-cohort-numpy1-gpflow-py312.txt",
+      "--quiet"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 3.83,
+    "check": "optional-cohort-numpy1-gpflow-py312-resolve",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "dbe1049ee26edf8195f40bf82a92c6906d8981bbd3522476c32b8d8378bd2789",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-cohort-numpy1-gpflow-py312-resolve.json",
+    "original_log": "lean-optional-cohort-numpy1-gpflow-py312-resolve.log",
+    "log_sha256": "7daa3ffd3bef8a80b9cea21927d637e61b71cf164b48be9d12a36777dd399437",
+    "log_bytes": 351,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "compile",
+      "/tmp/lean-optional-cohort-resolver/numpy1-gpflow.in",
+      "--python-version",
+      "3.15",
+      "--python-platform",
+      "aarch64-apple-darwin",
+      "--only-binary",
+      ":all:",
+      "--upgrade",
+      "--output-file",
+      "<workspace>/docs/maintenance-2026-10-12/lean-optional-cohort-numpy1-gpflow-py315.txt",
+      "--quiet"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 1.09,
+    "check": "optional-cohort-numpy1-gpflow-py315-resolve",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "dbe1049ee26edf8195f40bf82a92c6906d8981bbd3522476c32b8d8378bd2789",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-cohort-numpy1-gpflow-py315-resolve.json",
+    "original_log": "lean-optional-cohort-numpy1-gpflow-py315-resolve.log",
+    "log_sha256": "e1b05132411ef088839c7adb6020c4242c51683ddb7c0546c29674aedf57f732",
+    "log_bytes": 1009,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "compile",
+      "/tmp/lean-optional-cohort-resolver/pandas-ta.in",
+      "--python-version",
+      "3.13",
+      "--python-platform",
+      "aarch64-apple-darwin",
+      "--only-binary",
+      ":all:",
+      "--upgrade",
+      "--output-file",
+      "<workspace>/docs/maintenance-2026-10-12/lean-optional-cohort-pandas-ta-py313.txt",
+      "--quiet"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 0.89,
+    "check": "optional-cohort-pandas-ta-py313-resolve",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "dbe1049ee26edf8195f40bf82a92c6906d8981bbd3522476c32b8d8378bd2789",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-cohort-pandas-ta-py313-resolve.json",
+    "original_log": "lean-optional-cohort-pandas-ta-py313-resolve.log",
+    "log_sha256": "31598ccf593ac67382b367147e405a171f98ddc5a186d04a7db8ba9e84c56130",
+    "log_bytes": 369,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "compile",
+      "/tmp/lean-optional-cohort-resolver/pandas-ta.in",
+      "--python-version",
+      "3.15",
+      "--python-platform",
+      "aarch64-apple-darwin",
+      "--only-binary",
+      ":all:",
+      "--upgrade",
+      "--output-file",
+      "<workspace>/docs/maintenance-2026-10-12/lean-optional-cohort-pandas-ta-py315.txt",
+      "--quiet"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 0.87,
+    "check": "optional-cohort-pandas-ta-py315-resolve",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "dbe1049ee26edf8195f40bf82a92c6906d8981bbd3522476c32b8d8378bd2789",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-cohort-pandas-ta-py315-resolve.json",
+    "original_log": "lean-optional-cohort-pandas-ta-py315-resolve.log",
+    "log_sha256": "e059a784ac7e592ff015f7c1e043fc8474c0987906ef221ace63965237ff5ddd",
+    "log_bytes": 816,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "compile",
+      "/tmp/lean-optional-cohort-resolver/pandas2-tfdf.in",
+      "--python-version",
+      "3.12",
+      "--python-platform",
+      "aarch64-apple-darwin",
+      "--upgrade",
+      "--output-file",
+      "<workspace>/docs/maintenance-2026-10-12/lean-optional-cohort-pandas2-tfdf-py312.txt",
+      "--quiet"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 2.7,
+    "check": "optional-cohort-pandas2-tfdf-py312-resolve",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "dbe1049ee26edf8195f40bf82a92c6906d8981bbd3522476c32b8d8378bd2789",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-cohort-pandas2-tfdf-py312-resolve.json",
+    "original_log": "lean-optional-cohort-pandas2-tfdf-py312-resolve.log",
+    "log_sha256": "2a5f020a0ac3e8a789c69c546d934ad10db46b69dd95a9591f3ed9528092c506",
+    "log_bytes": 349,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "compile",
+      "/tmp/lean-optional-cohort-resolver/pandas2-tfdf.in",
+      "--python-version",
+      "3.15",
+      "--python-platform",
+      "aarch64-apple-darwin",
+      "--only-binary",
+      ":all:",
+      "--upgrade",
+      "--output-file",
+      "<workspace>/docs/maintenance-2026-10-12/lean-optional-cohort-pandas2-tfdf-py315.txt",
+      "--quiet"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 0.83,
+    "check": "optional-cohort-pandas2-tfdf-py315-resolve",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "dbe1049ee26edf8195f40bf82a92c6906d8981bbd3522476c32b8d8378bd2789",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-cohort-pandas2-tfdf-py315-resolve.json",
+    "original_log": "lean-optional-cohort-pandas2-tfdf-py315-resolve.log",
+    "log_sha256": "9f2fdae68656698120c4b4859ee52f03a7421f298f758da3ddb2b2bd12c440d7",
+    "log_bytes": 696,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "env",
+      "PATH=<workspace>/lean/.venv/bin:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "dotnet",
+      "build",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-restore",
+      "--verbosity",
+      "minimal"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 43.6,
+    "check": "optional-cohort-tests-build",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "1677f91c5e49835071db8c20a515e48db4f9284118428569076d137c3d312760",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-cohort-tests-build.json",
+    "original_log": "lean-optional-cohort-tests-build.log",
+    "log_sha256": "253a5e8821f3290c00d9c9ba23fe530f7310d0eb90ffc76adca51fc46432b6ce",
+    "log_bytes": 2664306,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "check",
+      "--python",
+      "python-environments/numpy1-gpflow/.venv/bin/python"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 0.08,
+    "check": "optional-numpy1-gpflow-compatible-consistency",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "1677f91c5e49835071db8c20a515e48db4f9284118428569076d137c3d312760",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-numpy1-gpflow-compatible-consistency.json",
+    "original_log": "lean-optional-numpy1-gpflow-compatible-consistency.log",
+    "log_sha256": "2a3eb6bbdaabcbc024b8acf99cfb30fa53204357f88cf14e36568583fee585e8",
+    "log_bytes": 282,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "lock",
+      "--upgrade"
+    ],
+    "cwd": "<workspace>/lean/python-environments/numpy1-gpflow",
+    "exit_code": 0,
+    "seconds": 0.25,
+    "check": "optional-numpy1-gpflow-compatible-lock",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-numpy1-gpflow-compatible-lock.json",
+    "original_log": "lean-optional-numpy1-gpflow-compatible-lock.log",
+    "log_sha256": "5447a258c52baa685cd6fbd8a1a8510bd85c38a77ac67d47fb2888f14c0d854c",
+    "log_bytes": 179,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "sync",
+      "--locked"
+    ],
+    "cwd": "<workspace>/lean/python-environments/numpy1-gpflow",
+    "exit_code": 0,
+    "seconds": 0.21,
+    "check": "optional-numpy1-gpflow-compatible-sync",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-numpy1-gpflow-compatible-sync.json",
+    "original_log": "lean-optional-numpy1-gpflow-compatible-sync.log",
+    "log_sha256": "b3e41ce6b8de37d19194d0e75667f9f10eb12bccb52653dbf78f498444eaf5e5",
+    "log_bytes": 265,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "lock",
+      "--upgrade"
+    ],
+    "cwd": "<workspace>/lean/python-environments/numpy1-gpflow",
+    "exit_code": 0,
+    "seconds": 0.95,
+    "check": "optional-numpy1-gpflow-lock",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-numpy1-gpflow-lock.json",
+    "original_log": "lean-optional-numpy1-gpflow-lock.log",
+    "log_sha256": "e0fc9a82bd79a198d13e213a4ef72a76b1a556582c37e05ce3c83246c1f88369",
+    "log_bytes": 165,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "sync",
+      "--locked"
+    ],
+    "cwd": "<workspace>/lean/python-environments/numpy1-gpflow",
+    "exit_code": 0,
+    "seconds": 37.55,
+    "check": "optional-numpy1-gpflow-sync",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-numpy1-gpflow-sync.json",
+    "original_log": "lean-optional-numpy1-gpflow-sync.log",
+    "log_sha256": "cc680f8f25f8ea3850661e311bc81a059d9c5ba8288a3d705880cb47ba2b81c0",
+    "log_bytes": 3019,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "check",
+      "--python",
+      "<workspace>/lean/python-environments/pystan/.venv/bin/python"
+    ],
+    "exit_code": 0,
+    "evidence_record": "lean-optional-package-consistency.json",
+    "original_log": "lean-optional-package-consistency.log",
+    "log_available": false
+  },
+  {
+    "command": [
+      "uv",
+      "lock",
+      "--upgrade"
+    ],
+    "cwd": "<workspace>/lean/python-environments/pandas-ta",
+    "exit_code": 0,
+    "seconds": 0.2,
+    "check": "optional-pandas-ta-lock",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-pandas-ta-lock.json",
+    "original_log": "lean-optional-pandas-ta-lock.log",
+    "log_sha256": "c1bcdde00b51d1d1f91a1676408faac4dd5950e05f7889454d7cdb9972822571",
+    "log_bytes": 159,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "sync",
+      "--locked"
+    ],
+    "cwd": "<workspace>/lean/python-environments/pandas-ta",
+    "exit_code": 0,
+    "seconds": 1.85,
+    "check": "optional-pandas-ta-sync",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-pandas-ta-sync.json",
+    "original_log": "lean-optional-pandas-ta-sync.log",
+    "log_sha256": "e198116a6e0d6f8c18d3209d8d6406e3aebcdeed7e3ec022ae35a35ddeca7668",
+    "log_bytes": 551,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "lock",
+      "--upgrade"
+    ],
+    "cwd": "<workspace>/lean/python-environments/pandas2-tfdf",
+    "exit_code": 0,
+    "seconds": 0.76,
+    "check": "optional-pandas2-tfdf-compatible-lock",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-pandas2-tfdf-compatible-lock.json",
+    "original_log": "lean-optional-pandas2-tfdf-compatible-lock.log",
+    "log_sha256": "da5286698216699812b99c684289aea4f87f6f697bd80bbcf66c2a95a7977c76",
+    "log_bytes": 172,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "sync",
+      "--locked"
+    ],
+    "cwd": "<workspace>/lean/python-environments/pandas2-tfdf",
+    "exit_code": 0,
+    "seconds": 0.48,
+    "check": "optional-pandas2-tfdf-compatible-sync",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-pandas2-tfdf-compatible-sync.json",
+    "original_log": "lean-optional-pandas2-tfdf-compatible-sync.log",
+    "log_sha256": "d4ffafa0b2de32c38be6abe28df77b3cc2f3e2bc2b6967a59e93d56ff6143a35",
+    "log_bytes": 295,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "lock",
+      "--upgrade"
+    ],
+    "cwd": "<workspace>/lean/python-environments/pandas2-tfdf",
+    "exit_code": 0,
+    "seconds": 0.54,
+    "check": "optional-pandas2-tfdf-lock",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-pandas2-tfdf-lock.json",
+    "original_log": "lean-optional-pandas2-tfdf-lock.log",
+    "log_sha256": "3489e916ee052ac34785d70ed1f6647b355644eb9f4836cb20e6c1e595ce6d81",
+    "log_bytes": 163,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "sync",
+      "--locked"
+    ],
+    "cwd": "<workspace>/lean/python-environments/pandas2-tfdf",
+    "exit_code": 0,
+    "seconds": 61.36,
+    "check": "optional-pandas2-tfdf-sync",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-pandas2-tfdf-sync.json",
+    "original_log": "lean-optional-pandas2-tfdf-sync.log",
+    "log_sha256": "b7675fee81485fb58f3235b5c4ac3c5a65db5532eac5c3518132b9288f476860",
+    "log_bytes": 3246,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "env",
+      "-u",
+      "PYTHONPATH",
+      "-u",
+      "PYTHONHOME",
+      "-u",
+      "VIRTUAL_ENV",
+      "-u",
+      "PYTHONNET_PYDLL",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "MPLBACKEND=Agg",
+      "python-environments/pandas2-tfdf/.venv/bin/python",
+      "-c",
+      "import gluonts,pyfolio,modin,tensorflow_decision_forests,ydf; print(gluonts.__version__,pyfolio.__version__,modin.__version__,tensorflow_decision_forests.__version__,ydf.__version__)"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 6.38,
+    "check": "optional-pandas2-tfdf-versions",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "1677f91c5e49835071db8c20a515e48db4f9284118428569076d137c3d312760",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-pandas2-tfdf-versions.json",
+    "original_log": "lean-optional-pandas2-tfdf-versions.log",
+    "log_sha256": "7f3eeb654137902207047359000be5852787a5a7c62d5ba553e87da021f98d05",
+    "log_bytes": 856,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "check",
+      "--python",
+      "python-environments/pystan/.venv/bin/python"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 0.03,
+    "check": "optional-pystan314-consistency",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "1677f91c5e49835071db8c20a515e48db4f9284118428569076d137c3d312760",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-pystan314-consistency.json",
+    "original_log": "lean-optional-pystan314-consistency.log",
+    "log_sha256": "976fd99446b87e3e5ebddeb25b1ae33b7b47265ec844e6597d71890a006bdd66",
+    "log_bytes": 266,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "lock",
+      "--upgrade"
+    ],
+    "cwd": "<workspace>/lean/python-environments/pystan",
+    "exit_code": 0,
+    "seconds": 0.76,
+    "check": "optional-pystan314-lock",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-pystan314-lock.json",
+    "original_log": "lean-optional-pystan314-lock.log",
+    "log_sha256": "f8de696beb550d9b3767e201b5f924fd2f233027fa80c5ade5e0addd4c35c4b2",
+    "log_bytes": 156,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "sync",
+      "--locked"
+    ],
+    "cwd": "<workspace>/lean/python-environments/pystan",
+    "exit_code": 0,
+    "seconds": 18.98,
+    "check": "optional-pystan314-sync",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-pystan314-sync.json",
+    "original_log": "lean-optional-pystan314-sync.log",
+    "log_sha256": "6cb7cd5682c2e55164aa92b9892c43f9b8f4178974e69904b329c6d416f62304",
+    "log_bytes": 785,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "compile",
+      "/tmp/lean-pystan-latest.in",
+      "--python-version",
+      "3.15",
+      "--python-platform",
+      "aarch64-apple-darwin",
+      "--only-binary",
+      ":all:"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 1.11,
+    "check": "optional-pystan315-wheel-attempt",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "1677f91c5e49835071db8c20a515e48db4f9284118428569076d137c3d312760",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-optional-pystan315-wheel-attempt.json",
+    "original_log": "lean-optional-pystan315-wheel-attempt.log",
+    "log_sha256": "0ccb155413070d5ef2fe2d6549d93778e64d8047389b5c2ec9f5c188118b0715",
+    "log_bytes": 753,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "env",
+      "PATH=/Users/alex/.local/share/lean-dotnet-tools:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin",
+      "PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib",
+      "PYTHONPATH=<workspace>/lean/.venv/lib/python3.11/site-packages",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "NLTK_DATA=<workspace>/lean/.venv/nltk_data",
+      "MPLBACKEND=Agg",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "DOTNET_ROLL_FORWARD=Major",
+      "DOTNET_INTERACTIVE_CLI_TELEMETRY_OPTOUT=1",
+      "JUPYTER_PATH=/Users/alex/.local/share/lean-jupyter:/Users/alex/.local/share/lean-jupyter/share/jupyter",
+      "uv",
+      "run",
+      "--no-sync",
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--results-directory",
+      "TestResults/ayu",
+      "--logger",
+      "trx;LogFileName=original-universe-thread-safety-diagnostic.trx",
+      "--filter",
+      "FullyQualifiedName~UserDefinedUniverseTests.ThreadSafety"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 6.03,
+    "check": "original-universe-thread-safety-diagnostic",
+    "source_snapshot": {
+      "head": "ceb904fd8bc310b67f3213a3bc6727d6ad8a691f",
+      "tracked_source_diff_sha256": "f5d83af301b8779e05700c968fe60bdb09a38763e0223fcb9fc19668ae28d429",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-original-universe-thread-safety-diagnostic.json",
+    "original_log": "lean-original-universe-thread-safety-diagnostic.log",
+    "log_sha256": "7a607cb5302cc21b7c159e4f97e8a4bff913dfba44556ccdc2862cdfd80ce585",
+    "log_bytes": 1453,
+    "outcome_lines": [
+      "Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 1 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "env",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "OPENBLAS_NUM_THREADS=2",
+      "OMP_NUM_THREADS=2",
+      "/tmp/lean-third-party-probe/bin/python",
+      "-c",
+      "import cvxpy; import highspy; from ortools.linear_solver import pywraplp; solver=pywraplp.Solver.CreateSolver(\"GLOP\"); x=solver.NumVar(0,1,\"x\"); y=solver.NumVar(0,2,\"y\"); print(\"Number of variables =\",solver.NumVariables()); print(\"HiGHS\",highspy.Highs().version())"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 2.47,
+    "check": "ortools-highs-same-abi-functional",
+    "evidence_record": "lean-ortools-highs-same-abi-functional.json",
+    "original_log": "lean-ortools-highs-same-abi-functional.log",
+    "log_sha256": "f89dca99a3abee8c044d0c835d04c14e8a61e448790a6b521295103c327869f3",
+    "log_bytes": 519,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "install",
+      "--python",
+      "/tmp/lean-third-party-probe/bin/python",
+      "ortools==9.14.6206"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 7.49,
+    "check": "ortools-newest-compatible-protobuf-probe-install",
+    "evidence_record": "lean-ortools-newest-compatible-protobuf-probe-install.json",
+    "original_log": "lean-ortools-newest-compatible-protobuf-probe-install.log",
+    "log_sha256": "ce8d726e194ab6b2fa69042c61e30d9f76b74e55053867b37fba06258a958dd5",
+    "log_bytes": 468,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "env",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "OPENBLAS_NUM_THREADS=2",
+      "OMP_NUM_THREADS=2",
+      ".venv/bin/python",
+      "-X",
+      "faulthandler",
+      "-c",
+      "import tensorflow; from ortools.linear_solver import pywraplp; s=pywraplp.Solver.CreateSolver(\"GLOP\"); s.NumVar(0,1,\"x\"); s.NumVar(0,2,\"y\"); print(\"variables\",s.NumVariables())"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": -6,
+    "seconds": 7.92,
+    "check": "ortools-tensorflow-native-probe",
+    "evidence_record": "lean-ortools-tensorflow-native-probe.json",
+    "original_log": "lean-ortools-tensorflow-native-probe.log",
+    "log_sha256": "5e6c6a2eecf1d3f019a4973fbe4194626eb700aec59d2a863f7056f68653b8bb",
+    "log_bytes": 6200,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "env",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "OPENBLAS_NUM_THREADS=2",
+      "OMP_NUM_THREADS=2",
+      ".venv/bin/python",
+      "-X",
+      "faulthandler",
+      "-c",
+      "import torch; from ortools.linear_solver import pywraplp; s=pywraplp.Solver.CreateSolver(\"GLOP\"); s.NumVar(0,1,\"x\"); s.NumVar(0,2,\"y\"); print(\"variables\",s.NumVariables())"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 1.78,
+    "check": "ortools-torch-native-probe",
+    "evidence_record": "lean-ortools-torch-native-probe.json",
+    "original_log": "lean-ortools-torch-native-probe.log",
+    "log_sha256": "1b14c8fb0114c54d59beab47d305f197f0a8787e9f3fbe729a02646503886c8b",
+    "log_bytes": 398,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "env",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "OPENBLAS_NUM_THREADS=2",
+      "OMP_NUM_THREADS=2",
+      ".venv/bin/python",
+      "-X",
+      "faulthandler",
+      "-c",
+      "import ydf; from ortools.linear_solver import pywraplp; s=pywraplp.Solver.CreateSolver(\"GLOP\"); s.NumVar(0,1,\"x\"); s.NumVar(0,2,\"y\"); print(\"variables\",s.NumVariables())"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 0.87,
+    "check": "ortools-ydf-native-probe",
+    "evidence_record": "lean-ortools-ydf-native-probe.json",
+    "original_log": "lean-ortools-ydf-native-probe.log",
+    "log_sha256": "82f3bf600c582a936112861508367b25c6bf1e915cd067f8aeec121bf6062426",
+    "log_bytes": 396,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "env",
+      "PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib",
+      "PYTHONPATH=<workspace>/lean/.venv/lib/python3.11/site-packages",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "uv",
+      "run",
+      "--no-sync",
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--filter",
+      "Name~UniverseSelectionAddAndRemove",
+      "--logger",
+      "trx;LogFileName=owned-clock-universe.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 8.69,
+    "check": "owned-clock-universe-existing-test",
+    "evidence_record": "lean-owned-clock-universe-existing-test.json",
+    "original_log": "lean-owned-clock-universe-existing-test.log",
+    "log_sha256": "19dc2900059462b243f579f0daf8e39789cb23c2bd7b5bced3f655967724c454",
+    "log_bytes": 965,
+    "outcome_lines": [
+      "Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 271 ms - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--filter",
+      "FullyQualifiedName~PandasConverterTests",
+      "--logger",
+      "trx;LogFileName=pandas3-final.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 107.89,
+    "check": "pandas3-assertion-preserving-tests",
+    "evidence_record": "lean-pandas3-assertion-preserving-tests.json",
+    "original_log": "lean-pandas3-assertion-preserving-tests.log",
+    "log_sha256": "63bb5b5497fa08e06a6bb65c3e5cab584b7604d4c2ed46c00b6d705460f175b1",
+    "log_bytes": 1352221,
+    "outcome_lines": [
+      "Passed!  - Failed:     0, Passed:  1217, Skipped:     0, Total:  1217, Duration: 27 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--filter",
+      "FullyQualifiedName~PandasConverterTests",
+      "--logger",
+      "trx;LogFileName=pandas3.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 94.45,
+    "check": "pandas3-existing-tests",
+    "evidence_record": "lean-pandas3-existing-tests.json",
+    "original_log": "lean-pandas3-existing-tests.log",
+    "log_sha256": "76ae79a5e50050d59671e2061e12a1115e1967985f35a3f3d8e9bb4c31ab8dcc",
+    "log_bytes": 1397091,
+    "outcome_lines": [
+      "Failed!  - Failed:    13, Passed:  1204, Skipped:     0, Total:  1217, Duration: 25 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "env",
+      "PATH=<workspace>/lean/.venv/bin:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+      "PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib",
+      "PYTHONPATH=<workspace>/lean/.venv/lib/python3.11/site-packages",
+      "NLTK_DATA=<workspace>/lean/.venv/nltk_data",
+      "MPLBACKEND=Agg",
+      "PYTHONNET_RUNTIME=coreclr",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "OPENBLAS_NUM_THREADS=2",
+      "OMP_NUM_THREADS=2",
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--filter",
+      "FullyQualifiedName~HandlesAllTypes|FullyQualifiedName~ProcessesOrdersInLivePaperTrading",
+      "--logger",
+      "trx;LogFileName=postfull-async-fixture-baseline.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 23.17,
+    "check": "postfull-async-fixture-baseline",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "dbe1049ee26edf8195f40bf82a92c6906d8981bbd3522476c32b8d8378bd2789",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-postfull-async-fixture-baseline.json",
+    "original_log": "lean-postfull-async-fixture-baseline.log",
+    "log_sha256": "1d5d9964b59e10842f24ca47cdbf5c97d3ce421e6e1fb4f0400c76a4a1942fde",
+    "log_bytes": 22772,
+    "outcome_lines": [
+      "Failed!  - Failed:     1, Passed:    30, Skipped:     0, Total:    31, Duration: 14 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "env",
+      "PATH=<workspace>/lean/.venv/bin:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+      "PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib",
+      "PYTHONPATH=<workspace>/lean/.venv/lib/python3.11/site-packages",
+      "NLTK_DATA=<workspace>/lean/.venv/nltk_data",
+      "MPLBACKEND=Agg",
+      "PYTHONNET_RUNTIME=coreclr",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "OPENBLAS_NUM_THREADS=2",
+      "OMP_NUM_THREADS=2",
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--filter",
+      "FullyQualifiedName~HandlesAllTypes|FullyQualifiedName~ProcessesOrdersInLivePaperTrading|FullyQualifiedName~HvplotTest|FullyQualifiedName~PythonPackagesTests.Pyomo|FullyQualifiedName~PythonPackagesTests.Nltk|FullyQualifiedName~PythonVirtualEnvironmentTests.VirtualEnvironment|FullyQualifiedName~PythonPackagesTests.Darts",
+      "--logger",
+      "trx;LogFileName=postfull-delivery-handshake-focused.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 32.58,
+    "check": "postfull-delivery-handshake-focused-tests",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "16ee3011fb18f28c32ec8c998cd86426461bcae238b813b4fe19db42f70a9baa",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-postfull-delivery-handshake-focused-tests.json",
+    "original_log": "lean-postfull-delivery-handshake-focused-tests.log",
+    "log_sha256": "adde450ff1274ded6b3bbfd06e4e33f8201ca27072e6dd519a946ddd27c06dcd",
+    "log_bytes": 23355,
+    "outcome_lines": [
+      "Failed!  - Failed:     1, Passed:    36, Skipped:     0, Total:    37, Duration: 27 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "env",
+      "PATH=<workspace>/lean/.venv/bin:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "dotnet",
+      "build",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-restore",
+      "--verbosity",
+      "minimal"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 53.28,
+    "check": "postfull-delivery-handshake-tests-build",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "16ee3011fb18f28c32ec8c998cd86426461bcae238b813b4fe19db42f70a9baa",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-postfull-delivery-handshake-tests-build.json",
+    "original_log": "lean-postfull-delivery-handshake-tests-build.log",
+    "log_sha256": "b48e0fae10c90260eda70cea9d8bcd178081144d1ae0f2cf923fa8ca76f70f58",
+    "log_bytes": 2664306,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "env",
+      "PATH=<workspace>/lean/.venv/bin:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "dotnet",
+      "build",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-restore",
+      "--verbosity",
+      "minimal"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 34.55,
+    "check": "postfull-exchange-aware-delivery-tests-build",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "d2cf18d27ed2a24233d7cf191d85345544d5a63c319e84d2c64ffc6eb7af50b3",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-postfull-exchange-aware-delivery-tests-build.json",
+    "original_log": "lean-postfull-exchange-aware-delivery-tests-build.log",
+    "log_sha256": "518b96a810f89576d0e98da36d866a361d5bbb4f0dff82625aad0bf0b2e2a970",
+    "log_bytes": 2664306,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "env",
+      "PATH=<workspace>/lean/.venv/bin:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+      "PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib",
+      "PYTHONPATH=<workspace>/lean/.venv/lib/python3.11/site-packages",
+      "NLTK_DATA=<workspace>/lean/.venv/nltk_data",
+      "MPLBACKEND=Agg",
+      "PYTHONNET_RUNTIME=coreclr",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "OPENBLAS_NUM_THREADS=2",
+      "OMP_NUM_THREADS=2",
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--filter",
+      "FullyQualifiedName~HandlesAllTypes|FullyQualifiedName~ProcessesOrdersInLivePaperTrading|FullyQualifiedName~HvplotTest|FullyQualifiedName~PythonPackagesTests.Pyomo|FullyQualifiedName~PythonPackagesTests.Nltk|FullyQualifiedName~PythonVirtualEnvironmentTests.VirtualEnvironment|FullyQualifiedName~PythonPackagesTests.Darts",
+      "--logger",
+      "trx;LogFileName=postfull-exchange-aware-focused.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 21.68,
+    "check": "postfull-exchange-aware-focused-tests",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "d2cf18d27ed2a24233d7cf191d85345544d5a63c319e84d2c64ffc6eb7af50b3",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-postfull-exchange-aware-focused-tests.json",
+    "original_log": "lean-postfull-exchange-aware-focused-tests.log",
+    "log_sha256": "f47075c85196cd047266e26fab4c5bb0563653c3476157c1281b4c6ad40c07cc",
+    "log_bytes": 17369,
+    "outcome_lines": [
+      "Passed!  - Failed:     0, Passed:    37, Skipped:     0, Total:    37, Duration: 16 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "env",
+      "PATH=<workspace>/lean/.venv/bin:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+      "PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib",
+      "PYTHONPATH=<workspace>/lean/.venv/lib/python3.11/site-packages",
+      "NLTK_DATA=<workspace>/lean/.venv/nltk_data",
+      "MPLBACKEND=Agg",
+      "PYTHONNET_RUNTIME=coreclr",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "OPENBLAS_NUM_THREADS=2",
+      "OMP_NUM_THREADS=2",
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--filter",
+      "FullyQualifiedName~HandlesAllTypes|FullyQualifiedName~ProcessesOrdersInLivePaperTrading|FullyQualifiedName~HvplotTest|FullyQualifiedName~PythonPackagesTests.Pyomo|FullyQualifiedName~PythonPackagesTests.Nltk|FullyQualifiedName~PythonVirtualEnvironmentTests.VirtualEnvironment|FullyQualifiedName~PythonPackagesTests.Darts",
+      "--logger",
+      "trx;LogFileName=postfull-fixture-focused.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 29.19,
+    "check": "postfull-fixture-focused-tests",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "03aa7676b98e4dc76b5797265e6074d401e41e52f1b2d14e6e41f168117c4504",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-postfull-fixture-focused-tests.json",
+    "original_log": "lean-postfull-fixture-focused-tests.log",
+    "log_sha256": "9d00c2653a5dd3ad0ce6edbc9bf59ea252f72fc8c368e13e778b8611ff1c2a63",
+    "log_bytes": 23127,
+    "outcome_lines": [
+      "Failed!  - Failed:     1, Passed:    36, Skipped:     0, Total:    37, Duration: 22 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "env",
+      "PATH=<workspace>/lean/.venv/bin:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "dotnet",
+      "build",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-restore",
+      "--verbosity",
+      "minimal"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 73.34,
+    "check": "postfull-fixture-tests-build",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "03aa7676b98e4dc76b5797265e6074d401e41e52f1b2d14e6e41f168117c4504",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-postfull-fixture-tests-build.json",
+    "original_log": "lean-postfull-fixture-tests-build.log",
+    "log_sha256": "a3561e45e7dcad2abc1f3114fc4e1bf024d9dfb180b079ad353d4e428953867f",
+    "log_bytes": 2664306,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "docker",
+      "pull",
+      "--platform",
+      "linux/amd64",
+      "python@sha256:8fb4cfa1a2616d7b8e0c2175cc6ad68f5729c34ea8488c0b360d2934b7be9024"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 4.9,
+    "check": "pystan-official-python-image-pull",
+    "source_snapshot": {
+      "head": "ecb16172f53edda8a887ac29d8c8bf98bc963689",
+      "tracked_source_diff_sha256": "1677f91c5e49835071db8c20a515e48db4f9284118428569076d137c3d312760",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-pystan-official-python-image-pull.json",
+    "original_log": "lean-pystan-official-python-image-pull.log",
+    "log_sha256": "97c217ad9cbee292f21be37ecf5ec750cd22899ed94793489d0204d15915fb8c",
+    "log_bytes": 961,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "dotnet",
+      "build",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--nologo"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 68.87,
+    "check": "python-invocation-reference-lifetime-build",
+    "source_snapshot": {
+      "head": "ceb904fd8bc310b67f3213a3bc6727d6ad8a691f",
+      "tracked_source_diff_sha256": "f5d83af301b8779e05700c968fe60bdb09a38763e0223fcb9fc19668ae28d429",
+      "note": "Tracked source snapshot at command start; untracked additions and later edits are not covered by this hash."
+    },
+    "evidence_record": "lean-python-invocation-reference-lifetime-build.json",
+    "original_log": "lean-python-invocation-reference-lifetime-build.log",
+    "log_sha256": "5a261590402eb305d5bb451c7ef46a17f15b55988f2307d89ee6d09bb20e89e1",
+    "log_bytes": 6283234,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "env",
+      "PATH=<workspace>/lean/.venv/bin:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin",
+      "PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib",
+      "PYTHONPATH=<workspace>/lean/.venv/lib/python3.11/site-packages",
+      "NLTK_DATA=<workspace>/lean/.venv/nltk_data",
+      "MPLBACKEND=Agg",
+      "PYTHONNET_RUNTIME=coreclr",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "OPENBLAS_NUM_THREADS=2",
+      "OMP_NUM_THREADS=2",
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--filter",
+      "FullyQualifiedName~QuantConnect.Tests.Python.PythonPackagesTests",
+      "--blame-hang-timeout",
+      "180s",
+      "--blame-hang-dump-type",
+      "none",
+      "--logger",
+      "trx;LogFileName=python-third-party-current.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 159.74,
+    "check": "python-third-party-current-fixture",
+    "evidence_record": "lean-python-third-party-current-fixture.json",
+    "original_log": "lean-python-third-party-current-fixture.log",
+    "log_sha256": "977401a315e1acd37c4339e05fd149a31e2727a7098b6e2a8618735dfd3d6cbd",
+    "log_bytes": 22821,
+    "outcome_lines": [
+      "Failed!  - Failed:    16, Passed:   122, Skipped:     0, Total:   138, Duration: 2 m 33 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "env",
+      "PATH=<workspace>/lean/.venv/bin:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin",
+      "PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib",
+      "PYTHONPATH=<workspace>/lean/.venv/lib/python3.11/site-packages",
+      "NLTK_DATA=<workspace>/lean/.venv/nltk_data",
+      "MPLBACKEND=Agg",
+      "PYTHONNET_RUNTIME=coreclr",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "OPENBLAS_NUM_THREADS=2",
+      "OMP_NUM_THREADS=2",
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--filter",
+      "FullyQualifiedName~QuantConnect.Tests.Python.PythonPackagesTests",
+      "--blame-hang-timeout",
+      "180s",
+      "--blame-hang-dump-type",
+      "none",
+      "--logger",
+      "trx;LogFileName=python-third-party-final.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 125.52,
+    "check": "python-third-party-final-fixture",
+    "evidence_record": "lean-python-third-party-final-fixture.json",
+    "original_log": "lean-python-third-party-final-fixture.log",
+    "log_sha256": "739262c6b5ba6511882745ce308a1465d4fd0a36419cc2c598ee28dc37b4b8c3",
+    "log_bytes": 21863,
+    "outcome_lines": [
+      "Failed!  - Failed:    13, Passed:    80, Skipped:     0, Total:    93, Duration: 1 m 55 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "env",
+      "PATH=<workspace>/lean/.venv/bin:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin",
+      "PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib",
+      "PYTHONPATH=<workspace>/lean/.venv/lib/python3.11/site-packages",
+      "NLTK_DATA=<workspace>/lean/.venv/nltk_data",
+      "MPLBACKEND=Agg",
+      "PYTHONNET_RUNTIME=coreclr",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "OPENBLAS_NUM_THREADS=2",
+      "OMP_NUM_THREADS=2",
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--filter",
+      "FullyQualifiedName~QuantConnect.Tests.Python.PythonPackagesTests",
+      "--logger",
+      "trx;LogFileName=python-third-party-initial.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 405.01,
+    "check": "python-third-party-fixture-initial",
+    "evidence_record": "lean-python-third-party-fixture-initial.json",
+    "original_log": "lean-python-third-party-fixture-initial.log",
+    "log_sha256": "c092691873989e548385e990e1f1d36b0820efc3473efc4497b16a8b5f7c585b",
+    "log_bytes": 31536,
+    "outcome_lines": [
+      "Failed!  - Failed:    12, Passed:    32, Skipped:     0, Total:    44, Duration: 1 m 7 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "env",
+      "PATH=<workspace>/lean/.venv/bin:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+      "PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib",
+      "PYTHONPATH=<workspace>/lean/.venv/lib/python3.11/site-packages",
+      "NLTK_DATA=<workspace>/lean/.venv/nltk_data",
+      "MPLBACKEND=Agg",
+      "PYTHONNET_RUNTIME=coreclr",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "OPENBLAS_NUM_THREADS=2",
+      "OMP_NUM_THREADS=2",
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--filter",
+      "FullyQualifiedName~QuantConnect.Tests.Python.PythonPackagesTests",
+      "--blame-hang-timeout",
+      "180s",
+      "--blame-hang-dump-type",
+      "none",
+      "--logger",
+      "trx;LogFileName=python-third-party-isolated-final.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 187.98,
+    "check": "python-third-party-isolated-final-fixture",
+    "evidence_record": "lean-python-third-party-result.json",
+    "original_log": "lean-python-third-party-isolated-final-fixture.log",
+    "log_sha256": "d1ef87ba4401dee10f8d5d8605472d829b68900483d550069c3fbf77c62e79c9",
+    "log_bytes": 19252,
+    "outcome_lines": [
+      "Failed!  - Failed:    14, Passed:   124, Skipped:     0, Total:   138, Duration: 3 m - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "compile",
+      "--python",
+      "<workspace>/lean/.venv/bin/python",
+      "--upgrade",
+      "--output-file",
+      "/tmp/lean-third-party-resolved.txt",
+      "/tmp/lean-third-party-candidates.in"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 2.15,
+    "check": "python-third-party-resolution-compatible-2",
+    "evidence_record": "lean-python-third-party-resolution-compatible-2.json",
+    "original_log": "lean-python-third-party-resolution-compatible-2.log",
+    "log_sha256": "e84875edbc5af0a4e65e5ee771b6ab408f5885e48a6a76a99f928386d96538e0",
+    "log_bytes": 38394,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "compile",
+      "--python",
+      "<workspace>/lean/.venv/bin/python",
+      "--upgrade",
+      "--output-file",
+      "/tmp/lean-third-party-resolved.txt",
+      "/tmp/lean-third-party-candidates.in"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 2.18,
+    "check": "python-third-party-resolution-compatible",
+    "evidence_record": "lean-python-third-party-resolution-compatible.json",
+    "original_log": "lean-python-third-party-resolution-compatible.log",
+    "log_sha256": "9f40a40ad725646b675701c64413adf013c6c91129a120c35ed8aa0d79460e74",
+    "log_bytes": 626,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "compile",
+      "--python",
+      "<workspace>/lean/.venv/bin/python",
+      "--upgrade",
+      "--output-file",
+      "/tmp/lean-third-party-resolved.txt",
+      "/tmp/lean-third-party-candidates.in"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 31.65,
+    "check": "python-third-party-resolution",
+    "evidence_record": "lean-python-third-party-resolution.json",
+    "original_log": "lean-python-third-party-resolution.log",
+    "log_sha256": "ef5acfe85947db4aa66bae677ff115aa3ba29108bdf354ef366720146afb560f",
+    "log_bytes": 790,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--logger",
+      "trx;LogFileName=python311.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 728.48,
+    "check": "python311-tests",
+    "evidence_record": "lean-python311-tests.json",
+    "original_log": "lean-python311-tests.log",
+    "log_sha256": "8165f0c91ef51e3ce7622fac241c30ee63c26940fd7a0538911222e3348744fd",
+    "log_bytes": 859538,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--filter",
+      "FullyQualifiedName~IndicatorTests",
+      "--logger",
+      "trx;LogFileName=python315.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 11.54,
+    "check": "python315-test-attempt",
+    "evidence_record": "lean-python315-test-attempt.json",
+    "original_log": "lean-python315-test-attempt.log",
+    "log_sha256": "2290c933812a618078e5769ce42c7522f586176d40aa87d29c655553a1d730b3",
+    "log_bytes": 28951,
+    "outcome_lines": [
+      "Failed!  - Failed:    10, Passed:    31, Skipped:     0, Total:    41, Duration: 2 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "env",
+      "PATH=/Users/alex/.local/share/lean-dotnet-tools:/Users/alex/.local/share/dotnet:/opt/homebrew/bin:/usr/bin:/bin",
+      "PYTHONNET_PYDLL=/Users/alex/.local/share/uv/python/cpython-3.11.17-macos-aarch64-none/lib/libpython3.11.dylib",
+      "PYTHONPATH=<workspace>/lean/.venv/lib/python3.11/site-packages",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "MPLBACKEND=Agg",
+      "DOTNET_ROOT=/Users/alex/.local/share/dotnet",
+      "DOTNET_ROLL_FORWARD=Major",
+      "DOTNET_INTERACTIVE_CLI_TELEMETRY_OPTOUT=1",
+      "JUPYTER_PATH=/Users/alex/.local/share/lean-jupyter:/Users/alex/.local/share/lean-jupyter/share/jupyter",
+      "uv",
+      "run",
+      "--no-sync",
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--filter",
+      "TestCategory=ResearchRegressionTests",
+      "--logger",
+      "trx;LogFileName=research-managed-kernels.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 48.22,
+    "check": "research-managed-kernels",
+    "evidence_record": "lean-research-managed-kernels.json",
+    "original_log": "lean-research-managed-kernels.log",
+    "log_sha256": "1db08133661c4ad0c7c32bc345cf4519a341bbc24faa032e40337f014dd17eed",
+    "log_bytes": 1333,
+    "outcome_lines": [
+      "Passed!  - Failed:     0, Passed:     5, Skipped:     0, Total:     5, Duration: 43 s - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "dotnet",
+      "test",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-build",
+      "--logger",
+      "trx;LogFileName=ayu-existing-tests.trx",
+      "--results-directory",
+      "TestResults/ayu"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 5.65,
+    "check": "test",
+    "evidence_record": "lean-test.json",
+    "original_log": "lean-test.log",
+    "log_sha256": "37b9c0f497cfa18088ec9571e300bd6f8f70270636f9ee4da6f64bc631cb183a",
+    "log_bytes": 1096,
+    "outcome_lines": [
+      "Passed!  - Failed:     0, Passed:    18, Skipped:     0, Total:    18, Duration: 221 ms - QuantConnect.Tests.dll (net10.0)"
+    ]
+  },
+  {
+    "command": [
+      "dotnet",
+      "build",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 85.68,
+    "check": "third-party-and-core-final-tests-build",
+    "evidence_record": "lean-third-party-and-core-final-tests-build.json",
+    "original_log": "lean-third-party-and-core-final-tests-build.log",
+    "log_sha256": "6da37a6f16cf8a332f327ecc7f382aa06ae953bf37d228c953ec5653410c77d7",
+    "log_bytes": 6214455,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "install",
+      "--python",
+      "/tmp/lean-third-party-probe/bin/python",
+      "deslib @ git+https://github.com/scikit-learn-contrib/DESlib@d0eaeec4f60dfc98a306620a258d68fd4d7331ef",
+      "setuptools>=80.10.2,<81",
+      "py-heat==0.0.6"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 4.75,
+    "check": "third-party-current-deslib-source",
+    "evidence_record": "lean-third-party-current-deslib-source.json",
+    "original_log": "lean-third-party-current-deslib-source.log",
+    "log_sha256": "94a88da05bbed3329937ca4d4241d00c445a34687d1294338c894b2cf928943f",
+    "log_bytes": 1106,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "install",
+      "--python",
+      "/tmp/lean-third-party-probe/bin/python",
+      "nolds @ git+https://github.com/CSchoel/nolds@f121feebf6b2cbd67a8cb855bd0fe8c39add3ad9"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 9.44,
+    "check": "third-party-current-nolds-source",
+    "evidence_record": "lean-third-party-current-nolds-source.json",
+    "original_log": "lean-third-party-current-nolds-source.log",
+    "log_sha256": "fb751249a7f3bba57e58e9ba73802f541be85ef9d33a2894a10cd814f57eb42a",
+    "log_bytes": 885,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "--config-file",
+      "/tmp/lean-ssm-uv.toml",
+      "pip",
+      "install",
+      "--python",
+      "/tmp/lean-third-party-probe/bin/python",
+      "ssm @ git+https://github.com/lindermanlab/ssm@eb6c8aa33e5311d3564075807dec340759dd8081"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 18.08,
+    "check": "third-party-current-ssm-source",
+    "evidence_record": "lean-third-party-current-ssm-source.json",
+    "original_log": "lean-third-party-current-ssm-source.log",
+    "log_sha256": "fe0d339f13643c72bcd4bbcd091cf9b642983b6264b588c3da8fcf2bb870cc65",
+    "log_bytes": 936,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "dotnet",
+      "build",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-restore"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 45.33,
+    "check": "third-party-final-tests-build",
+    "evidence_record": "lean-third-party-final-tests-build.json",
+    "original_log": "lean-third-party-final-tests-build.log",
+    "log_sha256": "4646c05a01e9c9b06ddb75b4cb1d039b0fac639c0e7a131ddb39fa2b28034d8f",
+    "log_bytes": 2664090,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "install",
+      "--python",
+      "/tmp/lean-third-party-probe/bin/python",
+      "highspy>=1.12,<1.13"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 2.64,
+    "check": "third-party-highs-abi-compatible-probe",
+    "evidence_record": "lean-third-party-highs-abi-compatible-probe.json",
+    "original_log": "lean-third-party-highs-abi-compatible-probe.log",
+    "log_sha256": "714eb9407212f4926cf7191bccf27669eaf46e20e46669353c7c41e3c500eb25",
+    "log_bytes": 417,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "env",
+      "DYLD_LIBRARY_PATH=/opt/homebrew/opt/libomp/lib",
+      "OPENBLAS_NUM_THREADS=2",
+      "OMP_NUM_THREADS=2",
+      ".venv/bin/python",
+      "-c",
+      "import cvxpy,highspy; from ortools.linear_solver import pywraplp; s=pywraplp.Solver.CreateSolver(\"GLOP\"); s.NumVar(0,1,\"x\"); s.NumVar(0,2,\"y\"); print(\"variables\",s.NumVariables(),\"CVXPY\",cvxpy.__version__,\"HiGHS\",highspy.Highs().version()); z=cvxpy.Variable(); p=cvxpy.Problem(cvxpy.Minimize(z),[z>=1]); p.solve(solver=\"HIGHS\"); print(p.status,p.value)"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 2.44,
+    "check": "third-party-installed-native-final",
+    "evidence_record": "lean-third-party-installed-native-final.json",
+    "original_log": "lean-third-party-installed-native-final.log",
+    "log_sha256": "44f2d8b927e86908244ab5fdc76b00487c99e33f318c9650a32d3211b93c2ee3",
+    "log_bytes": 600,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "brew",
+      "install",
+      "ipopt"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 17.83,
+    "check": "third-party-ipopt-prerequisite",
+    "evidence_record": "lean-third-party-ipopt-prerequisite.json",
+    "original_log": "lean-third-party-ipopt-prerequisite.log",
+    "log_sha256": "b4069eb26a405d2f6d165d1b5de2681f70ad79da69afba64d7ae21d8064db637",
+    "log_bytes": 1092,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "dotnet",
+      "build",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-restore"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 46.55,
+    "check": "third-party-isolation-tests-build",
+    "evidence_record": "lean-third-party-isolation-tests-build.json",
+    "original_log": "lean-third-party-isolation-tests-build.log",
+    "log_sha256": "376f75d59871d2248a29384fd5be44f66f8d9f910d0ad9c7bb2753ec49dc29df",
+    "log_bytes": 2664092,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "compile",
+      "--python",
+      ".venv/bin/python",
+      "--no-strip-markers",
+      "--output-file",
+      "/tmp/lean-creme-resolution.txt",
+      "/tmp/lean-creme.in"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 2,
+    "seconds": 0.03,
+    "check": "third-party-legacy-creme-build",
+    "evidence_record": "lean-third-party-legacy-creme-build.json",
+    "original_log": "lean-third-party-legacy-creme-build.log",
+    "log_sha256": "c3325d93c765cd6e11b299a8d1e11975fe453732474bfa1a92ce1468214ece88",
+    "log_bytes": 244,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "/tmp/lean-third-party-probe/bin/python",
+      "-c",
+      "from creme import datasets; X_y = datasets.Bikes(); x, y = next(iter(X_y)); print(x, y)"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 10.0,
+    "check": "third-party-legacy-creme-functional",
+    "evidence_record": "lean-third-party-legacy-creme-functional.json",
+    "original_log": "lean-third-party-legacy-creme-functional.log",
+    "log_sha256": "cfe9f3ddc748bebd30501234aaabc23ec5535033b86776b49d87ff5d64297b4f",
+    "log_bytes": 523,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "--config-file",
+      "/tmp/lean-creme-uv.toml",
+      "pip",
+      "install",
+      "--python",
+      "/tmp/lean-third-party-probe/bin/python",
+      "creme==0.6.1"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 21.67,
+    "check": "third-party-legacy-creme-install",
+    "evidence_record": "lean-third-party-legacy-creme-install.json",
+    "original_log": "lean-third-party-legacy-creme-install.log",
+    "log_sha256": "017a674cb87180c4fbac149cb428700066164782b3daf70480a958a6f4f0d7a0",
+    "log_bytes": 468,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "compile",
+      "--python",
+      ".venv/bin/python",
+      "--no-strip-markers",
+      "--output-file",
+      "/tmp/lean-creme-resolution.txt",
+      "/tmp/lean-creme.in"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 2.27,
+    "check": "third-party-legacy-creme-resolution",
+    "evidence_record": "lean-third-party-legacy-creme-resolution.json",
+    "original_log": "lean-third-party-legacy-creme-resolution.log",
+    "log_sha256": "c8d38061de2037a36495c30d460df55755601a5e1258737b69dd78619cd8bd42",
+    "log_bytes": 2205,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "--config-file",
+      "/tmp/lean-ssm-uv.toml",
+      "pip",
+      "install",
+      "--python",
+      "/tmp/lean-third-party-probe/bin/python",
+      "ssm==0.0.1"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 33.35,
+    "check": "third-party-legacy-ssm-build-dependencies",
+    "evidence_record": "lean-third-party-legacy-ssm-build-dependencies.json",
+    "original_log": "lean-third-party-legacy-ssm-build-dependencies.log",
+    "log_sha256": "d874117133926b6223e9538ba173662d229a32c9bab8d2bb2c9ea781f496451e",
+    "log_bytes": 395,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "install",
+      "--python",
+      "/tmp/lean-third-party-probe/bin/python",
+      "ssm==0.0.1"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 2.01,
+    "check": "third-party-legacy-ssm-build",
+    "evidence_record": "lean-third-party-legacy-ssm-build.json",
+    "original_log": "lean-third-party-legacy-ssm-build.log",
+    "log_sha256": "ad6049908bf551c56e32b35c479e8ecebc243f3b63149cf2a19dcdf28beca68d",
+    "log_bytes": 2012,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "/tmp/lean-third-party-probe/bin/python",
+      "-c",
+      "import ssm; print(ssm.__file__)"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 1.72,
+    "check": "third-party-legacy-ssm-import",
+    "evidence_record": "lean-third-party-legacy-ssm-import.json",
+    "original_log": "lean-third-party-legacy-ssm-import.log",
+    "log_sha256": "3ebe83d8384b2b736f0455311e99c86defec554fb3cd71bd4f689aa135a7d000",
+    "log_bytes": 742,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "compile",
+      "--python",
+      ".venv/bin/python",
+      "--no-strip-markers",
+      "--output-file",
+      "/tmp/lean-tensortrade-resolution.txt",
+      "/tmp/lean-tensortrade.in"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 13.39,
+    "check": "third-party-legacy-tensortrade-resolution",
+    "evidence_record": "lean-third-party-legacy-tensortrade-resolution.json",
+    "original_log": "lean-third-party-legacy-tensortrade-resolution.log",
+    "log_sha256": "897efe05f98f576e18a6868d208a2fcfea9293423b95ebd6f5ce916d3f889bfd",
+    "log_bytes": 716,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "dotnet",
+      "build",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-restore"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 202.02,
+    "check": "third-party-tests-build",
+    "evidence_record": "lean-third-party-tests-build.json",
+    "original_log": "lean-third-party-tests-build.log",
+    "log_sha256": "1fc2f61ebbb8815f836e3901fa96ea1917a5e28d4c6cc59d8f65f0d8663f08c9",
+    "log_bytes": 3454274,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "dotnet",
+      "build",
+      "Tests/QuantConnect.Tests.csproj",
+      "--configuration",
+      "Release",
+      "--no-restore"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 104.97,
+    "check": "third-party-worker-setup-tests-build",
+    "evidence_record": "lean-third-party-worker-setup-tests-build.json",
+    "original_log": "lean-third-party-worker-setup-tests-build.log",
+    "log_sha256": "454dab539075b26fceaa23f5d24714883a3bfdcd8e69ef6d41e2df71bfd4674a",
+    "log_bytes": 2664090,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "env",
+      "MPLBACKEND=Agg",
+      "OPENBLAS_NUM_THREADS=2",
+      "OMP_NUM_THREADS=2",
+      ".venv/bin/python",
+      "-c",
+      "import umap; print(umap.__version__)"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 65.42,
+    "check": "umap-installed-version",
+    "evidence_record": "lean-umap-installed-version.json",
+    "original_log": "lean-umap-installed-version.log",
+    "log_sha256": "ad314017b0609b04ed5bf236d5123bc24be5520fa53191791ee523398b9effb3",
+    "log_bytes": 196,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "sync",
+      "--upgrade",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 0.5,
+    "check": "uv-latest-pandas-extras",
+    "evidence_record": "lean-uv-latest-pandas-extras.json",
+    "original_log": "lean-uv-latest-pandas-extras.log",
+    "log_sha256": "e96e1ae4eb9e0183a7e69d33d5615ca2a71d95ee8326c653f4dca65f616ee1dd",
+    "log_bytes": 201,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "sync",
+      "--upgrade",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 0.34,
+    "check": "uv-pandas-export-tools",
+    "evidence_record": "lean-uv-pandas-export-tools.json",
+    "original_log": "lean-uv-pandas-export-tools.log",
+    "log_sha256": "3095978b57e8a256d394c72609c24dac2ca1fbec9a198929dbbece193b5e5710",
+    "log_bytes": 223,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "lock",
+      "--upgrade",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 1.42,
+    "check": "uv-third-party-arm-latest-lock",
+    "evidence_record": "lean-uv-third-party-arm-latest-lock.json",
+    "original_log": "lean-uv-third-party-arm-latest-lock.log",
+    "log_sha256": "75af81f27448bed6f6c64ee1d8c6915049f03803f607a8b3721a1ae17ca5e63d",
+    "log_bytes": 1727,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "lock",
+      "--upgrade",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 1.18,
+    "check": "uv-third-party-build-metadata-lock",
+    "evidence_record": "lean-uv-third-party-build-metadata-lock.json",
+    "original_log": "lean-uv-third-party-build-metadata-lock.log",
+    "log_sha256": "ce98d7a422cff87b6315300b4c1da7ae5c35d2188f701d09b5f6f9ddb336e1f7",
+    "log_bytes": 129,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "lock",
+      "--upgrade",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 2.18,
+    "check": "uv-third-party-creme-lock",
+    "evidence_record": "lean-uv-third-party-creme-lock.json",
+    "original_log": "lean-uv-third-party-creme-lock.log",
+    "log_sha256": "a3c314c2b8dc5b11cc75c208f0692f1bc1c799f2ec06cd4a4cfdcbbccceb5514",
+    "log_bytes": 166,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "lock",
+      "--upgrade",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 5.39,
+    "check": "uv-third-party-current-deslib-kernel-lock",
+    "evidence_record": "lean-uv-third-party-current-deslib-kernel-lock.json",
+    "original_log": "lean-uv-third-party-current-deslib-kernel-lock.log",
+    "log_sha256": "74ad3f357183bac2ca3a945cecc3966b21b4097f400657a4f34c4a55367f0301",
+    "log_bytes": 265,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "lock",
+      "--upgrade",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 2.7,
+    "check": "uv-third-party-current-nolds-lock",
+    "evidence_record": "lean-uv-third-party-current-nolds-lock.json",
+    "original_log": "lean-uv-third-party-current-nolds-lock.log",
+    "log_sha256": "613c2ef8f94d442168a132418fc13b290e5bcddc689782a93dbcee10a6dfff87",
+    "log_bytes": 171,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "lock",
+      "--upgrade",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 4.25,
+    "check": "uv-third-party-current-ssm-build-lock",
+    "evidence_record": "lean-uv-third-party-current-ssm-build-lock.json",
+    "original_log": "lean-uv-third-party-current-ssm-build-lock.log",
+    "log_sha256": "abd9af8f093946a62e925d2e20e0788d5f9c802e547a547dee22c91531ad132d",
+    "log_bytes": 157,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "lock",
+      "--upgrade",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 0.2,
+    "check": "uv-third-party-current-ssm-lock",
+    "evidence_record": "lean-uv-third-party-current-ssm-lock.json",
+    "original_log": "lean-uv-third-party-current-ssm-lock.log",
+    "log_sha256": "7dd96752db186e54ad5c7f278633c9244d2bc047a6d149dd5c1905de7f6606e0",
+    "log_bytes": 385,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "lock",
+      "--upgrade",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 5.3,
+    "check": "uv-third-party-extra-lock",
+    "evidence_record": "lean-uv-third-party-extra-lock.json",
+    "original_log": "lean-uv-third-party-extra-lock.log",
+    "log_sha256": "8ca7af9bdcbf9b2d4ec97381ce0668c193d6c55826a48f19250ab1ce245631c6",
+    "log_bytes": 776,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "sync",
+      "--locked",
+      "--group",
+      "third-party",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 2.36,
+    "check": "uv-third-party-extra-sync",
+    "evidence_record": "lean-uv-third-party-extra-sync.json",
+    "original_log": "lean-uv-third-party-extra-sync.log",
+    "log_sha256": "860fffc6be764c00debea5fcbbedc02a602054b2a17a71993abd570c9c92bc0c",
+    "log_bytes": 902,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "lock",
+      "--upgrade",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 2.77,
+    "check": "uv-third-party-final-lock",
+    "evidence_record": "lean-uv-third-party-final-lock.json",
+    "original_log": "lean-uv-third-party-final-lock.log",
+    "log_sha256": "a6cfe1186419ec3f1e935d26af601fa84bdeee3c41e4e448fb713d0ec48f1c02",
+    "log_bytes": 165,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "sync",
+      "--locked",
+      "--group",
+      "third-party",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 4.48,
+    "check": "uv-third-party-final-native-sync",
+    "evidence_record": "lean-uv-third-party-final-native-sync.json",
+    "original_log": "lean-uv-third-party-final-native-sync.log",
+    "log_sha256": "70e6b65b86164b4a00f0d75a914509ad6a2325aed4db38299924bfb9cf678643",
+    "log_bytes": 885,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "sync",
+      "--locked",
+      "--group",
+      "third-party",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 1.03,
+    "check": "uv-third-party-final-sync",
+    "evidence_record": "lean-uv-third-party-final-sync.json",
+    "original_log": "lean-uv-third-party-final-sync.log",
+    "log_sha256": "ed966d47da3cc1e4df2edfb08184981a129d1a2cd43571c4e171fbde3f4d6104",
+    "log_bytes": 337,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "check",
+      "--python",
+      ".venv/bin/python"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 0.09,
+    "check": "uv-third-party-isolated-final-consistency",
+    "evidence_record": "lean-uv-third-party-isolated-final-consistency.json",
+    "original_log": "lean-uv-third-party-isolated-final-consistency.log",
+    "log_sha256": "d29dc329aae34dd40e7c382a76dd5d4fe98fc75f219f5793ddd38f72f4bf7785",
+    "log_bytes": 171,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "lock",
+      "--upgrade",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 3.56,
+    "check": "uv-third-party-isolated-final-lock",
+    "evidence_record": "lean-uv-third-party-isolated-final-lock.json",
+    "original_log": "lean-uv-third-party-isolated-final-lock.log",
+    "log_sha256": "343a063b652534070a4147d52c7494a7d36d16974b1ae125c25748aa56a57542",
+    "log_bytes": 346,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "sync",
+      "--locked",
+      "--group",
+      "third-party",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 1.0,
+    "check": "uv-third-party-isolated-final-sync",
+    "evidence_record": "lean-uv-third-party-isolated-final-sync.json",
+    "original_log": "lean-uv-third-party-isolated-final-sync.log",
+    "log_sha256": "c3c85a32433390dac5d0a55bdb7011e023fcb3ceaa531d098dac339806f6510d",
+    "log_bytes": 554,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "env",
+      "UV_PROJECT_ENVIRONMENT=/tmp/lean-third-party-probe",
+      "UV_PYTHON_PREFERENCE=only-managed",
+      "uv",
+      "sync",
+      "--locked",
+      "--group",
+      "third-party",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 89.14,
+    "check": "uv-third-party-isolated-sync-buildfix",
+    "evidence_record": "lean-uv-third-party-isolated-sync-buildfix.json",
+    "original_log": "lean-uv-third-party-isolated-sync-buildfix.log",
+    "log_sha256": "7e08e7d6d5e05ed06f5a669ee20a008297de87090f80340c6de41b900a72935c",
+    "log_bytes": 12003,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "env",
+      "UV_PROJECT_ENVIRONMENT=/tmp/lean-third-party-probe",
+      "UV_PYTHON_PREFERENCE=only-managed",
+      "uv",
+      "sync",
+      "--locked",
+      "--group",
+      "third-party",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 8.18,
+    "check": "uv-third-party-isolated-sync",
+    "evidence_record": "lean-uv-third-party-isolated-sync.json",
+    "original_log": "lean-uv-third-party-isolated-sync.log",
+    "log_sha256": "54480364cb362ca446f465fc95fdb385977fe49e113c7e30275021499696194e",
+    "log_bytes": 5008,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "sync",
+      "--locked",
+      "--group",
+      "third-party",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 0.5,
+    "check": "uv-third-party-kernel-final-sync",
+    "evidence_record": "lean-uv-third-party-kernel-final-sync.json",
+    "original_log": "lean-uv-third-party-kernel-final-sync.log",
+    "log_sha256": "166d9890651b27b676ac590ad5b189ce43ee086c18ac8d5824a5aa0038e0ba27",
+    "log_bytes": 621,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "lock",
+      "--upgrade",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 1,
+    "seconds": 4.08,
+    "check": "uv-third-party-latest-lock",
+    "evidence_record": "lean-uv-third-party-latest-lock.json",
+    "original_log": "lean-uv-third-party-latest-lock.log",
+    "log_sha256": "a65ab0cd55dce140a2a80e62773351264fd569a37b55eade0e1a58feb87488ff",
+    "log_bytes": 2186,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "lock",
+      "--upgrade",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 1.89,
+    "check": "uv-third-party-legacy-api-lock",
+    "evidence_record": "lean-uv-third-party-legacy-api-lock.json",
+    "original_log": "lean-uv-third-party-legacy-api-lock.log",
+    "log_sha256": "68e690af224134312c68f9f897e6ed904be9e6c95732ebc8d7151081191f8cc3",
+    "log_bytes": 168,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "lock",
+      "--upgrade",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 5.22,
+    "check": "uv-third-party-native-cohort-lock",
+    "evidence_record": "lean-uv-third-party-native-cohort-lock.json",
+    "original_log": "lean-uv-third-party-native-cohort-lock.log",
+    "log_sha256": "183d99ccdaf0d8fa02e81c7d533fc78bb02bb375cf4389da493e901916dabaca",
+    "log_bytes": 269,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "sync",
+      "--locked",
+      "--group",
+      "third-party",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 1.63,
+    "check": "uv-third-party-native-cohort-sync",
+    "evidence_record": "lean-uv-third-party-native-cohort-sync.json",
+    "original_log": "lean-uv-third-party-native-cohort-sync.log",
+    "log_sha256": "0871cfc183485dd37143f3616cb9661229f9450acb464b02a0f88338b3435aae",
+    "log_bytes": 456,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "pip",
+      "check",
+      "--python",
+      ".venv/bin/python"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 0.14,
+    "check": "uv-third-party-package-consistency",
+    "evidence_record": "lean-uv-third-party-package-consistency.json",
+    "original_log": "lean-uv-third-party-package-consistency.log",
+    "log_sha256": "b5855c3db12c687fbd68313e3788002e93e6b056634ed363e9f5f38635131baa",
+    "log_bytes": 172,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "lock",
+      "--upgrade",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 3.66,
+    "check": "uv-third-party-real-pyheat-lock",
+    "evidence_record": "lean-uv-third-party-real-pyheat-lock.json",
+    "original_log": "lean-uv-third-party-real-pyheat-lock.log",
+    "log_sha256": "af0909a6070fcc6591d9502cd60b9a623464fc1b0d03288462f0b1b3452c467d",
+    "log_bytes": 192,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "lock",
+      "--upgrade",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 1.63,
+    "check": "uv-third-party-supported-latest-lock",
+    "evidence_record": "lean-uv-third-party-supported-latest-lock.json",
+    "original_log": "lean-uv-third-party-supported-latest-lock.log",
+    "log_sha256": "d555e08751d87d2c4252fd0338b2f047b0f49d602db2e70faf42a59c1a184aa7",
+    "log_bytes": 10034,
+    "outcome_lines": []
+  },
+  {
+    "command": [
+      "uv",
+      "sync",
+      "--upgrade",
+      "--python",
+      "3.11"
+    ],
+    "cwd": "<workspace>/lean",
+    "exit_code": 0,
+    "seconds": 4.74,
+    "check": "uv311-latest-sync",
+    "evidence_record": "lean-uv311-latest-sync.json",
+    "original_log": "lean-uv311-latest-sync.log",
+    "log_sha256": "aa9d3da9616986f792aa419ee010792b8e2c3ea7ce0c4f7ea1f07b9e943163b0",
+    "log_bytes": 1426,
+    "outcome_lines": []
+  }
+]
