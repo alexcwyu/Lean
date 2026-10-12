@@ -233,6 +233,7 @@ namespace QuantConnect.Tests.Common.Securities.Options
 
         [Test]
         [Category("TravisExclude")] // For now this test is excluded from the Travis build because of frequent forbidden 403 HTTP response from CME API
+        [Ignore("Disabled by user: CME live option-chain endpoint returns HTTP 404.")]
         public void LiveOptionChainProviderReturnsFutureOptionData()
         {
             var now = DateTime.Now;
