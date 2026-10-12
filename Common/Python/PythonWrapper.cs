@@ -95,7 +95,8 @@ namespace QuantConnect.Python
         /// <param name="args">The arguments to call the method with</param>
         public static void InvokeMethod(this PyObject model, string methodName, params object[] args)
         {
-            InvokeMethodImpl(model, methodName, args);
+            using var _ = Py.GIL();
+            using var result = InvokeMethodImpl(model, methodName, args);
         }
 
         /// <summary>
@@ -123,14 +124,31 @@ namespace QuantConnect.Python
         private static PyObject InvokeMethodImpl(PyObject model, string methodName, params object[] args)
         {
             using var _ = Py.GIL();
-            PyObject method = model.GetMethod(methodName);
+            using var method = model.GetMethod(methodName);
             return InvokeMethodImpl(method, args);
         }
 
         private static PyObject InvokeMethodImpl(PyObject method, params object[] args)
         {
             using var _ = Py.GIL();
-            return method.Invoke(args.Select(arg => arg.ToPython()).ToArray());
+            // ToPython creates an owned reference, including for PyObject inputs.
+            // Release temporary arguments on success and on partial conversion failure.
+            var pythonArgs = new PyObject[args.Length];
+            try
+            {
+                for (var index = 0; index < args.Length; index++)
+                {
+                    pythonArgs[index] = args[index].ToPython();
+                }
+                return method.Invoke(pythonArgs);
+            }
+            finally
+            {
+                foreach (var argument in pythonArgs)
+                {
+                    argument?.Dispose();
+                }
+            }
         }
     }
 }

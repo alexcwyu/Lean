@@ -48,8 +48,10 @@ namespace QuantConnect.Tests.Common.Data.UniverseSelection
         private Thread _thread;
         private CancellationTokenSource _cancellationTokenSource = new();
         private ManualResetEvent _threadStarted = new (false);
+        private ManualResetEvent _minimumMutationsCompleted = new(false);
         public override void Initialize()
         {
+            Interlocked.Exchange(ref AdditionCount, 0);
             SetStartDate(2013, 10, 07);
             SetEndDate(2013, 10, 11);
 
@@ -79,6 +81,10 @@ namespace QuantConnect.Tests.Common.Data.UniverseSelection
                             AddEquity("AAPL");
 #pragma warning restore CS0618
                         }
+                        if (currentCount >= 50)
+                        {
+                            _minimumMutationsCompleted.Set();
+                        }
                         if (currentCount % 25 == 0)
                         {
                             Thread.Sleep(10);
@@ -104,7 +110,26 @@ namespace QuantConnect.Tests.Common.Data.UniverseSelection
         }
         public override void OnEndOfAlgorithm()
         {
-            _thread.StopSafely(TimeSpan.FromSeconds(2), _cancellationTokenSource);
+            try
+            {
+                // A fast backtest can finish while the real mutator is yielding.
+                // Complete the original minimum workload before cancelling it.
+                if (!_minimumMutationsCompleted.WaitOne(TimeSpan.FromSeconds(10)))
+                {
+                    throw new TimeoutException($"Universe mutator completed only {AdditionCount} additions; expected at least 50.");
+                }
+            }
+            finally
+            {
+                _thread.StopSafely(TimeSpan.FromSeconds(2), _cancellationTokenSource);
+                if (_thread.IsAlive)
+                {
+                    throw new TimeoutException("Owned universe mutator did not stop after cancellation.");
+                }
+                _threadStarted.Dispose();
+                _minimumMutationsCompleted.Dispose();
+                _cancellationTokenSource.Dispose();
+            }
             base.OnEndOfAlgorithm();
         }
     }
