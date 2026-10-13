@@ -1,5 +1,11 @@
 # lean: maintenance validation
 
+<!-- current-documentation-provenance -->
+Documentation reviewed: 2026-10-13 / Git source base: `76d004a671cfbe9d0f0e21f8fb2e3b28ea668aaf` / [Current architecture and feature guide](ayu-develop.md).
+Historical execution commands/results below retain their original dates and scope; this metadata update is not a new application test run.
+<!-- /current-documentation-provenance -->
+
+
 
 Current user-authorized test policy: The user explicitly disabled `LiveOptionChainProviderReturnsFutureOptionData` with NUnit Ignore because its live CME endpoint returns HTTP404. The original test body and assertion remain unchanged. The retained full-suite baseline is 40,341 passes and 100 existing skips; verification of the new single skip is separate.
 
